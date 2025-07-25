@@ -1,0 +1,86 @@
+-- 用户表
+CREATE TABLE users (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
+    username VARCHAR(64) NOT NULL UNIQUE COMMENT '用户名',
+    password_hash VARCHAR(255) NOT NULL COMMENT '密码哈希',
+    email VARCHAR(128) UNIQUE COMMENT '邮箱',
+    phone VARCHAR(32) UNIQUE COMMENT '手机号',
+    status TINYINT DEFAULT 1 COMMENT '状态 1-正常 0-禁用',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) COMMENT='用户表';
+
+-- 资金账户表
+CREATE TABLE accounts (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '账户ID',
+    user_id BIGINT UNSIGNED NOT NULL COMMENT '用户ID',
+    asset VARCHAR(32) NOT NULL COMMENT '币种',
+    balance DECIMAL(32,16) NOT NULL DEFAULT 0 COMMENT '可用余额',
+    frozen DECIMAL(32,16) NOT NULL DEFAULT 0 COMMENT '冻结余额',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE KEY uniq_user_asset (user_id, asset),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) COMMENT='资金账户表';
+
+-- 资金流水表
+CREATE TABLE account_flows (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '流水ID',
+    user_id BIGINT UNSIGNED NOT NULL COMMENT '用户ID',
+    account_id BIGINT UNSIGNED NOT NULL COMMENT '账户ID',
+    asset VARCHAR(32) NOT NULL COMMENT '币种',
+    change_type VARCHAR(32) NOT NULL COMMENT '变动类型',
+    amount DECIMAL(32,16) NOT NULL COMMENT '变动金额',
+    balance DECIMAL(32,16) NOT NULL COMMENT '变动后余额',
+    ref_id BIGINT UNSIGNED COMMENT '关联业务ID',
+    remark VARCHAR(255) COMMENT '备注',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (account_id) REFERENCES accounts(id)
+) COMMENT='资金流水表';
+
+-- 订单表
+CREATE TABLE orders (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '订单ID',
+    user_id BIGINT UNSIGNED NOT NULL COMMENT '用户ID',
+    symbol VARCHAR(32) NOT NULL COMMENT '交易对',
+    side ENUM('buy','sell') NOT NULL COMMENT '买卖方向',
+    type ENUM('limit','market') NOT NULL COMMENT '订单类型',
+    price DECIMAL(32,16) COMMENT '委托价格',
+    amount DECIMAL(32,16) NOT NULL COMMENT '委托数量',
+    filled DECIMAL(32,16) NOT NULL DEFAULT 0 COMMENT '已成交数量',
+    status ENUM('open','partially_filled','filled','cancelled') NOT NULL DEFAULT 'open' COMMENT '订单状态',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) COMMENT='订单表';
+
+-- 成交表
+CREATE TABLE trades (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '成交ID',
+    buy_order_id BIGINT UNSIGNED NOT NULL COMMENT '买单ID',
+    sell_order_id BIGINT UNSIGNED NOT NULL COMMENT '卖单ID',
+    symbol VARCHAR(32) NOT NULL COMMENT '交易对',
+    price DECIMAL(32,16) NOT NULL COMMENT '成交价格',
+    amount DECIMAL(32,16) NOT NULL COMMENT '成交数量',
+    buy_user_id BIGINT UNSIGNED NOT NULL COMMENT '买方用户ID',
+    sell_user_id BIGINT UNSIGNED NOT NULL COMMENT '卖方用户ID',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '成交时间',
+    FOREIGN KEY (buy_order_id) REFERENCES orders(id),
+    FOREIGN KEY (sell_order_id) REFERENCES orders(id)
+) COMMENT='成交表';
+
+-- K线表
+CREATE TABLE klines (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'K线ID',
+    symbol VARCHAR(32) NOT NULL COMMENT '交易对',
+    `interval` VARCHAR(16) NOT NULL COMMENT 'K线周期，如1m,5m,1h',
+    open DECIMAL(32,16) NOT NULL COMMENT '开盘价',
+    high DECIMAL(32,16) NOT NULL COMMENT '最高价',
+    low DECIMAL(32,16) NOT NULL COMMENT '最低价',
+    close DECIMAL(32,16) NOT NULL COMMENT '收盘价',
+    volume DECIMAL(32,16) NOT NULL COMMENT '成交量',
+    open_time TIMESTAMP NOT NULL COMMENT 'K线开始时间',
+    close_time TIMESTAMP NOT NULL COMMENT 'K线结束时间',
+    UNIQUE KEY uniq_symbol_interval_time (symbol, `interval`, open_time)
+) COMMENT='K线数据表';
