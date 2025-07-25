@@ -219,37 +219,7 @@
 
         <!-- 后台管理 -->
         <div v-else-if="currentContent === 'admin'">
-          <el-card shadow="hover">
-            <template #header>
-              <div style="display: flex; align-items: center;">
-                <el-icon style="margin-right: 8px;"><Setting /></el-icon>
-                <span>后台管理</span>
-              </div>
-            </template>
-            <el-row :gutter="20">
-              <el-col :span="8">
-                <el-card shadow="hover" style="text-align: center; cursor: pointer;" @click="showContent('admin-users')">
-                  <el-icon style="font-size: 48px; color: #409EFF; margin-bottom: 10px;"><User /></el-icon>
-                  <h3>用户管理</h3>
-                  <p>管理系统用户</p>
-                </el-card>
-              </el-col>
-              <el-col :span="8">
-                <el-card shadow="hover" style="text-align: center; cursor: pointer;" @click="showContent('admin-orders')">
-                  <el-icon style="font-size: 48px; color: #67C23A; margin-bottom: 10px;"><Document /></el-icon>
-                  <h3>订单管理</h3>
-                  <p>查看所有订单</p>
-                </el-card>
-              </el-col>
-              <el-col :span="8">
-                <el-card shadow="hover" style="text-align: center; cursor: pointer;" @click="showContent('admin-accounts')">
-                  <el-icon style="font-size: 48px; color: #E6A23C; margin-bottom: 10px;"><Wallet /></el-icon>
-                  <h3>资金管理</h3>
-                  <p>管理用户资金</p>
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-card>
+          <Admin />
         </div>
       </el-main>
     </el-container>
@@ -263,7 +233,7 @@ import Trade from './Trade.vue'
 import Header from './Header.vue'
 import SideBar from './SideBar.vue'
 import Assets from './Assets.vue'
-
+import Admin from './Admin.vue'
 
 // 当前显示的内容
 const currentContent = ref('home')
