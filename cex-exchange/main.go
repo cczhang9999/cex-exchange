@@ -85,6 +85,7 @@ func main() {
 	auth.GET("/admin/users", AdminListUsers)
 	auth.GET("/admin/orders", AdminListOrders)
 	auth.GET("/admin/accounts", AdminListAccounts)
+	auth.POST("/admin/accounts/add-funds", AdminAddFunds)
 	auth.GET("/accounts", ListAccounts)
 	auth.GET("/my_orders", ListMyOrders)
 	auth.GET("/my_trades", ListMyTrades)

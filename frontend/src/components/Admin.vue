@@ -133,6 +133,7 @@
           </el-select>
           <el-button type="primary" @click="fetchAccounts">查询</el-button>
           <el-button @click="resetAccountFilters">重置</el-button>
+          <el-button type="success" @click="openAddFunds">添加资金</el-button>
         </div>
         
         <el-table :data="accounts" v-loading="accountLoading" style="width: 100%">
@@ -147,9 +148,10 @@
             </template>
           </el-table-column>
           <el-table-column prop="updated_at" label="更新时间" />
-          <el-table-column label="操作" width="150">
+          <el-table-column label="操作" width="200">
             <template #default="{ row }">
               <el-button type="primary" size="small" @click="adjustBalance(row)">调整余额</el-button>
+              <el-button type="success" size="small" @click="addFundsToAccount(row)">添加资金</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -214,6 +216,40 @@
         <el-button type="primary" @click="confirmAdjustBalance">确认</el-button>
       </template>
     </el-dialog>
+
+    <!-- 添加资金对话框 -->
+    <el-dialog v-model="showAddFunds" title="添加资金" width="500px">
+      <el-form :model="addFundsForm" :rules="addFundsRules" ref="addFundsFormRef" label-width="100px">
+        <el-form-item label="用户ID" prop="user_id">
+          <el-input v-model="addFundsForm.user_id" placeholder="请输入用户ID" />
+        </el-form-item>
+        <el-form-item label="币种" prop="asset">
+          <el-select v-model="addFundsForm.asset" placeholder="请选择币种" style="width: 100%;">
+            <el-option label="BTC" value="BTC" />
+            <el-option label="ETH" value="ETH" />
+            <el-option label="USDT" value="USDT" />
+            <el-option label="BNB" value="BNB" />
+            <el-option label="ADA" value="ADA" />
+            <el-option label="DOT" value="DOT" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="添加金额" prop="amount">
+          <el-input v-model="addFundsForm.amount" placeholder="请输入添加金额" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input 
+            v-model="addFundsForm.remark" 
+            type="textarea" 
+            :rows="3"
+            placeholder="请输入备注信息"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="showAddFunds = false">取消</el-button>
+        <el-button type="primary" @click="confirmAddFunds">确认添加</el-button>
+      </template>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -262,6 +298,44 @@ const adjustForm = ref({
   amount: '',
   remark: ''
 })
+
+// 添加资金相关
+const showAddFunds = ref(false)
+const addFundsForm = ref({
+  user_id: '',
+  asset: '',
+  amount: '',
+  remark: ''
+})
+const addFundsFormRef = ref(null)
+
+// 添加资金表单验证规则
+const addFundsRules = {
+  user_id: [
+    { required: true, message: '请输入用户ID', trigger: 'blur' },
+    { pattern: /^\d+$/, message: '用户ID必须是数字', trigger: 'blur' }
+  ],
+  asset: [
+    { required: true, message: '请选择币种', trigger: 'change' }
+  ],
+  amount: [
+    { required: true, message: '请输入添加金额', trigger: 'blur' },
+    { pattern: /^\d+(\.\d+)?$/, message: '金额格式不正确', trigger: 'blur' },
+    { 
+      validator: (rule, value, callback) => {
+        if (parseFloat(value) <= 0) {
+          callback(new Error('金额必须大于0'))
+        } else {
+          callback()
+        }
+      }, 
+      trigger: 'blur' 
+    }
+  ],
+  remark: [
+    { required: true, message: '请输入备注信息', trigger: 'blur' }
+  ]
+}
 
 // 获取用户列表
 const fetchUsers = async () => {
@@ -446,6 +520,47 @@ const getOrderStatusText = (status) => {
     'partially_filled': '部分成交'
   }
   return statusMap[status] || status
+}
+
+// 打开添加资金对话框
+const openAddFunds = () => {
+  addFundsForm.value = {
+    user_id: '',
+    asset: '',
+    amount: '',
+    remark: ''
+  }
+  showAddFunds.value = true
+}
+
+// 为特定账户添加资金
+const addFundsToAccount = (account) => {
+  addFundsForm.value = {
+    user_id: account.user_id.toString(),
+    asset: account.asset,
+    amount: '',
+    remark: ''
+  }
+  showAddFunds.value = true
+}
+
+// 确认添加资金
+const confirmAddFunds = async () => {
+  try {
+    // 表单验证
+    await addFundsFormRef.value.validate()
+    
+    await axios.post('/api/admin/accounts/add-funds', addFundsForm.value)
+    ElMessage.success('资金添加成功')
+    showAddFunds.value = false
+    fetchAccounts()
+  } catch (error) {
+    if (error.response) {
+      ElMessage.error(error.response.data.error || '资金添加失败')
+    } else {
+      console.error('表单验证失败:', error)
+    }
+  }
 }
 
 // 组件挂载时加载用户数据
