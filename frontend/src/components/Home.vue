@@ -5,7 +5,7 @@
       返回首页
     </el-button>
     <Trade />
-      </div>
+  </div>
   
   <!-- 主布局模式 -->
   <el-container v-else style="height: 100vh;">
@@ -20,7 +20,7 @@
 
       <el-main style="background: #f0f2f5; padding: 20px; overflow-y: auto;">
         <!-- 首页概览 -->
-        <div v-if="currentContent === 'home'">
+        <div v-if="currentContent === 'home'" style="height: 100%; overflow-y: auto;">
           <el-row :gutter="20">
             <el-col :span="8">
               <el-card shadow="hover" style="height: 200px;">
@@ -114,9 +114,9 @@
                 </template>
                 <div style="padding: 10px;">
                   <p style="color: #606266; margin: 5px 0;">• 系统维护通知：2024年1月15日 02:00-04:00</p>
-                  <p style="color: #606266; margin: 5px 0;">• 新增交易对：ETH/USDT 现已上线</p>
-                  <p style="color: #606266; margin: 5px 0;">• 安全提醒：请开启双重认证保护账户</p>
-                  <p style="color: #606266; margin: 5px 0;">• 新功能上线：移动端APP现已发布</p>
+                  <p style="color: #606266; margin: 5px 0;">• 新增ETH交易对，欢迎体验</p>
+                  <p style="color: #606266; margin: 5px 0;">• 手续费优惠活动进行中</p>
+                  <p style="color: #606266; margin: 5px 0;">• 安全提醒：请妥善保管您的账户信息</p>
                 </div>
               </el-card>
             </el-col>
@@ -182,14 +182,14 @@
         <div v-else-if="currentContent === 'orders'">
           <el-card shadow="hover">
             <template #header>
-              <div style="display: flex; align-items: center;">
-                <el-icon style="margin-right: 8px;"><Document /></el-icon>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
                 <span>订单管理</span>
+                <el-button type="primary" size="small">刷新</el-button>
               </div>
             </template>
             <el-table :data="ordersData" style="width: 100%">
-              <el-table-column prop="id" label="订单ID" width="120"></el-table-column>
-              <el-table-column prop="symbol" label="交易对" width="120"></el-table-column>
+              <el-table-column prop="id" label="订单ID" width="100" />
+              <el-table-column prop="symbol" label="交易对" width="120" />
               <el-table-column prop="side" label="方向" width="80">
                 <template #default="scope">
                   <el-tag :type="scope.row.side === 'buy' ? 'success' : 'danger'">
@@ -197,20 +197,30 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column prop="price" label="价格" width="120"></el-table-column>
-              <el-table-column prop="amount" label="数量" width="120"></el-table-column>
-              <el-table-column prop="filled" label="已成交" width="120"></el-table-column>
+              <el-table-column prop="price" label="价格" width="120" />
+              <el-table-column prop="amount" label="数量" width="120" />
+              <el-table-column prop="filled" label="已成交" width="120" />
               <el-table-column prop="status" label="状态" width="120">
                 <template #default="scope">
-                  <el-tag :type="getStatusType(scope.row.status)">
-                    {{ getStatusText(scope.row.status) }}
+                  <el-tag 
+                    :type="scope.row.status === 'filled' ? 'success' : 
+                           scope.row.status === 'partially_filled' ? 'warning' : 'info'"
+                  >
+                    {{ scope.row.status === 'filled' ? '已完成' : 
+                       scope.row.status === 'partially_filled' ? '部分成交' : '待成交' }}
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column prop="createdAt" label="创建时间" width="180"></el-table-column>
+              <el-table-column prop="createdAt" label="创建时间" width="180" />
               <el-table-column label="操作" width="120">
                 <template #default="scope">
-                  <el-button size="small" type="danger" v-if="scope.row.status === 'open'">撤单</el-button>
+                  <el-button 
+                    v-if="scope.row.status !== 'filled'" 
+                    type="danger" 
+                    size="small"
+                  >
+                    取消
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>

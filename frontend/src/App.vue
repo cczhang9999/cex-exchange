@@ -24,11 +24,13 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f2f5;
+  overflow: hidden; /* 防止页面滚动 */
 }
 
 #app {
   height: 100vh;
   width: 100%;
+  overflow: hidden; /* 确保应用占满全屏 */
 }
 
 /* 滚动条样式优化 */
@@ -52,6 +54,16 @@ html, body {
 }
 
 /* Element Plus 组件样式优化 */
+.el-container {
+  height: 100% !important;
+}
+
+.el-main {
+  padding: 20px !important;
+  overflow-y: auto !important;
+  height: 100% !important;
+}
+
 .el-card {
   border-radius: 8px;
   border: none;

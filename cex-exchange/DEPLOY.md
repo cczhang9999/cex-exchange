@@ -75,3 +75,12 @@ docker-compose up --build -d
  go run 
 
 go run main.go models.go auth.go funds.go match.go kline.go admin.go
+
+
+现在的脚本说明：cd fronend
+
+npm run dev: 只启动前端Vite开发服务器
+npm run backend: 只启动后端Go服务（使用nodemon热重载）
+npm run start: 同时启动前后端服务
+npm run build: 构建前端生产版本
+npm run preview: 预览构建后的前端
