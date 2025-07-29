@@ -231,6 +231,11 @@
         <div v-else-if="currentContent === 'admin'">
           <Admin />
         </div>
+        
+        <!-- 实时行情监控 -->
+        <div v-else-if="currentContent === 'realtime'">
+          <RealTimeMarket />
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -244,6 +249,7 @@ import Header from './Header.vue'
 import SideBar from './SideBar.vue'
 import Assets from './Assets.vue'
 import Admin from './Admin.vue'
+import RealTimeMarket from './RealTimeMarket.vue'
 
 // 当前显示的内容
 const currentContent = ref('home')

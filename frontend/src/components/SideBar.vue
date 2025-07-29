@@ -26,6 +26,10 @@
         <el-icon><TrendCharts /></el-icon>
         <span>交易中心</span>
       </el-menu-item>
+      <el-menu-item index="realtime">
+        <el-icon><TrendCharts /></el-icon>
+        <span>实时行情</span>
+      </el-menu-item>
       <el-menu-item index="orders">
         <el-icon><Document /></el-icon>
         <span>订单管理</span>

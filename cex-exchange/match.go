@@ -107,6 +107,10 @@ func MatchOrder(order *Order) {
 		DB.Save(&co)
 		// 撮合成交后自动生成K线
 		GenerateKline(order.Symbol, "1m")
+
+		// 推送实时行情数据
+		sendMarketData(order.Symbol)
+
 		break // 仅撮合一笔
 	}
 }

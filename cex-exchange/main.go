@@ -74,6 +74,9 @@ func main() {
 	r.POST("/api/login", Login)
 	r.GET("/api/klines", GetKlines)
 
+	// WebSocket路由
+	r.GET("/ws", handleWebSocket)
+
 	auth := r.Group("/api", AuthMiddleware())
 	auth.POST("/deposit", Deposit)
 	auth.POST("/withdraw", Withdraw)
@@ -92,6 +95,12 @@ func main() {
 
 	// TODO: 受保护接口示例
 	// r.GET("/api/profile", AuthMiddleware(), Profile)
+
+	// 启动WebSocket管理器
+	go wsManager.start()
+
+	// 启动行情数据推送
+	go startMarketDataPusher()
 
 	r.Run(fmt.Sprintf(":%d", config.Server.Port))
 }

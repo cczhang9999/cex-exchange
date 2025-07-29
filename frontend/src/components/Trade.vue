@@ -1,6 +1,9 @@
 <template>
   <el-row :gutter="20" style="height: 100%;">
     <el-col :span="8">
+      <!-- 实时行情显示 -->
+      <MarketData :symbol="orderForm.symbol" />
+      
       <el-card>
         <h3>下单</h3>
         <el-form :model="orderForm" label-width="80px">
@@ -85,11 +88,15 @@
 import { ref, onMounted, watch, nextTick, onUnmounted } from 'vue'
 import { placeOrder as apiPlaceOrder, getOrderbook, getTrades } from '../api/api.js'
 import * as echarts from 'echarts'
+import wsClient from '../utils/websocket.js'
+import MarketData from './MarketData.vue'
 
 const orderForm = ref({ symbol: 'BTC/USDT', side: 'buy', type: 'limit', price: '', amount: '' })
 const orderbook = ref({ bids: [], asks: [] })
 const trades = ref([])
+const priceChange = ref({})
 let klineChart = null
+let currentSymbol = 'BTC/USDT'
 
 // 格式化时间显示
 const formatTime = (timestamp) => {
@@ -208,6 +215,74 @@ const updateKlineChart = () => {
   }
 }
 
+// 使用实时数据更新K线图
+const updateKlineWithRealData = (klineData) => {
+  if (!klineChart) return
+  
+  const option = klineChart.getOption()
+  const series = option.series[0]
+  
+  // 添加新的K线数据点
+  const newDataPoint = [
+    new Date(klineData.close_time * 1000).toLocaleString(),
+    parseFloat(klineData.open),
+    parseFloat(klineData.close),
+    parseFloat(klineData.low),
+    parseFloat(klineData.high),
+    parseFloat(klineData.volume)
+  ]
+  
+  // 更新数据
+  series.data.push(newDataPoint)
+  
+  // 保持最多100个数据点
+  if (series.data.length > 100) {
+    series.data = series.data.slice(-100)
+  }
+  
+  // 更新x轴数据
+  option.xAxis[0].data = series.data.map(item => item[0])
+  
+  klineChart.setOption(option)
+}
+
+// 处理WebSocket实时数据
+const handleWebSocketData = (dataType, data) => {
+  switch (dataType) {
+    case 'orderbook':
+      orderbook.value = {
+        bids: data.bids.map(item => ({ price: item[0], amount: item[1] })),
+        asks: data.asks.map(item => ({ price: item[0], amount: item[1] }))
+      }
+      break
+      
+    case 'trade':
+      // 添加新成交记录到列表顶部
+      const newTrade = {
+        created_at: new Date(data.timestamp * 1000).toISOString(),
+        price: data.price,
+        amount: data.amount,
+        side: data.side
+      }
+      trades.value.unshift(newTrade)
+      
+      // 保持最多50条记录
+      if (trades.value.length > 50) {
+        trades.value = trades.value.slice(0, 50)
+      }
+      break
+      
+    case 'price_change':
+      priceChange.value = data
+      break
+      
+    case 'kline':
+      // 更新K线图数据
+      updateKlineWithRealData(data)
+      break
+  }
+}
+
 const fetchOrderbook = async () => {
   try {
     const { data } = await getOrderbook(orderForm.value.symbol)
@@ -268,18 +343,35 @@ const placeOrder = async () => {
 }
 
 onMounted(async () => {
+  // 连接WebSocket
+  wsClient.connect()
+  wsClient.startHeartbeat()
+  
   await fetchOrderbook()
   await fetchTrades()
   
   // 等待DOM渲染完成后初始化K线图
   await nextTick()
   initKlineChart()
+  
+  // 订阅实时行情数据
+  wsClient.subscribe(currentSymbol, handleWebSocketData)
 })
 
-watch(() => orderForm.value.symbol, () => {
+watch(() => orderForm.value.symbol, (newSymbol) => {
+  // 取消之前的订阅
+  wsClient.unsubscribe(currentSymbol)
+  
+  // 更新当前交易对
+  currentSymbol = newSymbol
+  
+  // 重新获取数据
   fetchOrderbook()
   fetchTrades()
   updateKlineChart()
+  
+  // 订阅新的交易对
+  wsClient.subscribe(currentSymbol, handleWebSocketData)
 })
 
 // 组件卸载时销毁图表
@@ -287,6 +379,9 @@ onUnmounted(() => {
   if (klineChart) {
     klineChart.dispose()
   }
+  
+  // 取消WebSocket订阅
+  wsClient.unsubscribe(currentSymbol)
 })
 </script>
 
