@@ -7,7 +7,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "backend": "cd ../cex-exchange && nodemon --exec 'go run main.go models.go auth.go funds.go match.go kline.go admin.go' --ext go --ignore ../frontend/",
+    "backend": "cd ../cex-exchange && nodemon --exec 'go run main.go models.go auth.go funds.go match.go kline.go admin.go websocket.go' --ext go --ignore ../frontend/",
     "start": "concurrently \"npm run backend\" \"npm run dev\""
   },
   "dependencies": {
@@ -20,10 +20,10 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitejs/plugin-vue": "^5.0.0",
     "concurrently": "^8.2.2",
     "nodemon": "^2.0.0",
-    "vite": "^7.0.0",
+    "vite": "^5.0.0",
     "vite-plugin-vue-devtools": "^7.7.7"
   }
 }

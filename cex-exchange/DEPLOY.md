@@ -76,6 +76,8 @@ docker-compose up --build -d
 
 go run main.go models.go auth.go funds.go match.go kline.go admin.go
 
+go run main.go models.go auth.go funds.go match.go kline.go admin.go websocket.go
+
 
 现在的脚本说明：cd fronend
 
