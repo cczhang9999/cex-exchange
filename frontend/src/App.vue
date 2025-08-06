@@ -18,6 +18,7 @@
 
 html, body {
   height: 100%;
+  width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -25,12 +26,16 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f2f5;
   overflow: hidden; /* 防止页面滚动 */
+  margin: 0;
+  padding: 0;
 }
 
 #app {
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   overflow: hidden; /* 确保应用占满全屏 */
+  margin: 0;
+  padding: 0;
 }
 
 /* 滚动条样式优化 */
@@ -56,12 +61,14 @@ html, body {
 /* Element Plus 组件样式优化 */
 .el-container {
   height: 100% !important;
+  width: 100% !important;
 }
 
 .el-main {
   padding: 20px !important;
   overflow-y: auto !important;
   height: 100% !important;
+  width: 100% !important;
 }
 
 .el-card {

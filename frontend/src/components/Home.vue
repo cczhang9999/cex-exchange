@@ -8,17 +8,17 @@
   </div>
   
   <!-- 主布局模式 -->
-  <el-container v-else style="height: 100vh;">
+  <el-container v-else style="height: 100vh; width: 100%;">
     <el-header style="height: 60px; padding: 0; background: #fff; border-bottom: 1px solid #e4e7ed;">
       <Header @nav="showContent" />
     </el-header>
 
-    <el-container style="height: calc(100vh - 60px);">
+    <el-container style="height: calc(100vh - 60px); width: 100%;">
       <el-aside width="200px" style="background: #fff; border-right: 1px solid #e4e7ed;">
         <SideBar :activeMenu="activeMenu" @menu="handleMenuSelect" />
       </el-aside>
 
-      <el-main style="background: #f0f2f5; padding: 20px; overflow-y: auto;">
+      <el-main style="background: #f0f2f5; padding: 20px; overflow-y: auto; width: 100%;">
         <!-- 首页概览 -->
         <div v-if="currentContent === 'home'" style="height: 100%; overflow-y: auto;">
           <el-row :gutter="20">
@@ -125,52 +125,12 @@
 
         <!-- 用户登录 -->
         <div v-else-if="currentContent === 'login'">
-          <el-card shadow="hover" style="max-width: 400px; margin: 0 auto;">
-            <template #header>
-              <div style="text-align: center;">
-                <h3>用户登录</h3>
-              </div>
-            </template>
-            <el-form :model="loginForm" label-width="80px">
-              <el-form-item label="用户名">
-                <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
-              </el-form-item>
-              <el-form-item label="密码">
-                <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" style="width: 100%;">登录</el-button>
-              </el-form-item>
-            </el-form>
-          </el-card>
+          <Login />
         </div>
 
         <!-- 用户注册 -->
         <div v-else-if="currentContent === 'register'">
-          <el-card shadow="hover" style="max-width: 400px; margin: 0 auto;">
-            <template #header>
-              <div style="text-align: center;">
-                <h3>用户注册</h3>
-              </div>
-            </template>
-            <el-form :model="registerForm" label-width="80px">
-              <el-form-item label="用户名">
-                <el-input v-model="registerForm.username" placeholder="请输入用户名"></el-input>
-              </el-form-item>
-              <el-form-item label="邮箱">
-                <el-input v-model="registerForm.email" placeholder="请输入邮箱"></el-input>
-              </el-form-item>
-              <el-form-item label="密码">
-                <el-input v-model="registerForm.password" type="password" placeholder="请输入密码"></el-input>
-              </el-form-item>
-              <el-form-item label="确认密码">
-                <el-input v-model="registerForm.confirmPassword" type="password" placeholder="请确认密码"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" style="width: 100%;">注册</el-button>
-              </el-form-item>
-            </el-form>
-          </el-card>
+          <Register />
         </div>
 
         <!-- 资产管理 -->
@@ -250,12 +210,14 @@ import SideBar from './SideBar.vue'
 import Assets from './Assets.vue'
 import Admin from './Admin.vue'
 import RealTimeMarket from './RealTimeMarket.vue'
+import Login from './Login.vue'
+import Register from './Register.vue'
 
 // 当前显示的内容
 const currentContent = ref('home')
 const activeMenu = ref('home')
 
-// 表单数据
+// 表单数据（保留用于其他功能）
 const loginForm = ref({
   username: '',
   password: ''

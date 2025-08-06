@@ -47,20 +47,42 @@ func generateToken(userID uint64) (string, error) {
 func Register(c *gin.Context) {
 	var req RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "参数错误"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "参数错误: " + err.Error()})
 		return
 	}
+	
+	// 检查用户名是否已存在
 	var count int64
 	DB.Model(&User{}).Where("username = ?", req.Username).Count(&count)
 	if count > 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "用户名已存在"})
 		return
 	}
+	
+	// 检查邮箱是否已存在（如果提供了邮箱）
+	if req.Email != "" {
+		DB.Model(&User{}).Where("email = ?", req.Email).Count(&count)
+		if count > 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "邮箱已被注册"})
+			return
+		}
+	}
+	
+	// 检查手机号是否已存在（如果提供了手机号）
+	if req.Phone != "" {
+		DB.Model(&User{}).Where("phone = ?", req.Phone).Count(&count)
+		if count > 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "手机号已被注册"})
+			return
+		}
+	}
+	
 	hash, err := hashPassword(req.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "密码加密失败"})
 		return
 	}
+	
 	user := User{
 		Username: req.Username,
 		Password: hash,
@@ -68,15 +90,31 @@ func Register(c *gin.Context) {
 		Phone:    req.Phone,
 		Status:   1,
 	}
+	
 	if err := DB.Create(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "注册失败"})
+		// 检查是否是唯一性约束错误
+		if strings.Contains(err.Error(), "Duplicate entry") {
+			if strings.Contains(err.Error(), "username") {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "用户名已存在"})
+			} else if strings.Contains(err.Error(), "email") {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "邮箱已被注册"})
+			} else if strings.Contains(err.Error(), "phone") {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "手机号已被注册"})
+			} else {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "注册信息已存在"})
+			}
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "注册失败: " + err.Error()})
+		}
 		return
 	}
+	
 	token, err := generateToken(user.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "生成Token失败"})
 		return
 	}
+	
 	c.JSON(http.StatusOK, AuthResponse{Token: token})
 }
 
