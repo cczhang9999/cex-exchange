@@ -1,14 +1,19 @@
 // src/api/api.js
-import axios from 'axios'
+import request from '../utils/request'
 
 // 登录
-export const login = (form) => axios.post('/api/login', form)
+export const login = (form) => request.post('/api/login', form)
 // 注册
-export const register = (form) => axios.post('/api/register', form)
+export const register = (form) => request.post('/api/register', form)
 // 下单
-export const placeOrder = (order) => axios.post('/api/order', order)
+export const placeOrder = (order) => request.post('/api/order', order)
+// 撤单
+export const cancelOrder = (id) => request.post(`/api/order/cancel/${id}`)
 // 获取订单簿
-export const getOrderbook = (symbol) => axios.get('/api/orderbook', { params: { symbol } })
+export const getOrderbook = (symbol) => request.get('/api/orderbook', { params: { symbol } })
 // 获取成交记录
-export const getTrades = (symbol) => axios.get('/api/trades', { params: { symbol } })
-// 其他接口可按需添加... 
+export const getTrades = (symbol) => request.get('/api/trades', { params: { symbol } })
+// 获取我的订单
+export const getMyOrders = () => request.get('/api/my_orders')
+// 获取我的成交
+export const getMyTrades = () => request.get('/api/my_trades') 

@@ -4,6 +4,9 @@ FROM golang:1.21-alpine AS backend-builder
 # 设置工作目录
 WORKDIR /app
 
+# 使用阿里云apk源加速
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
 # 安装必要的系统依赖
 RUN apk add --no-cache gcc musl-dev
 
@@ -21,6 +24,9 @@ RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o main .
 
 # 运行阶段
 FROM alpine:latest
+
+# 使用阿里云apk源加速
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 # 安装运行时依赖
 RUN apk --no-cache add ca-certificates tzdata

@@ -40,7 +40,7 @@ services:
       - DB_PASSWORD=123456
       - DB_NAME=cex_exchange
     volumes:
-      - ./cex-exchange/config.yaml:/app/config.yaml:ro
+      - ./cex-exchange/config.docker.yaml:/app/config.yaml:ro
     ports:
       - "8080:8080"
     networks:

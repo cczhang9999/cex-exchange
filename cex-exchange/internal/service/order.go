@@ -1,0 +1,74 @@
+package service
+
+import (
+	"context"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+
+	"cex-exchange/internal/dao"
+	"cex-exchange/internal/model"
+)
+
+type IOrder interface {
+	PlaceOrder(ctx context.Context, userID uint64, symbol, side, orderType, price, amount string) (uint64, error)
+	ListMyOrders(ctx context.Context, userID uint64) ([]model.Order, error)
+	CancelOrder(ctx context.Context, userID, orderID uint64) error
+}
+
+type orderImpl struct{}
+
+var Order = &orderImpl{}
+
+// PlaceOrder 下单
+func (s *orderImpl) PlaceOrder(ctx context.Context, userID uint64, symbol, side, orderType, price, amount string) (uint64, error) {
+	// 创建订单
+	orderID, err := dao.Order.Create(ctx, g.Map{
+		"user_id": userID,
+		"symbol":  symbol,
+		"side":    side,
+		"type":    orderType,
+		"price":   price,
+		"amount":  amount,
+		"filled":  "0",
+		"status":  "open",
+	})
+	
+	if err != nil {
+		return 0, err
+	}
+	
+	// TODO: 调用撮合引擎
+	// MatchEngine.Match(orderID)
+	
+	return orderID, nil
+}
+
+// ListMyOrders 获取我的订单
+func (s *orderImpl) ListMyOrders(ctx context.Context, userID uint64) ([]model.Order, error) {
+	return dao.Order.ListByUserID(ctx, userID)
+}
+
+// CancelOrder 撤单
+func (s *orderImpl) CancelOrder(ctx context.Context, userID, orderID uint64) error {
+	// 查询订单
+	order, err := dao.Order.GetByID(ctx, orderID)
+	if err != nil {
+		return err
+	}
+	
+	// 验证订单所有权
+	if order.UserID != userID {
+		return gerror.New("无权操作此订单")
+	}
+	
+	// 验证订单状态
+	if order.Status != "open" {
+		return gerror.New("订单状态不允许撤销")
+	}
+	
+	// 更新订单状态
+	return dao.Order.Update(ctx, orderID, g.Map{
+		"status": "cancelled",
+	})
+}

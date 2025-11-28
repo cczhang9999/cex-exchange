@@ -23,100 +23,100 @@
         <div v-if="currentContent === 'home'" style="height: 100%; overflow-y: auto;">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-card shadow="hover" style="height: 200px;">
+              <el-card class="glass-panel dashboard-card" shadow="hover">
                 <template #header>
-                  <div style="display: flex; align-items: center;">
-                    <el-icon style="margin-right: 8px;"><TrendCharts /></el-icon>
-                    <span>市场概览</span>
+                  <div class="flex-center">
+                    <el-icon class="text-primary"><TrendCharts /></el-icon>
+                    <span>Market Overview</span>
                   </div>
                 </template>
-                <div style="text-align: center; padding: 20px;">
-                  <h3 style="color: #409EFF;">BTC/USDT</h3>
-                  <p style="font-size: 24px; color: #67C23A;">$45,123.45</p>
-                  <p style="color: #909399;">+2.34%</p>
+                <div class="text-center p-20">
+                  <h3 class="text-primary">BTC/USDT</h3>
+                  <p class="stat-value text-success">$45,123.45</p>
+                  <p class="text-muted">+2.34%</p>
                 </div>
               </el-card>
             </el-col>
             <el-col :span="8">
-              <el-card shadow="hover" style="height: 200px;">
+              <el-card class="glass-panel dashboard-card" shadow="hover">
                 <template #header>
-                  <div style="display: flex; align-items: center;">
-                    <el-icon style="margin-right: 8px;"><Wallet /></el-icon>
-                    <span>资产总览</span>
+                  <div class="flex-center">
+                    <el-icon class="text-warning"><Wallet /></el-icon>
+                    <span>Total Assets</span>
                   </div>
                 </template>
-                <div style="text-align: center; padding: 20px;">
-                  <h3 style="color: #E6A23C;">总资产</h3>
-                  <p style="font-size: 24px; color: #67C23A;">$12,345.67</p>
-                  <p style="color: #909399;">24小时变化</p>
+                <div class="text-center p-20">
+                  <h3 class="text-warning">Balance</h3>
+                  <p class="stat-value text-success">$12,345.67</p>
+                  <p class="text-muted">24h Change</p>
                 </div>
               </el-card>
             </el-col>
             <el-col :span="8">
-              <el-card shadow="hover" style="height: 200px;">
+              <el-card class="glass-panel dashboard-card" shadow="hover">
                 <template #header>
-                  <div style="display: flex; align-items: center;">
-                    <el-icon style="margin-right: 8px;"><Document /></el-icon>
-                    <span>交易统计</span>
+                  <div class="flex-center">
+                    <el-icon class="text-danger"><Document /></el-icon>
+                    <span>Trading Stats</span>
                   </div>
                 </template>
-                <div style="text-align: center; padding: 20px;">
-                  <h3 style="color: #F56C6C;">今日交易</h3>
-                  <p style="font-size: 24px; color: #67C23A;">156</p>
-                  <p style="color: #909399;">笔订单</p>
+                <div class="text-center p-20">
+                  <h3 class="text-danger">Today's Orders</h3>
+                  <p class="stat-value text-success">156</p>
+                  <p class="text-muted">Orders Executed</p>
                 </div>
               </el-card>
             </el-col>
           </el-row>
 
-          <el-row :gutter="20" style="margin-top: 20px;">
+          <el-row :gutter="20" class="mt-20">
             <el-col :span="12">
-              <el-card shadow="hover">
+              <el-card class="glass-panel">
                 <template #header>
-                  <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <span>快速操作</span>
+                  <div class="flex-between">
+                    <span>Quick Actions</span>
                   </div>
                 </template>
-                <el-row :gutter="10">
+                <el-row :gutter="15">
                   <el-col :span="12">
-                    <el-button type="primary" style="width: 100%; margin-bottom: 10px;" @click="showContent('trade')">
-                      <el-icon style="margin-right: 5px;"><TrendCharts /></el-icon>
-                      开始交易
+                    <el-button type="primary" class="w-100 mb-10" @click="showContent('trade')">
+                      <el-icon class="mr-10"><TrendCharts /></el-icon>
+                      Trade Now
                     </el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button type="success" style="width: 100%; margin-bottom: 10px;" @click="showContent('assets')">
-                      <el-icon style="margin-right: 5px;"><Wallet /></el-icon>
-                      资产管理
+                    <el-button type="success" class="w-100 mb-10" @click="showContent('assets')">
+                      <el-icon class="mr-10"><Wallet /></el-icon>
+                      Assets
                     </el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button type="warning" style="width: 100%; margin-bottom: 10px;" @click="showContent('orders')">
-                      <el-icon style="margin-right: 5px;"><Document /></el-icon>
-                      订单管理
+                    <el-button type="warning" class="w-100 mb-10" @click="showContent('orders')">
+                      <el-icon class="mr-10"><Document /></el-icon>
+                      Orders
                     </el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button type="info" style="width: 100%; margin-bottom: 10px;" @click="showContent('admin')">
-                      <el-icon style="margin-right: 5px;"><Setting /></el-icon>
-                      后台管理
+                    <el-button type="info" class="w-100 mb-10" @click="showContent('admin')">
+                      <el-icon class="mr-10"><Setting /></el-icon>
+                      Admin
                     </el-button>
                   </el-col>
                 </el-row>
               </el-card>
             </el-col>
             <el-col :span="12">
-              <el-card shadow="hover">
+              <el-card class="glass-panel">
                 <template #header>
-                  <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <span>系统公告</span>
+                  <div class="flex-between">
+                    <span>Announcements</span>
                   </div>
                 </template>
-                <div style="padding: 10px;">
-                  <p style="color: #606266; margin: 5px 0;">• 系统维护通知：2024年1月15日 02:00-04:00</p>
-                  <p style="color: #606266; margin: 5px 0;">• 新增ETH交易对，欢迎体验</p>
-                  <p style="color: #606266; margin: 5px 0;">• 手续费优惠活动进行中</p>
-                  <p style="color: #606266; margin: 5px 0;">• 安全提醒：请妥善保管您的账户信息</p>
+                <div class="p-10">
+                  <p class="notice-item">• System Maintenance: Jan 15, 02:00-04:00 UTC</p>
+                  <p class="notice-item">• New Listing: ETH/USDT is now live!</p>
+                  <p class="notice-item">• Zero Fee Trading Promotion</p>
+                  <p class="notice-item">• Security Alert: Enable 2FA for your account</p>
                 </div>
               </el-card>
             </el-col>
@@ -140,51 +140,7 @@
 
         <!-- 订单管理 -->
         <div v-else-if="currentContent === 'orders'">
-          <el-card shadow="hover">
-            <template #header>
-              <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span>订单管理</span>
-                <el-button type="primary" size="small">刷新</el-button>
-              </div>
-            </template>
-            <el-table :data="ordersData" style="width: 100%">
-              <el-table-column prop="id" label="订单ID" width="100" />
-              <el-table-column prop="symbol" label="交易对" width="120" />
-              <el-table-column prop="side" label="方向" width="80">
-                <template #default="scope">
-                  <el-tag :type="scope.row.side === 'buy' ? 'success' : 'danger'">
-                    {{ scope.row.side === 'buy' ? '买入' : '卖出' }}
-                  </el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column prop="price" label="价格" width="120" />
-              <el-table-column prop="amount" label="数量" width="120" />
-              <el-table-column prop="filled" label="已成交" width="120" />
-              <el-table-column prop="status" label="状态" width="120">
-                <template #default="scope">
-                  <el-tag 
-                    :type="scope.row.status === 'filled' ? 'success' : 
-                           scope.row.status === 'partially_filled' ? 'warning' : 'info'"
-                  >
-                    {{ scope.row.status === 'filled' ? '已完成' : 
-                       scope.row.status === 'partially_filled' ? '部分成交' : '待成交' }}
-                  </el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column prop="createdAt" label="创建时间" width="180" />
-              <el-table-column label="操作" width="120">
-                <template #default="scope">
-                  <el-button 
-                    v-if="scope.row.status !== 'filled'" 
-                    type="danger" 
-                    size="small"
-                  >
-                    取消
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-card>
+          <Orders />
         </div>
 
         <!-- 后台管理 -->
@@ -212,6 +168,7 @@ import Admin from './Admin.vue'
 import RealTimeMarket from './RealTimeMarket.vue'
 import Login from './Login.vue'
 import Register from './Register.vue'
+import Orders from './Orders.vue'
 
 // 当前显示的内容
 const currentContent = ref('home')
@@ -311,28 +268,45 @@ const clearForm = () => {
 </script>
 
 <style scoped>
+.dashboard-card {
+  height: 220px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.text-primary { color: var(--primary); }
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-danger { color: var(--danger); }
+.text-muted { color: var(--text-muted); }
+
+.mt-20 { margin-top: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.mr-10 { margin-right: 10px; }
+.w-100 { width: 100%; }
+
+.notice-item {
+  color: var(--text-muted);
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.notice-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
 .el-header {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .el-aside {
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-}
-
-.el-card {
-  transition: all 0.3s;
-}
-
-.el-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.el-button {
-  transition: all 0.3s;
-}
-
-.el-button:hover {
-  transform: translateY(-1px);
 }
 </style> 

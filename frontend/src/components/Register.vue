@@ -153,8 +153,8 @@ const onSubmit = async () => {
       phone: form.phone
     })
     
-    // 保存token
-    userStore.setToken(data.token)
+    // 保存token - 后端返回的数据在 data.data 中
+    userStore.setToken(data.data.token)
     
     ElMessage.success('注册成功！')
     

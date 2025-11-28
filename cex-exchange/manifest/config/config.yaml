@@ -1,0 +1,40 @@
+server:
+  address: ":8080"
+  serverRoot: "public"
+  dumpRouterMap: true
+  routeOverWrite: true
+  accessLogEnabled: true
+  errorLogEnabled: true
+  pprofEnabled: false
+  logPath: "logs"
+  logStdout: true
+  errorStack: true
+  graceful: true
+  gracefulTimeout: 10
+
+database:
+  default:
+    link: "mysql:hobart:123456@tcp(212.227.166.131:9257)/test?charset=utf8mb4&parseTime=True&loc=Local"
+    type: "mysql"
+    debug: true
+    dryRun: false
+    maxIdle: 10
+    maxOpen: 100
+    maxLifetime: 30
+
+redis:
+  default:
+    address: "127.0.0.1:6379"
+    db: 0
+    pass: ""
+    idleTimeout: 600
+
+jwt:
+  secret: "cex-exchange-secret-key-2024"
+  expires: 86400
+
+logger:
+  path: "logs"
+  level: "all"
+  stdout: true
+  ctxKeys: ["RequestId", "UserId"]

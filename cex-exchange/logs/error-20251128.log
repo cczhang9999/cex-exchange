@@ -1,0 +1,122 @@
+2025-11-28T17:35:36.048+08:00 {30fcee75fe217c18acd25306fdebc3fa} 200 "POST http localhost:8080 /api/login HTTP/1.1" 5242270.125, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 用户名或密码错误
+   1).  cex-exchange/internal/controller/auth.(*ControllerV1).Login
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/auth/auth_v1.go:96
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-28T17:35:36.049+08:00 {30fcee75fe217c18acd25306fdebc3fa} 200 "POST http localhost:8080 /api/login HTTP/1.1" 5.242, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T17:35:48.340+08:00 {18f6b28a02227c18add253061b2fc258} 404 "GET http localhost:8080 /api/my_trades HTTP/1.1" 0.003, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T17:35:48.342+08:00 {60eedb8a02227c18aed25306a8df87c5} 200 "GET http localhost:8080 /api/my_orders HTTP/1.1" 0.007, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T17:36:08.610+08:00 {30e2f76006227c18afd25306d19bbdc6} 200 "POST http localhost:8080 /api/login HTTP/1.1" 3797515.792, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 用户名或密码错误
+   1).  cex-exchange/internal/controller/auth.(*ControllerV1).Login
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/auth/auth_v1.go:96
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-28T17:36:08.611+08:00 {30e2f76006227c18afd25306d19bbdc6} 200 "POST http localhost:8080 /api/login HTTP/1.1" 3.797, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T17:42:46.408+08:00 {7838c7901d227c18b0d2530644067683} 200 "POST http localhost:8080 /api/login HTTP/1.1" 302010750.792, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 用户名或密码错误
+   1).  cex-exchange/internal/controller/auth.(*ControllerV1).Login
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/auth/auth_v1.go:96
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-28T17:42:46.409+08:00 {7838c7901d227c18b0d2530644067683} 200 "POST http localhost:8080 /api/login HTTP/1.1" 302.010, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T17:45:38.165+08:00 {08484fba8a227c1856eea60654a59cab} 200 "POST http localhost:8080 /api/login HTTP/1.1" 4917137.333, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 用户名或密码错误
+   1).  cex-exchange/internal/controller/auth.(*ControllerV1).Login
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/auth/auth_v1.go:102
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-28T17:55:32.600+08:00 {40bd302815237c184284f75782457f9f} 200 "POST http localhost:8080 /api/login HTTP/1.1" 4815263.333, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 密码错误
+   1).  cex-exchange/internal/controller/auth.(*ControllerV1).Login
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/auth/auth_v1.go:102
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-28T18:14:10.871+08:00 {b8e5f9c016247c18ac9a2f681a85941b} 200 "POST http localhost:8080 /api/login HTTP/1.1" 16712437.959, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 密码错误
+   1).  cex-exchange/internal/controller/auth.(*ControllerV1).Login
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/auth/auth_v1.go:102
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-28T18:38:14.935+08:00 {10b024dd6a257c1875ead914f90709cf} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 6456.375, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 68, "Internal Panic", ""
+Stack:
+1. exception recovered
+   1).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:43
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. runtime error: invalid memory address or nil pointer dereference
+
+2025-11-28T18:38:14.936+08:00 {10b024dd6a257c1875ead914f90709cf} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 0.006, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:40:32.632+08:00 {a0069a22d0287c1877ead914e51eb5d4} 200 "POST http localhost:8080 /api/login HTTP/1.1" 4.221, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:40:43.260+08:00 {88910997d3287c1879ead914a5a137ff} 200 "GET http localhost:8080 /api/my_orders HTTP/1.1" 0.000, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:40:43.260+08:00 {88910997d3287c1878ead91436ca86a9} 404 "GET http localhost:8080 /api/my_trades HTTP/1.1" 0.000, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:42:40.630+08:00 {6071e2eaee287c187bead914bb0516fe} 404 "GET http localhost:8080 /api/my_trades HTTP/1.1" 0.003, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:42:40.684+08:00 {786de2eaee287c187aead914786f0b08} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 55827.792, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 68, "Internal Panic", ""
+Stack:
+1. exception recovered
+   1).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:43
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. runtime error: invalid memory address or nil pointer dereference
+
+2025-11-28T19:42:40.685+08:00 {786de2eaee287c187aead914786f0b08} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 0.055, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:43:41.901+08:00 {a019bc2efd287c187cead914f4739a7e} 404 "GET http localhost:8080 /api/my_trades HTTP/1.1" 0.000, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:43:41.901+08:00 {b815bc2efd287c187dead91480c73d57} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 3319.250, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 68, "Internal Panic", ""
+Stack:
+1. exception recovered
+   1).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:43
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. runtime error: invalid memory address or nil pointer dereference
+
+2025-11-28T19:43:41.902+08:00 {b815bc2efd287c187dead91480c73d57} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 0.003, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:44:17.260+08:00 {08f9655e04297c187eead914311598e5} 200 "POST http localhost:8080 /api/login HTTP/1.1" 4.497, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:44:26.971+08:00 {789912ad07297c187fead91417810580} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 3660.166, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 68, "Internal Panic", ""
+Stack:
+1. exception recovered
+   1).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:43
+   2).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   3).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. runtime error: invalid memory address or nil pointer dereference
+
+2025-11-28T19:44:26.971+08:00 {789912ad07297c187fead91417810580} 500 "GET http localhost:8080 /api/my_orders HTTP/1.1" 0.003, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:44:26.971+08:00 {40f949ad07297c1880ead91465df5e9e} 404 "GET http localhost:8080 /api/my_trades HTTP/1.1" 0.000, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:50:32.457+08:00 {98f2d0cb5b297c1881ead9140acb3edd} 200 "POST http localhost:8080 /api/login HTTP/1.1" 4.197, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T19:50:44.345+08:00 pid[16221]: all servers shutdown

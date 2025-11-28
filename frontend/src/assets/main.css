@@ -1,23 +1,128 @@
-@import './base.css';
+/* Modern Light Theme & Glassmorphism */
+:root {
+  /* Core Palette */
+  --bg-app: #f0f2f5;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-card-hover: rgba(255, 255, 255, 0.95);
+  
+  /* Accents */
+  --primary: #3b82f6;
+  --primary-glow: rgba(59, 130, 246, 0.2);
+  --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.2);
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.2);
+  --warning: #f59e0b;
+  
+  /* Text */
+  --text-main: #1e293b; /* Dark Blue-Gray (Black-ish) */
+  --text-muted: #64748b;
+  
+  /* Borders */
+  --border-color: rgba(148, 163, 184, 0.2);
+}
 
-#app {
-  width: 100%;
-  height: 100vh;
+body {
   margin: 0;
   padding: 0;
-  font-weight: normal;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+  background-attachment: fixed;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+/* Glassmorphism Utility */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border-radius: 16px;
+  transition: all 0.3s ease;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.glass-panel:hover {
+  background: var(--bg-card-hover);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
 }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Element Plus Overrides */
+.el-card {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-main) !important;
+}
+
+.el-table {
+  background: transparent !important;
+  --el-table-tr-bg-color: transparent !important;
+  --el-table-header-bg-color: rgba(241, 245, 249, 0.8) !important;
+  --el-table-row-hover-bg-color: rgba(59, 130, 246, 0.05) !important;
+  --el-table-border-color: var(--border-color) !important;
+  color: var(--text-main) !important;
+}
+
+.el-table th, .el-table tr, .el-table td {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.el-table th {
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+}
+
+.el-input__wrapper {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 0 0 1px var(--border-color) inset !important;
+}
+
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--primary) inset !important;
+  background-color: #ffffff !important;
+}
+
+.el-input__inner {
+  color: var(--text-main) !important;
+}
+
+.el-button--primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.el-button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+/* Text Colors */
+.text-green { color: var(--success); }
+.text-red { color: var(--danger); }
+.text-muted { color: var(--text-muted); }

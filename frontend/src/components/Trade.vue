@@ -4,80 +4,113 @@
       <!-- 实时行情显示 -->
       <MarketData :symbol="orderForm.symbol" />
       
-      <el-card>
-        <h3>下单</h3>
-        <el-form :model="orderForm" label-width="80px">
-          <el-form-item label="交易对">
-            <el-input v-model="orderForm.symbol" />
+      <el-card class="glass-panel mb-20">
+        <template #header>
+          <div class="flex-between">
+            <h3>Place Order</h3>
+            <el-tag size="small" effect="plain" class="glass-tag">Spot</el-tag>
+          </div>
+        </template>
+        <el-form :model="orderForm" label-position="top">
+          <el-form-item label="Pair">
+            <el-input v-model="orderForm.symbol" prefix-icon="Search" />
           </el-form-item>
-          <el-form-item label="方向">
-            <el-select v-model="orderForm.side">
-              <el-option label="买入" value="buy" />
-              <el-option label="卖出" value="sell" />
+          <el-form-item label="Side">
+            <el-radio-group v-model="orderForm.side" style="width: 100%">
+              <el-radio-button label="buy" class="w-50">Buy</el-radio-button>
+              <el-radio-button label="sell" class="w-50">Sell</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="Type">
+            <el-select v-model="orderForm.type" style="width: 100%">
+              <el-option label="Limit" value="limit" />
+              <el-option label="Market" value="market" />
             </el-select>
           </el-form-item>
-          <el-form-item label="类型">
-            <el-select v-model="orderForm.type">
-              <el-option label="限价单" value="limit" />
-              <el-option label="市价单" value="market" />
-            </el-select>
+          <el-form-item label="Price" v-if="orderForm.type === 'limit'">
+            <el-input v-model="orderForm.price" placeholder="0.00">
+              <template #append>USDT</template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="价格" v-if="orderForm.type === 'limit'">
-            <el-input v-model="orderForm.price" />
-          </el-form-item>
-          <el-form-item label="数量">
-            <el-input v-model="orderForm.amount" />
+          <el-form-item label="Amount">
+            <el-input v-model="orderForm.amount" placeholder="0.00">
+              <template #append>{{ orderForm.symbol.split('/')[0] }}</template>
+            </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="placeOrder">下单</el-button>
+            <el-button 
+              :type="orderForm.side === 'buy' ? 'success' : 'danger'" 
+              @click="placeOrder" 
+              style="width: 100%; height: 40px; font-size: 16px;"
+            >
+              {{ orderForm.side === 'buy' ? 'Buy' : 'Sell' }} {{ orderForm.symbol.split('/')[0] }}
+            </el-button>
           </el-form-item>
         </el-form>
       </el-card>
       
       <!-- K线图 -->
-      <el-card style="margin-top: 20px;">
-        <h3>K线图</h3>
+      <el-card class="glass-panel">
+        <template #header>
+          <div class="flex-between">
+            <h3>Chart</h3>
+            <div class="flex-center">
+              <el-button size="small" text bg>1m</el-button>
+              <el-button size="small" text>15m</el-button>
+              <el-button size="small" text>1h</el-button>
+            </div>
+          </div>
+        </template>
         <div id="kline" style="height: 300px;"></div>
       </el-card>
     </el-col>
     <el-col :span="16">
-      <el-card style="margin-bottom: 20px;">
-        <h3>订单簿</h3>
-        <el-row :gutter="10">
+      <el-card class="glass-panel mb-20">
+        <template #header>
+          <h3>Order Book</h3>
+        </template>
+        <el-row :gutter="20">
           <el-col :span="12">
-            <div style="font-weight:bold; color:#67C23A; margin-bottom: 5px;">买盘</div>
-            <el-table :data="orderbook.bids" size="small" height="300">
-              <el-table-column prop="price" label="买价" />
-              <el-table-column prop="amount" label="数量" />
+            <div class="book-header text-success">Bids</div>
+            <el-table :data="orderbook.bids" size="small" height="300" :show-header="false">
+              <el-table-column prop="price" label="Price" align="left">
+                <template #default="{ row }">
+                  <span class="text-success">{{ row.price }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="amount" label="Amount" align="right" />
             </el-table>
           </el-col>
           <el-col :span="12">
-            <div style="font-weight:bold; color:#F56C6C; margin-bottom: 5px;">卖盘</div>
-            <el-table :data="orderbook.asks" size="small" height="300">
-              <el-table-column prop="price" label="卖价" />
-              <el-table-column prop="amount" label="数量" />
+            <div class="book-header text-danger">Asks</div>
+            <el-table :data="orderbook.asks" size="small" height="300" :show-header="false">
+              <el-table-column prop="price" label="Price" align="left">
+                <template #default="{ row }">
+                  <span class="text-danger">{{ row.price }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="amount" label="Amount" align="right" />
             </el-table>
           </el-col>
         </el-row>
       </el-card>
       
-      <el-card>
-        <h3>成交记录</h3>
+      <el-card class="glass-panel">
+        <template #header>
+          <h3>Recent Trades</h3>
+        </template>
         <el-table :data="trades" size="small" height="200">
-          <el-table-column prop="created_at" label="时间" width="120">
+          <el-table-column prop="created_at" label="Time" width="120">
             <template #default="scope">
-              {{ formatTime(scope.row.created_at) }}
+              <span class="text-muted">{{ formatTime(scope.row.created_at) }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="价格" width="100" />
-          <el-table-column prop="amount" label="数量" width="100" />
-          <el-table-column prop="side" label="方向" width="80">
-            <template #default="scope">
-              <el-tag :type="scope.row.side === 'buy' ? 'success' : 'danger'" size="small">
-                {{ scope.row.side === 'buy' ? '买入' : '卖出' }}
-              </el-tag>
+          <el-table-column prop="price" label="Price">
+            <template #default="{ row }">
+              <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'">{{ row.price }}</span>
             </template>
           </el-table-column>
+          <el-table-column prop="amount" label="Amount" align="right" />
         </el-table>
       </el-card>
     </el-col>
@@ -289,23 +322,6 @@ const fetchOrderbook = async () => {
     orderbook.value = data
   } catch (error) {
     console.error('获取订单簿失败:', error)
-    // 使用模拟数据
-    orderbook.value = {
-      bids: [
-        { price: '45,100', amount: '0.5' },
-        { price: '45,050', amount: '1.2' },
-        { price: '45,000', amount: '0.8' },
-        { price: '44,950', amount: '0.3' },
-        { price: '44,900', amount: '1.5' }
-      ],
-      asks: [
-        { price: '45,150', amount: '0.3' },
-        { price: '45,200', amount: '0.9' },
-        { price: '45,250', amount: '1.1' },
-        { price: '45,300', amount: '0.7' },
-        { price: '45,350', amount: '0.4' }
-      ]
-    }
   }
 }
 
@@ -315,20 +331,6 @@ const fetchTrades = async () => {
     trades.value = data
   } catch (error) {
     console.error('获取交易记录失败:', error)
-    // 使用模拟数据，包含 created_at 字段
-    const now = new Date()
-    trades.value = [
-      { created_at: new Date(now.getTime() - 1000 * 60 * 5).toISOString(), price: '45,120', amount: '0.1', side: 'buy' },
-      { created_at: new Date(now.getTime() - 1000 * 60 * 4).toISOString(), price: '45,110', amount: '0.2', side: 'sell' },
-      { created_at: new Date(now.getTime() - 1000 * 60 * 3).toISOString(), price: '45,130', amount: '0.05', side: 'buy' },
-      { created_at: new Date(now.getTime() - 1000 * 60 * 2).toISOString(), price: '45,125', amount: '0.15', side: 'sell' },
-      { created_at: new Date(now.getTime() - 1000 * 60 * 1).toISOString(), price: '45,115', amount: '0.08', side: 'buy' },
-      { created_at: new Date(now.getTime() - 1000 * 30).toISOString(), price: '45,135', amount: '0.12', side: 'sell' },
-      { created_at: new Date(now.getTime() - 1000 * 20).toISOString(), price: '45,105', amount: '0.25', side: 'buy' },
-      { created_at: new Date(now.getTime() - 1000 * 10).toISOString(), price: '45,140', amount: '0.06', side: 'sell' },
-      { created_at: new Date(now.getTime() - 1000 * 5).toISOString(), price: '45,118', amount: '0.18', side: 'buy' },
-      { created_at: new Date(now.getTime() - 1000 * 1).toISOString(), price: '45,128', amount: '0.09', side: 'sell' }
-    ]
   }
 }
 
@@ -386,6 +388,63 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h3 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.book-header {
+  padding: 10px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+.text-muted { color: var(--text-muted); }
+
+.glass-tag {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-main);
+}
+
+.w-50 {
+  width: 50%;
+}
+
+:deep(.el-radio-button__inner) {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  width: 100%;
+}
+
+:deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: none;
+}
+
 #kline { 
   width: 100%; 
   height: 300px;
