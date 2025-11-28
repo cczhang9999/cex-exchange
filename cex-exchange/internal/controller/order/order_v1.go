@@ -71,7 +71,7 @@ func (c *ControllerV1) ListMyOrders(ctx context.Context, req *ListMyOrdersReq) (
 
 	// 定义订单切片，用于存储查询结果
 	var orders []*model.Order
-	
+
 	// g 是 GoFrame 框架的全局对象，提供了各种便捷方法
 	// g.Model("orders") 创建一个数据库模型，对应 orders 表
 	// Ctx(ctx) 设置上下文，用于日志追踪和超时控制
@@ -87,8 +87,29 @@ func (c *ControllerV1) ListMyOrders(ctx context.Context, req *ListMyOrdersReq) (
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// 返回订单列表响应
 	// GoFrame 会自动将返回值包装成 {code: 0, message: "success", data: {...}} 格式
 	return &ListMyOrdersRes{Orders: orders}, nil
+}
+
+type ListMyTradesReq struct {
+	g.Meta `path:"/my_trades" method:"get" tags:"Order" summary:"我的订单"`
+}
+
+type ListMyTradesRes struct {
+	Trades []*model.Trade `json:"trades"`
+}
+
+func (c *ControllerV1) ListMyTrades(ctx context.Context, req *ListMyTradesReq) (res *ListMyTradesRes, err error) {
+	uid := g.RequestFromCtx(ctx).GetCtxVar("uid").Uint64()
+	var trades []*model.Trade
+	err = g.Model("orders").Ctx(ctx).
+		Where("user_id", uid).
+		Order("id desc").
+		Scan(&trades)
+	if err != nil {
+		return nil, err
+	}
+	return &ListMyTradesRes{Trades: trades}, nil
 }
