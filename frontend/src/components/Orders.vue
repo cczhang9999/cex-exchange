@@ -83,11 +83,11 @@ const trades = ref([])
 
 const fetchOrders = async () => {
   const { data } = await getMyOrders()
-  orders.value = data.data.orders
+  orders.value = data.data
 }
 const fetchTrades = async () => {
   const { data } = await getMyTrades()
-  trades.value = data.data.trades
+  trades.value = data.data
 }
 const cancelOrder = async (row) => {
   await cancelOrderApi(row.id)

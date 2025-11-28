@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"cex-exchange/internal/model"
+	"cex-exchange/internal/service"
 
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -57,59 +58,23 @@ type ListMyOrdersReq struct {
 	g.Meta `path:"/my_orders" method:"get" tags:"Order" summary:"我的订单"`
 }
 
-type ListMyOrdersRes struct {
-	Orders []*model.Order `json:"orders"`
-}
-
 // ListMyOrders 获取当前用户的订单列表
-func (c *ControllerV1) ListMyOrders(ctx context.Context, req *ListMyOrdersReq) (res *ListMyOrdersRes, err error) {
+func (c *ControllerV1) ListMyOrders(ctx context.Context, req *ListMyOrdersReq) (res []model.Order, err error) {
 	// 从请求上下文中获取用户ID
-	// g.RequestFromCtx(ctx) 从 context 中获取 GoFrame 的 Request 对象
-	// GetCtxVar("uid") 获取中间件设置的上下文变量 "uid"
-	// Uint64() 将值转换为 uint64 类型
 	uid := g.RequestFromCtx(ctx).GetCtxVar("uid").Uint64()
-
-	// 定义订单切片，用于存储查询结果
-	var orders []*model.Order
-
-	// g 是 GoFrame 框架的全局对象，提供了各种便捷方法
-	// g.Model("orders") 创建一个数据库模型，对应 orders 表
-	// Ctx(ctx) 设置上下文，用于日志追踪和超时控制
-	// Where("user_id", uid) 添加 WHERE 条件：user_id = uid
-	// Order("id desc") 按 id 降序排序（最新的订单在前）
-	// Scan(&orders) 将查询结果扫描到 orders 切片中
-	err = g.Model("orders").Ctx(ctx).
-		Where("user_id", uid).
-		Order("id desc").
-		Scan(&orders)
-
-	// 如果查询出错，返回错误
-	if err != nil {
-		return nil, err
-	}
-
-	// 返回订单列表响应
-	// GoFrame 会自动将返回值包装成 {code: 0, message: "success", data: {...}} 格式
-	return &ListMyOrdersRes{Orders: orders}, nil
+	// 调用 service 层获取订单列表
+	return service.Order.ListMyOrders(ctx, uid)
 }
 
 type ListMyTradesReq struct {
-	g.Meta `path:"/my_trades" method:"get" tags:"Order" summary:"我的订单"`
+	g.Meta `path:"/my_trades" method:"get" tags:"Trade" summary:"我的成交记录"`
 }
 
-type ListMyTradesRes struct {
-	Trades []*model.Trade `json:"trades"`
-}
-
-func (c *ControllerV1) ListMyTrades(ctx context.Context, req *ListMyTradesReq) (res *ListMyTradesRes, err error) {
+// ListMyTrades 获取当前用户的成交记录
+func (c *ControllerV1) ListMyTrades(ctx context.Context, req *ListMyTradesReq) (res []model.Trade, err error) {
+	// 从请求上下文中获取用户ID
 	uid := g.RequestFromCtx(ctx).GetCtxVar("uid").Uint64()
-	var trades []*model.Trade
-	err = g.Model("orders").Ctx(ctx).
-		Where("user_id", uid).
-		Order("id desc").
-		Scan(&trades)
-	if err != nil {
-		return nil, err
-	}
-	return &ListMyTradesRes{Trades: trades}, nil
+	// 调用 service 层获取成交记录
+	// service.Trade.ListMyTrades 会查询 trades 表，并通过 buy_user_id 或 sell_user_id 匹配
+	return service.Trade.ListMyTrades(ctx, uid)
 }
