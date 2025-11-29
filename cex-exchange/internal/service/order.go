@@ -21,32 +21,29 @@ type orderImpl struct{}
 var Order = &orderImpl{}
 
 // PlaceOrder 下单
-func (s *orderImpl) PlaceOrder(ctx context.Context, userID uint64, symbol, side, orderType, price, amount string) (uint64, error) {
-	// 创建订单
-	orderID, err := dao.Order.Create(ctx, g.Map{
-		"user_id": userID,
-		"symbol":  symbol,
-		"side":    side,
-		"type":    orderType,
-		"price":   price,
-		"amount":  amount,
+func (s *orderImpl) PlaceOrder(ctx context.Context, req *model.PlaceOrderReq) (int64, error) {
+	uid := g.RequestFromCtx(ctx).GetCtxVar("uid").Uint64()
+	// 插入订单
+	result, err := g.Model("orders").Ctx(ctx).Data(g.Map{
+		"user_id": uid,
+		"symbol":  req.Symbol,
+		"side":    req.Side,
+		"type":    req.Type,
+		"price":   req.Price,
+		"amount":  req.Amount,
 		"filled":  "0",
 		"status":  "open",
-	})
-	
-	if err != nil {
-		return 0, err
-	}
-	
+	}).Insert()
+
+	orderID, _ := result.LastInsertId()
 	// TODO: 调用撮合引擎
 	// MatchEngine.Match(orderID)
-	
-	return orderID, nil
+	return orderID, err
 }
 
 // ListMyOrders 获取我的订单
-func (s *orderImpl) ListMyOrders(ctx context.Context, userID uint64) ([]model.Order, error) {
-	return dao.Order.ListByUserID(ctx, userID)
+func (s *orderImpl) ListMyOrders(ctx context.Context, uid uint64, symbol string) ([]model.Order, error) {
+	return dao.Order.ListByUserID(ctx, uid, symbol)
 }
 
 // CancelOrder 撤单
@@ -56,17 +53,17 @@ func (s *orderImpl) CancelOrder(ctx context.Context, userID, orderID uint64) err
 	if err != nil {
 		return err
 	}
-	
+
 	// 验证订单所有权
 	if order.UserID != userID {
 		return gerror.New("无权操作此订单")
 	}
-	
+
 	// 验证订单状态
 	if order.Status != "open" {
 		return gerror.New("订单状态不允许撤销")
 	}
-	
+
 	// 更新订单状态
 	return dao.Order.Update(ctx, orderID, g.Map{
 		"status": "cancelled",

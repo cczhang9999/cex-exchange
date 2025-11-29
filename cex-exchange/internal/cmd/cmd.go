@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"cex-exchange/internal/controller/trade"
 	"context"
 
 	"github.com/gogf/gf/v2/frame/g"
@@ -22,18 +23,18 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
-			
+
 			// 全局中间件
 			s.Use(middleware.CORS)
 			s.Use(middleware.ResponseHandler)
-			
+
 			// 公开路由
 			s.Group("/api", func(group *ghttp.RouterGroup) {
 				group.Bind(
 					auth.NewV1(),
 				)
 			})
-			
+
 			// 需要认证的路由
 			s.Group("/api", func(group *ghttp.RouterGroup) {
 				group.Middleware(middleware.Auth)
@@ -41,9 +42,10 @@ var (
 					order.NewV1(),
 					funds.NewV1(),
 					admin.NewV1(),
+					trade.NewV1(),
 				)
 			})
-			
+
 			s.Run()
 			return nil
 		},

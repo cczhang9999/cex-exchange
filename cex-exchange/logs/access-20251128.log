@@ -128,3 +128,4 @@ Stack:
 2025-11-28T21:38:29.505+08:00 {60e61cd4402f7c18a7791c752881f402} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
 2025-11-28T21:38:32.512+08:00 {90c05487412f7c18a8791c75fba7aab5} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
 2025-11-28T21:38:35.520+08:00 {605c993a422f7c18a9791c750d81a099} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-28T21:40:51.096+08:00 pid[30550]: all servers shutdown

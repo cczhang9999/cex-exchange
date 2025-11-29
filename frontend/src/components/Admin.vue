@@ -257,7 +257,8 @@
 import { ref, onMounted } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import axios from 'axios'
+
+import { getUsers } from '../api/api'
 
 // 当前活跃的标签页
 const activeTab = ref('users')
@@ -348,8 +349,9 @@ const fetchUsers = async () => {
     if (userSearch.value) {
       params.search = userSearch.value
     }
-    
-    const { data } = await axios.get('/api/admin/users', { params })
+  
+    //const { data } = await axios.get('/api/admin/users', { params })
+    const { data } = await getUsers({ params})
     users.value = data.users || data
     userTotal.value = data.total || 0
   } catch (error) {

@@ -44,13 +44,20 @@ func (d *OrderDao) GetByID(ctx context.Context, id uint64) (*model.Order, error)
 }
 
 // ListByUserID 获取用户订单列表
-func (d *OrderDao) ListByUserID(ctx context.Context, userID uint64) ([]model.Order, error) {
+func (d *OrderDao) ListByUserID(ctx context.Context, userID uint64, symbol string) ([]model.Order, error) {
 	var orders []model.Order
-	err := d.Model(ctx).
-		Where("user_id", userID).
-		Order("id desc").
-		Scan(&orders)
-	
+	m := d.Model(ctx)
+
+	if userID > 0 {
+		m.Where("user_id", userID)
+	}
+	if symbol != "" {
+		m.Where("symbol", symbol)
+
+		m.Where("status", g.Slice{"open", "partially_filled"})
+	}
+	err := m.Order("id desc").Scan(&orders)
+
 	if err != nil {
 		return nil, err
 	}
@@ -60,21 +67,21 @@ func (d *OrderDao) ListByUserID(ctx context.Context, userID uint64) ([]model.Ord
 // List 获取订单列表（分页）
 func (d *OrderDao) List(ctx context.Context, page, limit int) ([]model.Order, int, error) {
 	var orders []model.Order
-	
+
 	total, err := d.Model(ctx).Count()
 	if err != nil {
 		return nil, 0, err
 	}
-	
+
 	err = d.Model(ctx).
 		Page(page, limit).
 		Order("id desc").
 		Scan(&orders)
-	
+
 	if err != nil {
 		return nil, 0, err
 	}
-	
+
 	return orders, total, nil
 }
 
@@ -87,22 +94,21 @@ func (d *OrderDao) Update(ctx context.Context, id uint64, data g.Map) error {
 // GetOpenOrders 获取未成交订单
 func (d *OrderDao) GetOpenOrders(ctx context.Context, symbol, side string, price string) ([]model.Order, error) {
 	var orders []model.Order
-	
+
 	m := d.Model(ctx).
 		Where("symbol", symbol).
-		Where("side", side).
-		Where("status", "open")
-	
+		Where("side", side)
+
 	if side == "sell" {
 		m = m.Where("price <=", price).Order("price asc")
 	} else {
 		m = m.Where("price >=", price).Order("price desc")
 	}
-	
+
 	err := m.Scan(&orders)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return orders, nil
 }

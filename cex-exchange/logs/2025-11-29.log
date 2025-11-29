@@ -1,0 +1,603 @@
+2025-11-29T09:23:06.172+08:00 [INFO] {f070c021b4557c18a8fbf44df4e92d56} Config path set to: manifest/config
+2025-11-29T09:23:09.587+08:00 [INFO] {f070c021b4557c18a8fbf44df4e92d56} ✅ Database connected successfully!
+2025-11-29T09:23:09.597+08:00 [INFO] pid[34585]: http server started listening on [:8080]
+2025-11-29T09:23:09.597+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T10:14:12.332+08:00 [INFO] {902c21077e587c1845b1726502cff489} Config path set to: manifest/config
+2025-11-29T10:14:15.643+08:00 [INFO] {902c21077e587c1845b1726502cff489} ✅ Database connected successfully!
+2025-11-29T10:14:15.649+08:00 [INFO] pid[39217]: http server started listening on [:8080]
+2025-11-29T10:14:15.649+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T10:33:38.997+08:00 [INFO] {58ffc3a98d597c183e3b9b65ce39f30a} Config path set to: manifest/config
+2025-11-29T10:33:42.498+08:00 [INFO] {58ffc3a98d597c183e3b9b65ce39f30a} ✅ Database connected successfully!
+2025-11-29T10:33:42.505+08:00 [INFO] openapi specification is disabled
+2025-11-29T10:33:42.505+08:00 [INFO] pid[43262]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T10:45:47.491+08:00 [INFO] {10fc6747375a7c18b2812411860e1697} Config path set to: manifest/config
+2025-11-29T10:45:50.663+08:00 [INFO] {10fc6747375a7c18b2812411860e1697} ✅ Database connected successfully!
+2025-11-29T10:45:50.682+08:00 [INFO] pid[45843]: http server started listening on [:8080]
+2025-11-29T10:45:50.682+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T10:49:16.931+08:00 [INFO] {8053ed0a685a7c1877c6b563ef35f277} Config path set to: manifest/config
+2025-11-29T10:49:20.569+08:00 [INFO] {8053ed0a685a7c1877c6b563ef35f277} ✅ Database connected successfully!
+2025-11-29T10:49:20.577+08:00 [INFO] openapi specification is disabled
+2025-11-29T10:49:20.577+08:00 [INFO] pid[46600]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T10:58:33.737+08:00 [INFO] {581b2cafe95a7c1853d3875ee3b392dd} Config path set to: manifest/config
+2025-11-29T10:58:37.186+08:00 [INFO] {581b2cafe95a7c1853d3875ee3b392dd} ✅ Database connected successfully!
+2025-11-29T10:58:37.195+08:00 [INFO] pid[48517]: http server started listening on [:8080]
+2025-11-29T10:58:37.195+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T10:58:46.838+08:00 [INFO] pid[48517]: all servers shutdown
+2025-11-29T10:59:41.463+08:00 [INFO] {5085ff73f95a7c18e3e4c474193337a7} Config path set to: manifest/config
+2025-11-29T10:59:45.425+08:00 [INFO] {5085ff73f95a7c18e3e4c474193337a7} ✅ Database connected successfully!
+2025-11-29T10:59:45.433+08:00 [INFO] pid[48776]: http server started listening on [:8080]
+2025-11-29T10:59:45.433+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T11:02:00.753+08:00 [INFO] {785a4be2195b7c18fb8e7d62176e6c89} Config path set to: manifest/config
+2025-11-29T11:02:04.085+08:00 [INFO] {785a4be2195b7c18fb8e7d62176e6c89} ✅ Database connected successfully!
+2025-11-29T11:02:04.093+08:00 [INFO] pid[49365]: http server started listening on [:8080]
+2025-11-29T11:02:04.093+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T11:07:00.920+08:00 [INFO] {900c9ec55f5b7c18da37c3541e9f0584} Config path set to: manifest/config
+2025-11-29T11:07:04.415+08:00 [INFO] {900c9ec55f5b7c18da37c3541e9f0584} ✅ Database connected successfully!
+2025-11-29T11:07:04.422+08:00 [INFO] openapi specification is disabled
+2025-11-29T11:07:04.422+08:00 [INFO] pid[50394]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T12:20:30.130+08:00 [INFO] {f05d0b5f625f7c1806025e243cc5fa17} Config path set to: manifest/config
+2025-11-29T12:20:33.588+08:00 [INFO] {f05d0b5f625f7c1806025e243cc5fa17} ✅ Database connected successfully!
+2025-11-29T12:20:33.595+08:00 [INFO] openapi specification is disabled
+2025-11-29T12:20:33.595+08:00 [INFO] pid[53278]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T12:21:48.034+08:00 [INFO] {305a8a82745f7c18d12bd97e2ab36bb4} Config path set to: manifest/config
+2025-11-29T12:21:51.275+08:00 [INFO] {305a8a82745f7c18d12bd97e2ab36bb4} ✅ Database connected successfully!
+2025-11-29T12:21:51.282+08:00 [INFO] pid[53595]: http server started listening on [:8080]
+2025-11-29T12:21:51.282+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T12:23:03.169+08:00 [INFO] {30bbe900865f7c186b657b351407b507} Config path set to: manifest/config
+2025-11-29T12:23:06.470+08:00 [INFO] {30bbe900865f7c186b657b351407b507} ✅ Database connected successfully!
+2025-11-29T12:23:06.478+08:00 [INFO] openapi specification is disabled
+2025-11-29T12:23:06.478+08:00 [INFO] pid[53916]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T12:24:09.647+08:00 [INFO] {88654e7b955f7c182cb1473aa479af50} Config path set to: manifest/config
+2025-11-29T12:24:13.131+08:00 [INFO] {88654e7b955f7c182cb1473aa479af50} ✅ Database connected successfully!
+2025-11-29T12:24:13.136+08:00 [INFO] pid[54204]: http server started listening on [:8080]
+2025-11-29T12:24:13.136+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T12:27:03.788+08:00 [INFO] pid[54204]: all servers shutdown
+2025-11-29T12:27:07.356+08:00 [INFO] {18018fdbbe5f7c185a84756a06f0e174} Config path set to: manifest/config
+2025-11-29T12:27:10.899+08:00 [INFO] {18018fdbbe5f7c185a84756a06f0e174} ✅ Database connected successfully!
+2025-11-29T12:27:10.909+08:00 [INFO] openapi specification is disabled
+2025-11-29T12:27:10.909+08:00 [INFO] pid[54873]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/order.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/trades                   | cex-exchange/internal/controller/trade.(*ControllerV1).GetTrades    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T12:38:58.384+08:00 [INFO] {10d6256864607c18e940594d73a86d92} Config path set to: manifest/config
+2025-11-29T12:39:01.660+08:00 [INFO] {10d6256864607c18e940594d73a86d92} ✅ Database connected successfully!
+2025-11-29T12:39:01.666+08:00 [INFO] pid[56470]: http server started listening on [:8080]
+2025-11-29T12:39:01.666+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/trade.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/trades                   | cex-exchange/internal/controller/trade.(*ControllerV1).GetTrades    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T18:18:30.843+08:00 [INFO] {e86254bdeb727c18fccf0b36d2492418} Config path set to: manifest/config
+2025-11-29T18:18:35.575+08:00 [INFO] {e86254bdeb727c18fccf0b36d2492418} ✅ Database connected successfully!
+2025-11-29T18:18:35.581+08:00 [INFO] pid[65786]: http server started listening on [:8080]
+2025-11-29T18:18:35.581+08:00 [INFO] openapi specification is disabled
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/trade.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/trades                   | cex-exchange/internal/controller/trade.(*ControllerV1).GetTrades    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-11-29T20:12:52.302+08:00 [INFO] {c8b5ea4b29797c184ef69e4eb976c88e} Config path set to: manifest/config
+2025-11-29T20:12:56.197+08:00 [INFO] {c8b5ea4b29797c184ef69e4eb976c88e} ✅ Database connected successfully!
+2025-11-29T20:12:56.207+08:00 [INFO] openapi specification is disabled
+2025-11-29T20:12:56.207+08:00 [INFO] pid[68147]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/trade.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/trades                   | cex-exchange/internal/controller/trade.(*ControllerV1).GetTrades    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
