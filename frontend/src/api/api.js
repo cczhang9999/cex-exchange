@@ -18,4 +18,4 @@ export const getMyOrders = () => request.get('/api/my_orders')
 // 获取我的成交
 export const getMyTrades = () => request.get('/api/my_trades') 
 // 获取用户列表
-export const getUsers = (params) => request.get('/api/admin/users',{params:{page,limit}})
+export const getUsers = (params) => request.get('/api/admin/users', params)

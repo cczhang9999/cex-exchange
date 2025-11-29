@@ -2,11 +2,14 @@ package service
 
 import (
 	"context"
+	"strconv"
+	"time"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 
 	"cex-exchange/internal/dao"
+	"cex-exchange/internal/engine"
 	"cex-exchange/internal/model"
 )
 
@@ -36,9 +39,34 @@ func (s *orderImpl) PlaceOrder(ctx context.Context, req *model.PlaceOrderReq) (i
 	}).Insert()
 
 	orderID, _ := result.LastInsertId()
-	// TODO: 调用撮合引擎
-	// MatchEngine.Match(orderID)
+	
+	// 调用撮合引擎
+	order := &engine.Order{
+		ID:        orderID,
+		UserID:    uid,
+		Symbol:    req.Symbol,
+		Side:      req.Side,
+		Type:      req.Type,
+		Price:     parseFloat(req.Price),
+		Amount:    parseFloat(req.Amount),
+		Filled:    0,
+		Status:    "open",
+		CreatedAt: time.Now(),
+	}
+	
+	matchEngine := engine.GetEngine()
+	_, err = matchEngine.Match(ctx, order)
+	
 	return orderID, err
+}
+
+// parseFloat 辅助函数：字符串转浮点数
+func parseFloat(s string) float64 {
+	if s == "" {
+		return 0
+	}
+	v, _ := strconv.ParseFloat(s, 64)
+	return v
 }
 
 // ListMyOrders 获取我的订单

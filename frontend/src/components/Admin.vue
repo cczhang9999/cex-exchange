@@ -352,8 +352,8 @@ const fetchUsers = async () => {
   
     //const { data } = await axios.get('/api/admin/users', { params })
     const { data } = await getUsers({ params})
-    users.value = data.users || data
-    userTotal.value = data.total || 0
+    users.value = data.data.users || data
+    userTotal.value = data.data.total || 0
   } catch (error) {
     ElMessage.error('获取用户列表失败')
   } finally {

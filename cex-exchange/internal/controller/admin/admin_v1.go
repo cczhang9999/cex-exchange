@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"cex-exchange/internal/model"
 	"context"
 	"strconv"
 
@@ -23,12 +24,12 @@ type ListUsersReq struct {
 }
 
 type ListUsersRes struct {
-	Users []g.Map `json:"users"`
+	Users []model.User `json:"users"`
 	Total int     `json:"total"`
 }
 
 func (c *ControllerV1) ListUsers(ctx context.Context, req *ListUsersReq) (res *ListUsersRes, err error) {
-	var users []g.Map
+	var users []model.User
 	
 	// 查询总数
 	total, err := g.Model("users").Ctx(ctx).Count()
