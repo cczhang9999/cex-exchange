@@ -26,11 +26,12 @@ func ResponseHandler(r *ghttp.Request) {
 	)
 	
 	if err != nil {
-		r.Response.WriteJson(g.Map{
-			"code": 1,
+		r.Response.WriteJsonExit(g.Map{
+			"code":    1,
 			"message": err.Error(),
-			"data": nil,
+			"data":    nil,
 		})
+		r.Response.WriteStatus(400)
 	} else if res != nil {
 		r.Response.WriteJson(g.Map{
 			"code": 0,

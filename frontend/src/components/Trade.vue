@@ -440,13 +440,33 @@ const placeOrder = async () => {
   }
 
   try {
-    await apiPlaceOrder(orderForm.value)
+    const response = await apiPlaceOrder(orderForm.value)
+    
+    console.log('下单响应:', response)
+    console.log('响应数据:', response.data)
+    
+    // 检查响应的 code 字段
+    if (response.data.code == 1) {
+      // 后端返回了业务错误
+      console.log('错误信息:', response.data.message)
+      ElMessage.error(response.data.message || '下单失败')
+      return
+    }
+    
     fetchOrderbook()
     fetchTrades()
     ElMessage.success('下单成功')
   } catch (error) {
     console.error('下单失败:', error)
-    ElMessage.error('下单失败')
+    console.log('错误响应:', error.response)
+    
+    // 优先获取后端返回的 message
+    let message = '下单失败'
+    if (error.response?.data) {
+      message = error.response.data.message || error.response.data.error || message
+    }
+    
+    ElMessage.error(message)
   }
 }
 

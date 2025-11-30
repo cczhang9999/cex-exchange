@@ -5,10 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
+	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/shopspring/decimal"
 
 	"cex-exchange/internal/dao"
 	"cex-exchange/internal/engine"
@@ -28,23 +31,122 @@ var Order = &orderImpl{}
 // PlaceOrder 下单
 func (s *orderImpl) PlaceOrder(ctx context.Context, req *model.PlaceOrderReq) (int64, error) {
 	uid := g.RequestFromCtx(ctx).GetCtxVar("uid").Uint64()
-	// 插入订单
-	result, err := g.Model("orders").Ctx(ctx).Data(g.Map{
-		"user_id": uid,
-		"symbol":  req.Symbol,
-		"side":    req.Side,
-		"type":    req.Type,
-		"price":   req.Price,
-		"amount":  req.Amount,
-		"filled":  "0",
-		"status":  "open",
-	}).Insert()
+
+	// 1. 解析交易对，确定需要冻结的资产
+	parts := strings.Split(req.Symbol, "/")
+	if len(parts) != 2 {
+		return 0, gerror.New("无效的交易对")
+	}
+	baseCurrency := parts[0]   // 例如 BTC
+	quoteCurrency := parts[1]  // 例如 USDT
+
+	// 2. 解析价格和数量
+	price, err := decimal.NewFromString(req.Price)
+	if err != nil || price.LessThanOrEqual(decimal.Zero) {
+		return 0, gerror.New("无效的价格")
+	}
+	amount, err := decimal.NewFromString(req.Amount)
+	if err != nil || amount.LessThanOrEqual(decimal.Zero) {
+		return 0, gerror.New("无效的数量")
+	}
+
+	// 3. 确定冻结资产和金额
+	var freezeAsset string
+	var freezeAmount decimal.Decimal
+	if req.Side == "buy" {
+		freezeAsset = quoteCurrency
+		freezeAmount = price.Mul(amount) // 买入需要冻结 USDT
+	} else {
+		freezeAsset = baseCurrency
+		freezeAmount = amount // 卖出需要冻结 BTC
+	}
+
+	// 4. Redis 预检查（可选，提升性能）
+	cacheKey := fmt.Sprintf("user:balance:%d:%s", uid, freezeAsset)
+	cachedBalance, err := Redis.Get(ctx, cacheKey)
+	if err == nil && cachedBalance != "" {
+		// 缓存命中，快速检查
+		balance, _ := decimal.NewFromString(cachedBalance)
+		if balance.LessThan(freezeAmount) {
+			g.Log().Warningf(ctx, "Redis预检查: 余额不足 %s < %s", balance.String(), freezeAmount.String())
+			return 0, gerror.Newf("余额不足，当前可用: %s %s, 需要: %s %s", 
+				balance.String(), freezeAsset, freezeAmount.String(), freezeAsset)
+		}
+	}
+
+	var orderID int64
+
+	// 5. 数据库事务：精确检查并扣减余额
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		// 5.1 查询账户并加锁
+		var account model.Account
+		err := tx.Model("accounts").
+			Ctx(ctx).
+			Where("user_id", uid).
+			Where("asset", freezeAsset).
+			LockUpdate(). // FOR UPDATE 排他锁
+			Scan(&account)
+
+		// GoFrame 的 Scan 在没有结果时不会返回错误，而是返回零值
+		// 所以我们只需要检查 account.ID 是否为 0
+		if err != nil {
+			// 真正的数据库错误（连接失败、语法错误等）
+			g.Log().Errorf(ctx, "查询账户没有余额: %v", err)
+			return gerror.Newf("查询账户没有%s余额，请充值%s", freezeAsset, freezeAsset)
+		}
+
+		if account.ID == 0 {
+			// 账户不存在
+			return gerror.Newf("您还没有 %s 账户，请先充值", freezeAsset)
+		}
+
+		// 5.2 检查余额
+		availableBalance, _ := decimal.NewFromString(account.Balance)
+		if availableBalance.LessThan(freezeAmount) {
+			return gerror.Newf("余额不足，当前可用: %s %s, 需要: %s %s", 
+				availableBalance.String(), freezeAsset, freezeAmount.String(), freezeAsset)
+		}
+
+		// 5.3 扣减余额，增加冻结（原子操作）
+		_, err = tx.Model("accounts").
+			Ctx(ctx).
+			Where("id", account.ID).
+			Data(g.Map{
+				"balance": gdb.Raw(fmt.Sprintf("balance - %s", freezeAmount.String())),
+				"frozen":  gdb.Raw(fmt.Sprintf("frozen + %s", freezeAmount.String())),
+			}).Update()
+
+		if err != nil {
+			return err
+		}
+
+		// 5.4 更新 Redis 缓存
+		newBalance := availableBalance.Sub(freezeAmount)
+		Redis.SetEX(ctx, cacheKey, newBalance.String(), 300) // 5分钟过期
+
+		// 5.5 插入订单
+		result, err := tx.Model("orders").Ctx(ctx).Data(g.Map{
+			"user_id": uid,
+			"symbol":  req.Symbol,
+			"side":    req.Side,
+			"type":    req.Type,
+			"price":   req.Price,
+			"amount":  req.Amount,
+			"filled":  "0",
+			"status":  "open",
+		}).Insert()
+
+		if err != nil {
+			return err
+		}
+
+		orderID, _ = result.LastInsertId()
+		return nil
+	})
 
 	if err != nil {
 		return 0, err
 	}
-
-	orderID, _ := result.LastInsertId()
 
 	// 清除用户订单缓存
 	s.clearUserOrderCache(ctx, uid, req.Symbol)

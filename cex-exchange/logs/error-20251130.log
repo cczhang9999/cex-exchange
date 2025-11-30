@@ -113,3 +113,275 @@ Stack:
         /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
 2. Error 1366 (22007): Incorrect string value: '\xE7\xAE\xA1\xE7\x90\x86...' for column `test`.`account_flows`.`remark` at row 1
 
+2025-11-30T18:08:48.876+08:00 {c06d0448f8c07c18bd1ec400c283fc59} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2261639.250, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+sql: no rows in result set
+2025-11-30T18:08:48.878+08:00 {c06d0448f8c07c18bd1ec400c283fc59} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2.261, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:08:49.701+08:00 {50c82cd0f8c07c18be1ec40075ff600a} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.802, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:08:52.082+08:00 {50c82cd0f8c07c18bf1ec400709e89b7} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 3.183, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:09:10.705+08:00 {c07d48b7fdc07c18c01ec40082a08901} 200 "GET http localhost:8080 /api/accounts HTTP/1.1" 0.749, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:09:22.663+08:00 {58c3aeac00c17c18c11ec400537c986a} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:09:26.053+08:00 {581c32ad00c17c18c21ec400458a1852} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.380, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:09:26.950+08:00 {18890b7901c17c18c31ec4005e651d0f} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.859, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:17:05.781+08:00 {38be11806cc17c18c41ec40013f7c7ea} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.019, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:17:09.184+08:00 {f0c911806cc17c18c51ec4007c42e517} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.424, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:17:10.217+08:00 {30fdd4526dc17c18c61ec400a8b8cc30} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.910, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:30:22.879+08:00 pid[1939]: all servers shutdown
+2025-11-30T18:38:53.062+08:00 {a80e1d3d9cc27c181bdfd35f8ae2a450} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2744937.500, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+sql: no rows in result set
+2025-11-30T18:38:53.063+08:00 {a80e1d3d9cc27c181bdfd35f8ae2a450} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2.744, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:38:53.887+08:00 {48c3cde19cc27c181ddfd35f6bcf155b} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.805, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:38:55.518+08:00 {98c507739dc27c181fdfd35fe15b613a} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:38:56.445+08:00 {c836dae19cc27c181edfd35f23cbaec9} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 3.364, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:07.810+08:00 {d0125520a0c27c1821dfd35fe261bc2c} 200 "GET http localhost:8080 /api/trades?symbol=ETH%2FUSDT HTTP/1.1" 0.796, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:07.811+08:00 {e0bc5420a0c27c1820dfd35fa61d873e} 200 "GET http localhost:8080 /api/orderbook?symbol=ETH%2FUSDT HTTP/1.1" 0.797, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:11.188+08:00 {b8b6769aa0c27c1822dfd35f03137f06} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2124020.208, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+sql: no rows in result set
+2025-11-30T18:39:11.188+08:00 {b8b6769aa0c27c1822dfd35f03137f06} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2.124, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:11.943+08:00 {68de281aa1c27c1824dfd35f654d32d2} 200 "GET http localhost:8080 /api/orderbook?symbol=ETH%2FUSDT HTTP/1.1" 0.736, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:11.947+08:00 {c8ce281aa1c27c1823dfd35f5e455a9e} 200 "GET http localhost:8080 /api/trades?symbol=ETH%2FUSDT HTTP/1.1" 0.740, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:42.009+08:00 {c88a303ca7c27c1825dfd35fed0561d8} 200 "POST http localhost:8080 /api/order HTTP/1.1" 4462318.042, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+sql: no rows in result set
+2025-11-30T18:39:42.011+08:00 {c88a303ca7c27c1825dfd35fed0561d8} 200 "POST http localhost:8080 /api/order HTTP/1.1" 4.462, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:42.829+08:00 {88911148a8c27c1826dfd35f464f9747} 200 "GET http localhost:8080 /api/orderbook?symbol=ETH%2FUSDT HTTP/1.1" 0.787, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:39:45.491+08:00 {f0a91848a8c27c1827dfd35f84498f93} 200 "GET http localhost:8080 /api/trades?symbol=ETH%2FUSDT HTTP/1.1" 3.449, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:43:11.013+08:00 {60cd512dd8c27c1829dfd35f8d948a12} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 3.261, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:43:11.014+08:00 {3058512dd8c27c1828dfd35f7aab4074} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.262, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:43:17.773+08:00 {2897b1cbd9c27c182adfd35fa90f0048} 200 "POST http localhost:8080 /api/order HTTP/1.1" 3070741.625, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+sql: no rows in result set
+2025-11-30T18:43:17.774+08:00 {2897b1cbd9c27c182adfd35fa90f0048} 200 "POST http localhost:8080 /api/order HTTP/1.1" 3.070, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:43:18.487+08:00 {08691484dac27c182cdfd35f369f315c} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.690, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:43:18.492+08:00 {78bc0a84dac27c182bdfd35f41dabcf2} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.692, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T18:46:16.024+08:00 pid[3289]: all servers shutdown
+2025-11-30T18:46:42.772+08:00 {50d8ee9a09c37c18b227320e2c55aacc} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2728751.625, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户失败，请稍后重试
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T18:52:57.658+08:00 {d0c5203660c37c18563ab34491579eb3} 200 "POST http localhost:8080 /api/order HTTP/1.1" 5642836.959, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:02:56.387+08:00 {10db515fecc37c18100f10417eaf031c} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2386081.250, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:02:56.389+08:00 {10db515fecc37c18100f10417eaf031c} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2.386, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:03:54.801+08:00 {98f62c87fac37c18120f104146c5c310} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:03:58.031+08:00 {0037c889fac37c18130f104129f90500} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.189, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:03:59.071+08:00 {e006a849fbc37c18140f10418ed169fe} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 1.009, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:07.078+08:00 {a8de0b5dfdc37c18150f1041ca62e110} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:07.803+08:00 {d8ba3964fdc37c18160f10410b4a1d64} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.726, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:08.819+08:00 {5802e091fdc37c18170f10419d1fe9b1} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.956, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:28.606+08:00 {a061376602c47c18180f1041f8780963} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:31.632+08:00 {c0a1901a03c47c181a0f10417829de55} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:31.922+08:00 {d004d76602c47c18190f10418f789f42} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.306, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:32.889+08:00 {104ff32d03c47c181b0f10414fb67c68} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.931, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:34.638+08:00 {c88ebfcd03c47c181d0f1041c7e9fdd9} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:35.512+08:00 {f02ebf6503c47c181c0f10416b3b6fbb} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2617852.833, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:04:35.513+08:00 {f02ebf6503c47c181c0f10416b3b6fbb} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2.617, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:37.646+08:00 {780b118104c47c181e0f10416a3345c4} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:40.656+08:00 {4095743405c47c181f0f1041301f7b2d} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:04:43.664+08:00 {082cc1e705c47c18200f10414198b9d4} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:19.674+08:00 {20ad124a0ec47c18210f1041acac1e12} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:23.052+08:00 {f0a09e4f0ec47c18220f10416d557506} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.286, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:24.435+08:00 {788be2650fc47c18230f1041ffb8a4b5} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:25.126+08:00 {a88bb1660fc47c18240f1041f5eaf730} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.677, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:26.054+08:00 {908158910fc47c18250f1041a4dbd93f} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.891, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:27.467+08:00 {f076a11a10c47c18260f104184b7fe9f} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:30.471+08:00 {e820abcd10c47c18280f10419dddf032} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:31.988+08:00 {185a4bb510c47c18270f1041cd962e85} 400 "POST http localhost:8080 /api/order HTTP/1.1" 1925433.833, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:05:31.990+08:00 {185a4bb510c47c18270f1041cd962e85} 400 "POST http localhost:8080 /api/order HTTP/1.1" 1.925, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:33.478+08:00 {f8cadd8011c47c18290f10418c2832d5} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:36.491+08:00 {30f87d3412c47c182a0f1041c5840413} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:05:39.509+08:00 {086e53e812c47c182b0f104194002621} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:11.683+08:00 {40f018661ac47c182c0f1041310a4269} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.001, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:15.148+08:00 {8813a3661ac47c182d0f10410ec8c762} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.455, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:16.170+08:00 {1077f1351bc47c182e0f10413ce253bd} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 1.000, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:21.401+08:00 {984553a91cc47c182f0f1041e8b34485} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:22.116+08:00 {f01b1aaa1cc47c18300f1041403f3c64} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.702, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:23.237+08:00 {9065afd51cc47c18310f104176f4fd47} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 1.092, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:24.436+08:00 {f8d3365e1dc47c18320f1041cb9333c1} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:27.443+08:00 {a8696f111ec47c18340f1041e60cc3fb} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:28.560+08:00 {887944de1dc47c18330f1041245490a6} 400 "POST http localhost:8080 /api/order HTTP/1.1" 1975413.042, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:06:28.560+08:00 {887944de1dc47c18330f1041245490a6} 400 "POST http localhost:8080 /api/order HTTP/1.1" 1.975, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:30.449+08:00 {d80e9bc41ec47c18350f104124d3b304} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:33.458+08:00 {2871f3771fc47c18360f1041f47ea216} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:06:36.464+08:00 {b859262b20c47c18370f10415563db23} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:26.076+08:00 {105733b82bc47c18380f10413292331d} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:29.497+08:00 {a0109db92bc47c18390f104141268d04} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.398, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:30.436+08:00 {a02da98a2cc47c183a0f104130a05a58} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.829, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:47.839+08:00 {b85562c930c47c183b0f1041b62321a1} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.005, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:48.638+08:00 {d8ebd3c930c47c183c0f1041e711e123} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.792, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:49.663+08:00 {e0cb3dfa30c47c183d0f1041161f55d6} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 1.005, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:50.866+08:00 {982ddc7d31c47c183e0f1041a74ebc9d} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:53.870+08:00 {185ce83032c47c183f0f1041a0943e40} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:56.877+08:00 {285f21e432c47c18410f1041424a8a1e} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:56.928+08:00 {d82b5d5932c47c18400f104106a6b205} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2379592.291, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:07:56.928+08:00 {d82b5d5932c47c18400f104106a6b205} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2.379, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:07:59.884+08:00 {103f5a9733c47c18420f104159da8b3a} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:08:02.900+08:00 {b006164b34c47c18430f1041d48f35ea} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.002, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:09:18.543+08:00 {8869c5d244c47c18440f10417a6f6da9} 400 "POST http localhost:8080 /api/order HTTP/1.1" 4647784.375, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:09:18.543+08:00 {8869c5d244c47c18440f10417a6f6da9} 400 "POST http localhost:8080 /api/order HTTP/1.1" 4.647, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:10:04.878+08:00 {40c689b150c47c18450f10417de565f6} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.001, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:10:08.150+08:00 {b021b4b650c47c18460f104134fcdee7} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.186, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:10:09.074+08:00 {68b5117b51c47c18470f1041f7b4fd71} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.816, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:12.480+08:00 {08c2f36e60c47c18480f10416e9dc6c8} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.001, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:15.681+08:00 {c0d0ae6f60c47c18490f104163988f72} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 3.189, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:16.713+08:00 {18f1893461c47c184a0f10415a799960} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.919, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:36.590+08:00 {b04c050c66c47c184b0f10410588668b} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:37.273+08:00 {d044ba0c66c47c184c0f10413f074857} 200 "GET http localhost:8080 /api/orderbook?symbol=BTC%2FUSDT HTTP/1.1" 0.672, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:38.222+08:00 {40ab193666c47c184d0f1041d9304023} 200 "GET http localhost:8080 /api/trades?symbol=BTC%2FUSDT HTTP/1.1" 0.927, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:39.623+08:00 {98efd3c066c47c184e0f1041d0e39279} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:42.627+08:00 {983ee57367c47c18500f104119d1f823} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:44.462+08:00 {289e235567c47c184f0f10413390c962} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2351134.916, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-11-30T19:11:44.463+08:00 {289e235567c47c184f0f10413390c962} 400 "POST http localhost:8080 /api/order HTTP/1.1" 2.351, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:45.634+08:00 {50201f2768c47c18510f10411787b6a3} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:48.643+08:00 {a0b86eda68c47c18520f10415323957e} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:11:51.648+08:00 {20b0988d69c47c18530f104115239a52} 404 "GET http localhost:8080 /ws HTTP/1.1" 0.000, ::1, "", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T19:13:25.721+08:00 pid[4108]: all servers shutdown
+2025-11-30T19:13:42.941+08:00 {c097b2d282c47c18b1f4d80551d33da4} 200 "POST http localhost:8080 /api/order HTTP/1.1" 2759841.791, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", -1, "", ""
+Stack:
+1. 查询账户没有USDT余额，请充值USDT
+   1).  cex-exchange/internal/service.(*orderImpl).PlaceOrder.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:95
+   2).  cex-exchange/internal/service.(*orderImpl).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/order.go:80
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:35
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
