@@ -91,35 +91,69 @@
     <el-col :span="16" class="scrollable-col">
       <el-card class="glass-panel mb-20">
         <template #header>
-          <h3 class="card-title">Order Book</h3>
+          <div class="flex-between">
+            <h3 class="card-title">Order Book</h3>
+            <el-tag size="small" type="info">{{ orderForm.symbol }}</el-tag>
+          </div>
         </template>
         <el-row :gutter="20">
+          <!-- 买单（Bids） -->
           <el-col :span="12">
-            <div class="book-header text-success">Bids (Buy)</div>
-            <el-table :data="orderbook.bids" size="small" height="300" :show-header="false" class="order-book-table">
-              <el-table-column prop="price" label="Price" align="left">
+            <div class="book-header">
+              <span class="text-success">Bids (Buy)</span>
+            </div>
+            <el-table 
+              :data="orderbook.bids" 
+              size="small" 
+              height="300" 
+              :show-header="true" 
+              class="order-book-table"
+              @row-click="handleBidClick"
+            >
+              <el-table-column label="Price (USDT)" width="120" align="left">
                 <template #default="{ row }">
-                  <span class="text-success price-text">{{ row.price }}</span>
+                  <span class="text-success price-text clickable">{{ formatPrice(row.price) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="amount" label="Amount" align="right">
+              <el-table-column label="Amount" width="100" align="right">
                 <template #default="{ row }">
-                  <span class="amount-text">{{ row.amount }}</span>
+                  <span class="amount-text">{{ formatAmount(row.amount) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Total (USDT)" align="right">
+                <template #default="{ row }">
+                  <span class="total-text">{{ formatTotal(row.price, row.amount) }}</span>
                 </template>
               </el-table-column>
             </el-table>
           </el-col>
+          
+          <!-- 卖单（Asks） -->
           <el-col :span="12">
-            <div class="book-header text-danger">Asks (Sell)</div>
-            <el-table :data="orderbook.asks" size="small" height="300" :show-header="false" class="order-book-table">
-              <el-table-column prop="price" label="Price" align="left">
+            <div class="book-header">
+              <span class="text-danger">Asks (Sell)</span>
+            </div>
+            <el-table 
+              :data="orderbook.asks" 
+              size="small" 
+              height="300" 
+              :show-header="true" 
+              class="order-book-table"
+              @row-click="handleAskClick"
+            >
+              <el-table-column label="Price (USDT)" width="120" align="left">
                 <template #default="{ row }">
-                  <span class="text-danger price-text">{{ row.price }}</span>
+                  <span class="text-danger price-text clickable">{{ formatPrice(row.price) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="amount" label="Amount" align="right">
+              <el-table-column label="Amount" width="100" align="right">
                 <template #default="{ row }">
-                  <span class="amount-text">{{ row.amount }}</span>
+                  <span class="amount-text">{{ formatAmount(row.amount) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Total (USDT)" align="right">
+                <template #default="{ row }">
+                  <span class="total-text">{{ formatTotal(row.price, row.amount) }}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -129,22 +163,43 @@
       
       <el-card class="glass-panel">
         <template #header>
-          <h3 class="card-title">Recent Trades</h3>
+          <div class="flex-between">
+            <h3 class="card-title">Recent Trades</h3>
+            <el-tag size="small" type="success">{{ trades.length }} trades</el-tag>
+          </div>
         </template>
         <el-table :data="trades" size="small" height="200" class="trades-table">
-          <el-table-column prop="created_at" label="Time" width="120">
+          <el-table-column label="Time" width="100">
             <template #default="scope">
-              <span class="text-muted">{{ formatTime(scope.row.created_at) }}</span>
+              <span class="text-muted time-text">{{ formatTime(scope.row.created_at) }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="Price">
+          <el-table-column label="Side" width="80" align="center">
             <template #default="{ row }">
-              <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'" class="price-text">{{ row.price }}</span>
+              <el-tag 
+                :type="row.side === 'buy' ? 'success' : 'danger'" 
+                size="small" 
+                effect="dark"
+              >
+                {{ row.side === 'buy' ? '买入' : '卖出' }}
+              </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="amount" label="Amount" align="right">
+          <el-table-column label="Price (USDT)" width="120" align="right">
             <template #default="{ row }">
-              <span class="amount-text">{{ row.amount }}</span>
+              <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'" class="price-text">
+                {{ formatPrice(row.price) }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="Amount" width="100" align="right">
+            <template #default="{ row }">
+              <span class="amount-text">{{ formatAmount(row.amount) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="Total (USDT)" align="right">
+            <template #default="{ row }">
+              <span class="total-text">{{ formatTotal(row.price, row.amount) }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -395,6 +450,45 @@ const placeOrder = async () => {
   }
 }
 
+// 格式化价格（保留2位小数）
+const formatPrice = (price) => {
+  if (!price || price === '' || isNaN(price)) return '--'
+  const num = parseFloat(price)
+  return isNaN(num) ? '--' : num.toFixed(2)
+}
+
+// 格式化数量（保留4位小数）
+const formatAmount = (amount) => {
+  if (!amount || amount === '' || isNaN(amount)) return '--'
+  const num = parseFloat(amount)
+  return isNaN(num) ? '--' : num.toFixed(4)
+}
+
+// 格式化总额
+const formatTotal = (price, amount) => {
+  if (!price || !amount || isNaN(price) || isNaN(amount)) return '--'
+  const total = parseFloat(price) * parseFloat(amount)
+  return isNaN(total) ? '--' : total.toFixed(2)
+}
+
+// 点击买单价格，自动填充到表单
+const handleBidClick = (row) => {
+  if (orderForm.value.type === 'limit') {
+    orderForm.value.price = row.price
+    orderForm.value.side = 'sell' // 点击买单，说明用户想卖
+    ElMessage.info(`已选择卖出价格: ${row.price}`)
+  }
+}
+
+// 点击卖单价格，自动填充到表单
+const handleAskClick = (row) => {
+  if (orderForm.value.type === 'limit') {
+    orderForm.value.price = row.price
+    orderForm.value.side = 'buy' // 点击卖单，说明用户想买
+    ElMessage.info(`已选择买入价格: ${row.price}`)
+  }
+}
+
 onMounted(async () => {
   // 连接WebSocket
   wsClient.connect()
@@ -593,11 +687,13 @@ onUnmounted(() => {
 
 /* 订单簿样式 */
 .book-header {
-  padding: 8px 12px;
+  padding: 12px;
   font-weight: 600;
-  font-size: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  margin-bottom: 4px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px 4px 0 0;
 }
 
 .order-book-table, .trades-table {
@@ -609,24 +705,63 @@ onUnmounted(() => {
   background: transparent !important;
 }
 
+.order-book-table :deep(th) {
+  background: rgba(255, 255, 255, 0.05) !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  font-size: 11px !important;
+  padding: 8px 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .order-book-table :deep(td), .trades-table :deep(td) {
   border-bottom: none !important;
-  padding: 4px 0 !important;
+  padding: 6px 0 !important;
+}
+
+.order-book-table :deep(tbody tr:hover) {
+  background: rgba(255, 255, 255, 0.05) !important;
+  cursor: pointer;
 }
 
 .price-text {
   font-family: 'Roboto Mono', monospace;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.price-text.clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.price-text.clickable:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .amount-text {
   color: var(--text-muted);
   font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+}
+
+.total-text {
+  color: var(--text-main);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .text-success { color: var(--success); }
 .text-danger { color: var(--danger); }
 .text-muted { color: var(--text-muted); }
+
+.time-text {
+  font-size: 11px;
+  font-family: 'Roboto Mono', monospace;
+}
 
 .glass-tag {
   background: rgba(255, 255, 255, 0.1);

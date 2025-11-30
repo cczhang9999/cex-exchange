@@ -1,0 +1,23 @@
+2025-11-30T12:40:54.947+08:00 {703e1e950eaf7c18201768529320e1ee} 200 "GET http localhost:8080 /api/my_trades HTTP/1.1" 23759518.958, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 52, "Database Operation Error", ""
+Stack:
+1. SELECT `id`,`buy_order_id`,`sell_order_id`,`symbol`,`price`,`amount`,`buy_user_id`,`sell_user_id`,`created_at` FROM `trades` WHERE (`buy_user_id`=1) OR (`sell_user_id`=1) ORDER BY `id` desc
+   1).  cex-exchange/internal/dao.(*TradeDao).ListByUserID
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/dao/trade.go:58
+   2).  cex-exchange/internal/service.(*tradeImpl).ListMyTrades
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/trade.go:20
+   3).  cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/order/order_v1.go:66
+   4).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   5).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   6).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. invalid connection
+
+2025-11-30T12:40:54.947+08:00 {703e1e950eaf7c18201768529320e1ee} 200 "GET http localhost:8080 /api/my_trades HTTP/1.1" 23.759, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T12:40:58.398+08:00 {88cf1a950eaf7c181f1768524433ac31} 200 "GET http localhost:8080 /api/my_orders HTTP/1.1" 27.210, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T12:41:03.282+08:00 {90947ce615af7c1821176852c082476c} 200 "GET http localhost:8080 /api/admin/users?page=1&limit=20 HTTP/1.1" 0.664, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T12:41:30.405+08:00 {9089824a16af7c182217685253d0c225} 200 "GET http localhost:8080 /api/my_orders HTTP/1.1" 26.112, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T12:41:30.827+08:00 {28c2a64b16af7c182317685248339cb1} 200 "GET http localhost:8080 /api/my_trades HTTP/1.1" 26.512, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T12:46:01.026+08:00 pid[96400]: all servers shutdown

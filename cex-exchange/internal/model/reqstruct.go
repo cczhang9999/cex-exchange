@@ -12,6 +12,6 @@ type PlaceOrderReq struct {
 	Symbol string `json:"symbol" v:"required#请输入交易对"`
 	Side   string `json:"side" v:"required|in:buy,sell#请选择方向|方向只能是buy或sell"`
 	Type   string `json:"type" v:"required|in:limit,market#请选择类型|类型只能是limit或market"`
-	Price  string `json:"price" v:"required#请输入金额"`
+	Price  string `json:"price"`
 	Amount string `json:"amount" v:"required#请输入数量"`
 }

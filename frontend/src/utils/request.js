@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useUserStore } from '../stores'
 
 const request = axios.create({
-  timeout: 5000
+  timeout: 30000 // 30秒超时
 })
 
 // Request interceptor

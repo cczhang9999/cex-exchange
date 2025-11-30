@@ -7,6 +7,7 @@ import (
 	"cex-exchange/internal/model"
 	"cex-exchange/internal/service"
 
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 )
 
@@ -21,9 +22,22 @@ type PlaceOrderRes struct {
 }
 
 func (c *ControllerV1) PlaceOrder(ctx context.Context, req *model.PlaceOrderReq) (res *PlaceOrderRes, err error) {
-	orderId,err:=service.Order.PlaceOrder(ctx, req)
-	return &PlaceOrderRes{orderId},err	
+	// 验证数量
+	if req.Amount == "" {
+		return nil, gerror.New("请输入数量")
+	}
 
+	// 限价单需要验证价格
+	if req.Type == "limit" && req.Price == "" {
+		return nil, gerror.New("请输入价格")
+	}
+
+	orderId, err := service.Order.PlaceOrder(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PlaceOrderRes{OrderID: orderId}, nil
 }
 
 type ListMyOrdersReq struct {

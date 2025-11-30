@@ -24,10 +24,14 @@ database:
 
 redis:
   default:
-    address: "127.0.0.1:6379"
+    address: "194.164.194.118:9502"
     db: 0
-    pass: ""
+    pass: "pass123editmelol"
     idleTimeout: 600
+    dialTimeout: 10s
+    readTimeout: 10s
+    writeTimeout: 10s
+    protocol: 2
 
 jwt:
   secret: "cex-exchange-secret-key-2024"

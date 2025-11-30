@@ -1,6 +1,10 @@
 package boot
 
 import (
+	"cex-exchange/internal/service"
+
+	_ "cex-exchange/internal/service"
+
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcfg"
@@ -31,4 +35,7 @@ func init() {
 	} else {
 		g.Log().Info(ctx, "✅ Database connected successfully!")
 	}
+
+	// 初始化 Redis
+	service.Redis.Init()
 }
