@@ -150,7 +150,7 @@
           <el-table-column prop="updated_at" label="更新时间" />
           <el-table-column label="操作" width="200">
             <template #default="{ row }">
-              <el-button type="primary" size="small" @click="adjustBalance(row)">调整余额</el-button>
+              <el-button type="primary" size="small" @click="openAdjustBalance(row)">调整余额</el-button>
               <el-button type="success" size="small" @click="addFundsToAccount(row)">添加资金</el-button>
             </template>
           </el-table-column>
@@ -257,8 +257,9 @@
 import { ref, onMounted } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import axios from 'axios'
 
-import { getUsers } from '../api/api'
+import { getUsers ,addFunds,getAdminAccounts,getOrders,adjustBalance,cancelAadminOrder} from '../api/api'
 
 // 当前活跃的标签页
 const activeTab = ref('users')
@@ -375,7 +376,7 @@ const toggleUserStatus = async (user) => {
     
     await ElMessageBox.confirm(`确定要${actionText}用户 ${user.username} 吗？`, '确认操作')
     
-    await axios.post(`/api/admin/users/${user.id}/${action}`)
+    await blockUser(`${user.id}/${action}`)
     ElMessage.success(`${actionText}成功`)
     fetchUsers()
   } catch (error) {
@@ -402,9 +403,9 @@ const fetchOrders = async () => {
     if (orderStatusFilter.value) params.status = orderStatusFilter.value
     if (orderSymbolFilter.value) params.symbol = orderSymbolFilter.value
     
-    const { data } = await axios.get('/api/admin/orders', { params })
-    orders.value = data.orders || data
-    orderTotal.value = data.total || 0
+    const { data } = await getOrders({ params })
+    orders.value = data.data.orders || data
+    orderTotal.value = data.data.total || 0
   } catch (error) {
     ElMessage.error('获取订单列表失败')
   } finally {
@@ -424,7 +425,7 @@ const resetOrderFilters = () => {
 const cancelOrder = async (order) => {
   try {
     await ElMessageBox.confirm(`确定要取消订单 ${order.id} 吗？`, '确认操作')
-    await axios.post(`/api/admin/orders/${order.id}/cancel`)
+    await  cancelAadminOrder(order.id)
     ElMessage.success('订单取消成功')
     fetchOrders()
   } catch (error) {
@@ -445,9 +446,9 @@ const fetchAccounts = async () => {
     if (accountUserFilter.value) params.user_id = accountUserFilter.value
     if (accountAssetFilter.value) params.asset = accountAssetFilter.value
     
-    const { data } = await axios.get('/api/admin/accounts', { params })
-    accounts.value = data.accounts || data
-    accountTotal.value = data.total || 0
+    const { data } = await getAdminAccounts({ params })
+    accounts.value = data.data.accounts || data
+    accountTotal.value = data.data.total || 0
   } catch (error) {
     ElMessage.error('获取账户列表失败')
   } finally {
@@ -464,7 +465,7 @@ const resetAccountFilters = () => {
 }
 
 // 调整余额
-const adjustBalance = (account) => {
+const openAdjustBalance = (account) => {
   adjustForm.value = {
     user_id: account.user_id,
     asset: account.asset,
@@ -479,7 +480,7 @@ const adjustBalance = (account) => {
 // 确认调整余额
 const confirmAdjustBalance = async () => {
   try {
-    await axios.post('/api/admin/accounts/adjust', adjustForm.value)
+    await adjustBalance(adjustForm.value)
     ElMessage.success('余额调整成功')
     showAdjustBalance.value = false
     fetchAccounts()
@@ -552,7 +553,7 @@ const confirmAddFunds = async () => {
     // 表单验证
     await addFundsFormRef.value.validate()
     
-    await axios.post('/api/admin/accounts/add-funds', addFundsForm.value)
+    await addFunds(addFundsForm.value) 
     ElMessage.success('资金添加成功')
     showAddFunds.value = false
     fetchAccounts()

@@ -19,3 +19,24 @@ export const getMyOrders = () => request.get('/api/my_orders')
 export const getMyTrades = () => request.get('/api/my_trades') 
 // 获取用户列表
 export const getUsers = (params) => request.get('/api/admin/users', params)
+// 获取用户资产
+export const getAccounts = () => request.get('/api/accounts')
+
+// 充值
+export const deposit = (form) => request.post('/api/deposit', form)
+
+// 提现
+export const withdraw = (form) => request.post('/api/withdraw', form)
+
+// 添加资金
+export const addFunds = (form) => request.post('/api/admin/accounts/add-funds', form)
+
+export const blockUser = (id) => request.post(`/api/admin/users/${id}/block`)   
+
+export const getOrders = (params) => request.get('/api/admin/orders', params)
+
+export const adjustBalance = (form) => request.post('/api/admin/accounts/adjust', form)
+
+export const cancelAadminOrder = (id) => request.post(`/api/admin/orders/${id}/cancel`)
+
+export const getAdminAccounts = (params) => request.get('/api/admin/accounts', params)

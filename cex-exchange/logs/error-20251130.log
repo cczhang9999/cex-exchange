@@ -21,3 +21,95 @@ Stack:
 2025-11-30T12:41:30.405+08:00 {9089824a16af7c182217685253d0c225} 200 "GET http localhost:8080 /api/my_orders HTTP/1.1" 26.112, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
 2025-11-30T12:41:30.827+08:00 {28c2a64b16af7c182317685248339cb1} 200 "GET http localhost:8080 /api/my_trades HTTP/1.1" 26.512, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
 2025-11-30T12:46:01.026+08:00 pid[96400]: all servers shutdown
+2025-11-30T13:40:19.736+08:00 {4090f31a52b27c18a007dc3282cb271f} 200 "POST http localhost:8080 /api/deposit HTTP/1.1" 3931.375, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 51, "Validation Failed", ""
+Stack:
+请输入币种
+2025-11-30T13:40:19.737+08:00 {4090f31a52b27c18a007dc3282cb271f} 200 "POST http localhost:8080 /api/deposit HTTP/1.1" 0.003, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T13:40:20.407+08:00 {9051951c52b27c18a107dc3274d9c33f} 200 "GET http localhost:8080 /api/accounts HTTP/1.1" 0.648, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T13:40:30.420+08:00 {e02afd9754b27c18a207dc3270e5aa27} 200 "POST http localhost:8080 /api/deposit HTTP/1.1" 1158.584, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 51, "Validation Failed", ""
+Stack:
+请输入币种
+2025-11-30T13:40:30.421+08:00 {e02afd9754b27c18a207dc3270e5aa27} 200 "POST http localhost:8080 /api/deposit HTTP/1.1" 0.001, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T13:40:31.104+08:00 {687bd89854b27c18a307dc3278e6d39b} 200 "GET http localhost:8080 /api/accounts HTTP/1.1" 0.670, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T13:42:09.174+08:00 pid[97534]: all servers shutdown
+2025-11-30T13:42:27.016+08:00 {b0279fbd6fb27c18acffef7019dba37a} 200 "POST http localhost:8080 /api/deposit HTTP/1.1" 3156.791, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 51, "Validation Failed", ""
+Stack:
+请输入币种
+2025-11-30T16:57:55.852+08:00 {d0642a0d19bd7c18bb44cc5fcd3bb0f5} 200 "POST http localhost:8080 /api/admin/accounts/add-funds HTTP/1.1" 6537119.375, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 52, "Database Operation Error", ""
+Stack:
+1. INSERT INTO `account_flows`(`user_id`,`account_id`,`asset`,`change_type`,`amount`,`balance`,`remark`,`created_at`) VALUES(1,2,'BTC','admin_add','1','1','管理员添加资金: fff','2025-11-30 16:57:54') 
+   1).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:208
+   2).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:157
+   3).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   4).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   5).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. Error 1366 (22007): Incorrect string value: '\xE7\xAE\xA1\xE7\x90\x86...' for column `test`.`account_flows`.`remark` at row 1
+
+2025-11-30T16:57:55.853+08:00 {d0642a0d19bd7c18bb44cc5fcd3bb0f5} 200 "POST http localhost:8080 /api/admin/accounts/add-funds HTTP/1.1" 6.537, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T16:57:56.529+08:00 {f84291941abd7c18bc44cc5f82c52343} 200 "GET http localhost:8080 /api/admin/accounts?page=1&limit=20 HTTP/1.1" 0.648, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T16:58:47.675+08:00 {b0c7120d25bd7c18bd44cc5f5b404a9d} 200 "POST http localhost:8080 /api/admin/accounts/add-funds HTTP/1.1" 6821906.791, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 52, "Database Operation Error", ""
+Stack:
+1. INSERT INTO `account_flows`(`user_id`,`account_id`,`asset`,`change_type`,`amount`,`balance`,`remark`,`created_at`) VALUES(1,3,'BTC','admin_add','1','1','管理员添加资金: 1','2025-11-30 16:58:46') 
+   1).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:208
+   2).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:157
+   3).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   4).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   5).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. Error 1366 (22007): Incorrect string value: '\xE7\xAE\xA1\xE7\x90\x86...' for column `test`.`account_flows`.`remark` at row 1
+
+2025-11-30T16:58:47.675+08:00 {b0c7120d25bd7c18bd44cc5f5b404a9d} 200 "POST http localhost:8080 /api/admin/accounts/add-funds HTTP/1.1" 6.821, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T16:58:48.357+08:00 {384130a626bd7c18be44cc5f8240d635} 200 "GET http localhost:8080 /api/admin/accounts?page=1&limit=20 HTTP/1.1" 0.640, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+2025-11-30T17:04:54.221+08:00 pid[99887]: all servers shutdown
+2025-11-30T17:05:19.678+08:00 {508c98e480bd7c18faa5ef45a1d7834d} 200 "POST http localhost:8080 /api/admin/accounts/add-funds HTTP/1.1" 4370701.583, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 52, "Database Operation Error", ""
+Stack:
+1. INSERT INTO `account_flows`(`user_id`,`account_id`,`asset`,`change_type`,`amount`,`balance`,`remark`,`created_at`) VALUES(1,4,'BTC','admin_add','1','1','管理员添加资金: 1','2025-11-30 17:05:18') 
+   1).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:208
+   2).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:157
+   3).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   4).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   5).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. Error 1366 (22007): Incorrect string value: '\xE7\xAE\xA1\xE7\x90\x86...' for column `test`.`account_flows`.`remark` at row 1
+
+2025-11-30T17:11:35.784+08:00 {38a62d32babd7c183282bd4774bde69e} 200 "POST http localhost:8080 /api/admin/accounts/add-funds HTTP/1.1" 134364629.250, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 52, "Database Operation Error", ""
+Stack:
+1. ROLLBACK
+   1).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:157
+   2).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   3).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   4).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. invalid connection
+
+2025-11-30T17:19:03.290+08:00 {f8db83623dbe7c183dd456074f93f7c4} 200 "POST http localhost:8080 /api/admin/accounts/add-funds HTTP/1.1" 18413637.708, ::1, "http://localhost:5173/", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36", 52, "Database Operation Error", ""
+Stack:
+1. INSERT INTO `account_flows`(`user_id`,`account_id`,`asset`,`change_type`,`amount`,`balance`,`ref_id`,`remark`,`created_at`) VALUES(1,7,'BTC','admin_add','1','1',0,'管理员添加资金:1','2025-11-30 17:19:01') 
+   1).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds.func1
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:211
+   2).  cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/controller/admin/admin_v1.go:157
+   3).  cex-exchange/internal/middleware.Auth
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:59
+   4).  cex-exchange/internal/middleware.ResponseHandler
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+   5).  cex-exchange/internal/middleware.CORS
+        /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+2. Error 1366 (22007): Incorrect string value: '\xE7\xAE\xA1\xE7\x90\x86...' for column `test`.`account_flows`.`remark` at row 1
+

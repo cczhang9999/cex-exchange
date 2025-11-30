@@ -41,7 +41,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-
+import { deposit, getAccounts,withdraw } from '../api/api'
 const assets = ref([])
 const showDeposit = ref(false)
 const showWithdraw = ref(false)
@@ -49,8 +49,8 @@ const depositForm = ref({ asset: '', amount: '' })
 const withdrawForm = ref({ asset: '', amount: '' })
 
 const fetchAssets = async () => {
-  const { data } = await axios.get('/api/accounts')
-  assets.value = data
+  const { data } = await getAccounts()
+  assets.value = data.data
 }
 fetchAssets()
 
@@ -70,7 +70,7 @@ const doDeposit = async () => {
     return;
   }
   try {
-    const response = await axios.post('/api/deposit', {
+    const response = await deposit({
       asset: depositForm.value.asset,
       amount: depositForm.value.amount.toString()
     })
@@ -89,7 +89,7 @@ const doWithdraw = async () => {
     return;
   }
   try {
-    const response = await axios.post('/api/withdraw', {
+    const response = await withdraw({
       asset: withdrawForm.value.asset,
       amount: withdrawForm.value.amount.toString()
     })
