@@ -24,31 +24,28 @@ type ListUsersReq struct {
 }
 
 type ListUsersRes struct {
-	Users []model.User `json:"users"`
-	Total int          `json:"total"`
+	Users []g.Map `json:"users"`
+	Total int     `json:"total"`
 }
 
 func (c *ControllerV1) ListUsers(ctx context.Context, req *ListUsersReq) (res *ListUsersRes, err error) {
-	var users []model.User
-
 	// 查询总数
 	total, err := g.Model("users").Ctx(ctx).Count()
 	if err != nil {
 		return nil, err
 	}
 
-	// 分页查询
-	err = g.Model("users").Ctx(ctx).
+	// 分页查询，使用 All() 返回 Result
+	result, err := g.Model("users").Ctx(ctx).
 		Page(req.Page, req.Limit).
-		Order("id desc").
-		Scan(&users)
+		All()
 
 	if err != nil {
 		return nil, err
 	}
 
 	return &ListUsersRes{
-		Users: users,
+		Users: result.List(),
 		Total: total,
 	}, nil
 }

@@ -21,8 +21,7 @@
         
         <el-table :data="users" v-loading="userLoading" style="width: 100%">
           <el-table-column prop="id" label="ID" width="80" />
-          <el-table-column prop="username" label="用户名" />
-          <el-table-column prop="email" label="邮箱" />
+          <el-table-column prop="email" label="邮箱/用户名" />
           <el-table-column prop="phone" label="手机号" />
           <el-table-column prop="is_blocked" label="状态">
             <template #default="{ row }">
@@ -353,6 +352,8 @@ const fetchUsers = async () => {
   
     //const { data } = await axios.get('/api/admin/users', { params })
     const { data } = await getUsers({ params})
+    console.log('用户列表响应:', data)
+    console.log('用户数据:', data.data.users)
     users.value = data.data.users || data
     userTotal.value = data.data.total || 0
   } catch (error) {
