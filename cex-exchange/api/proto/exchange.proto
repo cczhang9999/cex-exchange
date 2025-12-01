@@ -1,0 +1,252 @@
+syntax = "proto3";
+
+package exchange;
+
+option go_package = "cex-exchange/api/proto/exchange";
+
+// 交易所 gRPC 服务定义
+service ExchangeService {
+  // 用户认证
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  
+  // 订单管理
+  rpc PlaceOrder(PlaceOrderRequest) returns (PlaceOrderResponse);
+  rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+  rpc GetMyOrders(GetMyOrdersRequest) returns (GetMyOrdersResponse);
+  rpc GetOrderBook(GetOrderBookRequest) returns (GetOrderBookResponse);
+  
+  // 账户管理
+  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
+  rpc Deposit(DepositRequest) returns (DepositResponse);
+  rpc Withdraw(WithdrawRequest) returns (WithdrawResponse);
+  
+  // 市场数据
+  rpc GetTicker(GetTickerRequest) returns (GetTickerResponse);
+  rpc GetKlines(GetKlinesRequest) returns (GetKlinesResponse);
+  rpc GetRecentTrades(GetRecentTradesRequest) returns (GetRecentTradesResponse);
+  
+  // 实时数据流（服务端流式）
+  rpc SubscribeOrderBook(SubscribeOrderBookRequest) returns (stream OrderBookUpdate);
+  rpc SubscribeTrades(SubscribeTradesRequest) returns (stream TradeUpdate);
+}
+
+// ==================== 认证相关 ====================
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  string message = 2;
+  string token = 3;
+  uint64 user_id = 4;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+  uint64 user_id = 3;
+}
+
+// ==================== 订单相关 ====================
+message PlaceOrderRequest {
+  string symbol = 1;      // 交易对，如 "BTC/USDT"
+  string side = 2;        // "buy" 或 "sell"
+  string type = 3;        // "limit" 或 "market"
+  string price = 4;       // 价格（字符串，避免精度问题）
+  string amount = 5;      // 数量
+  string token = 6;       // 认证 token
+}
+
+message PlaceOrderResponse {
+  bool success = 1;
+  string message = 2;
+  int64 order_id = 3;
+}
+
+message CancelOrderRequest {
+  uint64 order_id = 1;
+  string token = 2;
+}
+
+message CancelOrderResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetMyOrdersRequest {
+  string symbol = 1;      // 可选，筛选特定交易对
+  string token = 2;
+}
+
+message GetMyOrdersResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Order orders = 3;
+}
+
+message Order {
+  uint64 id = 1;
+  uint64 user_id = 2;
+  string symbol = 3;
+  string side = 4;
+  string type = 5;
+  string price = 6;
+  string amount = 7;
+  string filled = 8;
+  string status = 9;
+  int64 created_at = 10;
+  int64 updated_at = 11;
+}
+
+message GetOrderBookRequest {
+  string symbol = 1;
+  int32 depth = 2;        // 深度，默认 20
+}
+
+message GetOrderBookResponse {
+  bool success = 1;
+  string message = 2;
+  repeated PriceLevel bids = 3;  // 买单
+  repeated PriceLevel asks = 4;  // 卖单
+}
+
+message PriceLevel {
+  string price = 1;
+  string amount = 2;
+}
+
+// ==================== 账户相关 ====================
+message GetBalanceRequest {
+  string token = 1;
+}
+
+message GetBalanceResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Balance balances = 3;
+}
+
+message Balance {
+  string asset = 1;
+  string balance = 2;
+  string frozen = 3;
+}
+
+message DepositRequest {
+  string asset = 1;
+  string amount = 2;
+  string token = 3;
+}
+
+message DepositResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message WithdrawRequest {
+  string asset = 1;
+  string amount = 2;
+  string address = 3;
+  string token = 4;
+}
+
+message WithdrawResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// ==================== 市场数据相关 ====================
+message GetTickerRequest {
+  string symbol = 1;
+}
+
+message GetTickerResponse {
+  bool success = 1;
+  string message = 2;
+  Ticker ticker = 3;
+}
+
+message Ticker {
+  string symbol = 1;
+  string last_price = 2;
+  string high_24h = 3;
+  string low_24h = 4;
+  string volume_24h = 5;
+  string change_24h = 6;
+}
+
+message GetKlinesRequest {
+  string symbol = 1;
+  string interval = 2;    // "1m", "5m", "1h", "1d" 等
+  int64 start_time = 3;
+  int64 end_time = 4;
+  int32 limit = 5;
+}
+
+message GetKlinesResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Kline klines = 3;
+}
+
+message Kline {
+  int64 timestamp = 1;
+  string open = 2;
+  string high = 3;
+  string low = 4;
+  string close = 5;
+  string volume = 6;
+}
+
+message GetRecentTradesRequest {
+  string symbol = 1;
+  int32 limit = 2;
+}
+
+message GetRecentTradesResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Trade trades = 3;
+}
+
+message Trade {
+  uint64 id = 1;
+  string symbol = 2;
+  string price = 3;
+  string amount = 4;
+  string side = 5;
+  int64 timestamp = 6;
+}
+
+// ==================== 实时数据流 ====================
+message SubscribeOrderBookRequest {
+  string symbol = 1;
+}
+
+message OrderBookUpdate {
+  string symbol = 1;
+  repeated PriceLevel bids = 2;
+  repeated PriceLevel asks = 3;
+  int64 timestamp = 4;
+}
+
+message SubscribeTradesRequest {
+  string symbol = 1;
+}
+
+message TradeUpdate {
+  string symbol = 1;
+  string price = 2;
+  string amount = 3;
+  string side = 4;
+  int64 timestamp = 5;
+}

@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  # gRPC 服务器
+  grpc-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.grpc
+    container_name: cex-grpc-server
+    ports:
+      - "50051:50051"
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=root123
+      - DB_NAME=cex_exchange
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=your-secret-key-change-in-production
+      - JWT_EXPIRES=86400
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - cex-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "50051"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: cex-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=cex_exchange
+      - MYSQL_CHARACTER_SET_SERVER=utf8mb4
+      - MYSQL_COLLATION_SERVER=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db_schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - cex-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: cex-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - cex-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    command: redis-server --appendonly yes
+
+  # gRPC Web 代理（可选，用于浏览器访问）
+  grpc-web-proxy:
+    image: ghcr.io/grpc-ecosystem/grpc-web:latest
+    container_name: cex-grpc-web-proxy
+    ports:
+      - "8080:8080"
+    environment:
+      - BACKEND_ADDR=grpc-server:50051
+    depends_on:
+      - grpc-server
+    networks:
+      - cex-network
+    restart: unless-stopped
+    command:
+      - --backend_addr=grpc-server:50051
+      - --run_tls_server=false
+      - --allow_all_origins
+
+networks:
+  cex-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+  redis-data:
+    driver: local

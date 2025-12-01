@@ -624,12 +624,12 @@ onUnmounted(() => {
 
 .switch-item.active.buy-active {
   background: var(--success);
-  color: white;
+  color: #1e293b;
 }
 
 .switch-item.active.sell-active {
   background: var(--danger);
-  color: white;
+  color: #1e293b;
 }
 
 /* 输入框样式优化 */
@@ -674,7 +674,8 @@ onUnmounted(() => {
 
 .btn-buy {
   background: var(--success) !important;
-  color: white !important;
+  color: #1e293b !important;
+  font-weight: 700 !important;
 }
 
 .btn-buy:hover {
@@ -684,7 +685,8 @@ onUnmounted(() => {
 
 .btn-sell {
   background: var(--danger) !important;
-  color: white !important;
+  color: #1e293b !important;
+  font-weight: 700 !important;
 }
 
 .btn-sell:hover {

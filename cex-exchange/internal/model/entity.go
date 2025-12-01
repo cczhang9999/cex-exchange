@@ -78,6 +78,40 @@ type Kline struct {
 	Low       string      `json:"low"`
 	Close     string      `json:"close"`
 	Volume    string      `json:"volume"`
+	Timestamp int64       `json:"timestamp"`
 	CreatedAt *gtime.Time `json:"created_at"`
 	UpdatedAt *gtime.Time `json:"updated_at"`
+}
+
+// OrderBook 订单簿
+type OrderBook struct {
+	Symbol string       `json:"symbol"`
+	Bids   []PriceLevel `json:"bids"` // 买单
+	Asks   []PriceLevel `json:"asks"` // 卖单
+}
+
+// PriceLevel 价格档位
+type PriceLevel struct {
+	Price  string `json:"price"`
+	Amount string `json:"amount"`
+}
+
+// Ticker 行情
+type Ticker struct {
+	Symbol     string `json:"symbol"`
+	LastPrice  string `json:"last_price"`
+	High24h    string `json:"high_24h"`
+	Low24h     string `json:"low_24h"`
+	Volume24h  string `json:"volume_24h"`
+	Change24h  string `json:"change_24h"`
+}
+
+// TradeRecord 成交记录
+type TradeRecord struct {
+	ID        uint64 `json:"id"`
+	Symbol    string `json:"symbol"`
+	Price     string `json:"price"`
+	Amount    string `json:"amount"`
+	Side      string `json:"side"` // buy/sell
+	Timestamp int64  `json:"timestamp"`
 }

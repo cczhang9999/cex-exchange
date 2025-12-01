@@ -13,9 +13,10 @@ import (
 )
 
 type IAuth interface {
-	Register(ctx context.Context, username, password, email string) (string, error)
-	Login(ctx context.Context, username, password string) (string, error)
+	Register(ctx context.Context, username, password, email string) (uint64, error)
+	Login(ctx context.Context, username, password string) (string, uint64, error)
 	GenerateToken(ctx context.Context, uid uint64) (string, error)
+	ValidateToken(ctx context.Context, token string) (uint64, error)
 }
 
 type authImpl struct{}
@@ -23,20 +24,20 @@ type authImpl struct{}
 var Auth = &authImpl{}
 
 // Register 用户注册
-func (s *authImpl) Register(ctx context.Context, username, password, email string) (string, error) {
+func (s *authImpl) Register(ctx context.Context, username, password, email string) (uint64, error) {
 	// 检查用户名是否存在
 	exists, err := dao.User.Exists(ctx, username)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 	if exists {
-		return "", gerror.New("用户名已存在")
+		return 0, gerror.New("用户名已存在")
 	}
 	
 	// 密码加密
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 	
 	// 创建用户
@@ -47,39 +48,33 @@ func (s *authImpl) Register(ctx context.Context, username, password, email strin
 	})
 	
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 	
-	// 生成 token
-	token, err := s.GenerateToken(ctx, uid)
-	if err != nil {
-		return "", err
-	}
-	
-	return token, nil
+	return uid, nil
 }
 
 // Login 用户登录
-func (s *authImpl) Login(ctx context.Context, username, password string) (string, error) {
+func (s *authImpl) Login(ctx context.Context, username, password string) (string, uint64, error) {
 	// 查询用户
 	user, err := dao.User.GetByUsername(ctx, username)
 	if err != nil {
-		return "", gerror.New("用户名或密码错误")
+		return "", 0, gerror.New("用户名或密码错误")
 	}
 	
 	// 验证密码
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
-		return "", gerror.New("用户名或密码错误")
+		return "", 0, gerror.New("用户名或密码错误")
 	}
 	
 	// 生成 token
 	token, err := s.GenerateToken(ctx, user.ID)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 	
-	return token, nil
+	return token, user.ID, nil
 }
 
 // GenerateToken 生成 JWT token
@@ -94,4 +89,24 @@ func (s *authImpl) GenerateToken(ctx context.Context, uid uint64) (string, error
 	
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(secret))
+}
+
+// ValidateToken 验证 JWT token 并返回用户 ID
+func (s *authImpl) ValidateToken(ctx context.Context, tokenString string) (uint64, error) {
+	secret := g.Cfg().MustGet(ctx, "jwt.secret").String()
+	
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+	
+	if err != nil {
+		return 0, gerror.New("token 无效")
+	}
+	
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		uid := uint64(claims["uid"].(float64))
+		return uid, nil
+	}
+	
+	return 0, gerror.New("token 无效")
 }

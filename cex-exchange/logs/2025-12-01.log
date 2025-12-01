@@ -1,0 +1,74 @@
+2025-12-01T13:17:39.293+08:00 [INFO] {a845baeba9ff7c18af838713b920199c} Config path set to: manifest/config
+2025-12-01T13:17:45.508+08:00 [INFO] {a845baeba9ff7c18af838713b920199c} ✅ Database connected successfully!
+2025-12-01T13:17:49.277+08:00 [INFO] ✅ Redis connected successfully (v8)!
+2025-12-01T13:17:49.281+08:00 [INFO] openapi specification is disabled
+2025-12-01T13:17:49.281+08:00 [INFO] pid[24227]: http server started listening on [:8080]
+
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| ADDRESS | METHOD |             ROUTE             |                               HANDLER                               |    MIDDLEWARE     |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | ALL    | /*                            | cex-exchange/internal/middleware.ResponseHandler                    | GLOBAL MIDDLEWARE |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/accounts                 | cex-exchange/internal/controller/funds.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/accounts           | cex-exchange/internal/controller/admin.(*ControllerV1).ListAccounts | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/admin/accounts/add-funds | cex-exchange/internal/controller/admin.(*ControllerV1).AddFunds     | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/orders             | cex-exchange/internal/controller/admin.(*ControllerV1).ListOrders   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/admin/users              | cex-exchange/internal/controller/admin.(*ControllerV1).ListUsers    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/deposit                  | cex-exchange/internal/controller/funds.(*ControllerV1).Deposit      | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/login                    | cex-exchange/internal/controller/auth.(*ControllerV1).Login         |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_orders                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyOrders | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/my_trades                | cex-exchange/internal/controller/order.(*ControllerV1).ListMyTrades | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/order                    | cex-exchange/internal/controller/order.(*ControllerV1).PlaceOrder   | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/orderbook                | cex-exchange/internal/controller/trade.(*ControllerV1).GetOrderBook | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | POST   | /api/register                 | cex-exchange/internal/controller/auth.(*ControllerV1).Register      |                   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+| :8080   | GET    | /api/trades                   | cex-exchange/internal/controller/trade.(*ControllerV1).GetTrades    | middleware.Auth   |
+----------|--------|-------------------------------|---------------------------------------------------------------------|--------------------
+
+2025-12-01T13:18:08.070+08:00 [ERRO] {9073089fb0ff7c18b683871318f697a6} JWT Parse Error: Token is expired, Token Valid: false 
+Stack:
+1.  cex-exchange/internal/middleware.Auth
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:43
+2.  cex-exchange/internal/middleware.ResponseHandler
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+3.  cex-exchange/internal/middleware.CORS
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-12-01T13:19:10.838+08:00 [ERRO] {90194d3cbfff7c18b7838713f235b6c6} JWT Parse Error: Token is expired, Token Valid: false 
+Stack:
+1.  cex-exchange/internal/middleware.Auth
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:43
+2.  cex-exchange/internal/middleware.ResponseHandler
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+3.  cex-exchange/internal/middleware.CORS
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-12-01T13:19:10.838+08:00 [ERRO] {50d6523cbfff7c18b88387130ce5e705} JWT Parse Error: Token is expired, Token Valid: false 
+Stack:
+1.  cex-exchange/internal/middleware.Auth
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/auth.go:43
+2.  cex-exchange/internal/middleware.ResponseHandler
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:16
+3.  cex-exchange/internal/middleware.CORS
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/middleware/middleware.go:11
+
+2025-12-01T13:45:06.581+08:00 [WARN] {c07cca4c29017d18ba83871378c73c9f} Redis Get Error: redis: nil
+2025-12-01T13:45:06.582+08:00 [INFO] {c07cca4c29017d18ba83871378c73c9f} ⚠️ Cache Miss for user: 2
+2025-12-01T13:45:10.548+08:00 [INFO] {c07cca4c29017d18ba83871378c73c9f} ✅ Cache Set Success for user: 2
+2025-12-01T18:38:55.452+08:00 [WARN] {b8aaccd431117d18d483871305799037} Redis Get Error: redis: nil
+2025-12-01T18:38:55.453+08:00 [INFO] {b8aaccd431117d18d483871305799037} ⚠️ Cache Miss for user: 2
+2025-12-01T18:38:56.748+08:00 [INFO] {b8aaccd431117d18d483871305799037} ✅ Cache Set Success for user: 2
+2025-12-01T19:14:21.667+08:00 [WARN] {804ebee020137d18db83871338318ef2} Redis Get Error: redis: nil
+2025-12-01T19:14:21.668+08:00 [INFO] {804ebee020137d18db83871338318ef2} ⚠️ Cache Miss for user: 2
+2025-12-01T19:14:23.013+08:00 [INFO] {804ebee020137d18db83871338318ef2} ✅ Cache Set Success for user: 2

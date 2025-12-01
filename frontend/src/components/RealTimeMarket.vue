@@ -219,7 +219,8 @@ onMounted(() => {
   border-radius: 4px;
   font-size: 12px;
   background-color: #f56c6c;
-  color: white;
+  color: #1e293b;
+  font-weight: 600;
 }
 
 .status.connected {
@@ -292,7 +293,8 @@ onMounted(() => {
   padding: 2px 6px;
   border-radius: 3px;
   font-size: 12px;
-  color: white;
+  color: #1e293b;
+  font-weight: 600;
 }
 
 .trade-side.buy {
