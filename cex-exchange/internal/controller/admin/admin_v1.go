@@ -8,6 +8,8 @@ import (
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+
+	"cex-exchange/internal/service"
 )
 
 type ControllerV1 struct{}
@@ -224,5 +226,39 @@ func (c *ControllerV1) AddFunds(ctx context.Context, req *AddFundsReq) (res *Add
 	return &AddFundsRes{
 		Success: true,
 		Account: account,
+	}, nil
+}
+
+// CancelOrderReq 撤销订单请求
+type CancelOrderReq struct {
+	g.Meta `path:"/admin/orders/{id}/cancel" method:"post" tags:"Admin" summary:"撤销订单"`
+	ID     uint64 `json:"id" v:"required#请输入订单ID" in:"path"`
+}
+
+type CancelOrderRes struct {
+	Success bool `json:"success"`
+}
+
+func (c *ControllerV1) CancelOrder(ctx context.Context, req *CancelOrderReq) (res *CancelOrderRes, err error) {
+	// 1. 查询订单获取 UserID
+	var order model.Order
+	err = g.Model("orders").Ctx(ctx).Where("id", req.ID).Scan(&order)
+	if err != nil {
+		return nil, err
+	}
+	if order.ID == 0 {
+		return nil, gerror.New("订单不存在")
+	}
+
+	// 2. 调用服务层撤单
+	// 注意：这里借用 service.Order.CancelOrder，它会校验 UserID
+	// 因为我们传入的是订单真实的 UserID，所以校验会通过
+	err = service.Order.CancelOrder(ctx, order.UserID, req.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &CancelOrderRes{
+		Success: true,
 	}, nil
 }
