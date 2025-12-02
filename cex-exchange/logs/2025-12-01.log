@@ -72,3 +72,15 @@ Stack:
 2025-12-01T19:14:21.667+08:00 [WARN] {804ebee020137d18db83871338318ef2} Redis Get Error: redis: nil
 2025-12-01T19:14:21.668+08:00 [INFO] {804ebee020137d18db83871338318ef2} ⚠️ Cache Miss for user: 2
 2025-12-01T19:14:23.013+08:00 [INFO] {804ebee020137d18db83871338318ef2} ✅ Cache Set Success for user: 2
+2025-12-01T21:05:52.463+08:00 [INFO] {e81c2cdf36197d18fdadcb4993aee2b6} Config path set to: manifest/config
+2025-12-01T21:05:55.303+08:00 [INFO] {e81c2cdf36197d18fdadcb4993aee2b6} ✅ Database connected successfully!
+2025-12-01T21:05:56.771+08:00 [INFO] ✅ Redis connected successfully (v8)!
+2025-12-01T21:05:56.775+08:00 [INFO] {a00408e037197d18feadcb4911c20891} WebSocket管理器已启动
+2025-12-01T21:05:56.775+08:00 [INFO] {a00408e037197d18feadcb4911c20891} 行情数据推送已启动
+2025-12-01T21:05:56.776+08:00 [FATA] invalid handler: defined as "func(context.Context, *ghttp.Request)", but "func(*ghttp.Request)" or "func(context.Context, *BizReq)(*BizRes, error)" is required 
+Stack:
+1.  cex-exchange/internal/cmd.init.func1
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/cmd/cmd.go:66
+2.  main.main
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/main.go:12
+

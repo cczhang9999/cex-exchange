@@ -8,6 +8,7 @@ const routes = [
   { path: '/trade', component: () => import('./components/Trade.vue') },
   { path: '/orders', component: () => import('./components/Orders.vue') },
   { path: '/admin', component: () => import('./components/Admin.vue') },
+  { path: '/market', component: () => import('./components/RealTimeMarket.vue') },
 ]
 
 const router = createRouter({
