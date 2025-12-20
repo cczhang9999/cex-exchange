@@ -7,7 +7,8 @@ CREATE TABLE users (
     phone VARCHAR(32) UNIQUE COMMENT '手机号',
     status TINYINT DEFAULT 1 COMMENT '状态 1-正常 0-禁用',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT '删除时间'
 ) COMMENT='用户表';
 
 -- 资金账户表
@@ -19,6 +20,7 @@ CREATE TABLE accounts (
     frozen DECIMAL(32,16) NOT NULL DEFAULT 0 COMMENT '冻结余额',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT '删除时间',
     UNIQUE KEY uniq_user_asset (user_id, asset),
     FOREIGN KEY (user_id) REFERENCES users(id)
 ) COMMENT='资金账户表';
@@ -35,6 +37,8 @@ CREATE TABLE account_flows (
     ref_id BIGINT UNSIGNED COMMENT '关联业务ID',
     remark VARCHAR(255) COMMENT '备注',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT '删除时间',
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (account_id) REFERENCES accounts(id)
 ) COMMENT='资金流水表';
@@ -52,6 +56,7 @@ CREATE TABLE orders (
     status ENUM('open','partially_filled','filled','cancelled') NOT NULL DEFAULT 'open' COMMENT '订单状态',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT '删除时间',
     FOREIGN KEY (user_id) REFERENCES users(id)
 ) COMMENT='订单表';
 
@@ -66,6 +71,8 @@ CREATE TABLE trades (
     buy_user_id BIGINT UNSIGNED NOT NULL COMMENT '买方用户ID',
     sell_user_id BIGINT UNSIGNED NOT NULL COMMENT '卖方用户ID',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '成交时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT '删除时间',
     FOREIGN KEY (buy_order_id) REFERENCES orders(id),
     FOREIGN KEY (sell_order_id) REFERENCES orders(id)
 ) COMMENT='成交表';
@@ -82,5 +89,8 @@ CREATE TABLE klines (
     volume DECIMAL(32,16) NOT NULL COMMENT '成交量',
     open_time TIMESTAMP NOT NULL COMMENT 'K线开始时间',
     close_time TIMESTAMP NOT NULL COMMENT 'K线结束时间',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT '删除时间',
     UNIQUE KEY uniq_symbol_interval_time (symbol, `interval`, open_time)
 ) COMMENT='K线数据表';

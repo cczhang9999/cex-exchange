@@ -16,5 +16,5 @@ func TestBasic(t *testing.T) {
 
 func TestHash(t *testing.T) {
 	ctx := context.Background()
-	fmt.Println(ctx)
+	fmt.Println("dd", ctx)
 }

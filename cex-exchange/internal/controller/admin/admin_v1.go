@@ -262,3 +262,112 @@ func (c *ControllerV1) CancelOrder(ctx context.Context, req *CancelOrderReq) (re
 		Success: true,
 	}, nil
 }
+
+// adjust 调整资金
+type AdjustReq struct {
+	g.Meta         `path:"/admin/accounts/adjust" method:"post" tags:"Admin" summary:"调整资金"`
+	UserID         uint64 `json:"user_id" v:"required#请输入用户ID"`
+	Asset          string `json:"asset" v:"required#请输入资产类型"`
+	Amount         string `json:"amount" v:"required#请输入金额"`
+	Remark         string `json:"remark" v:"required#请输入备注"`
+	Type           string `json:"type" v:"required"`
+	CurrentBalance string `json:"current_balance" v:"required"`
+}
+
+type AdjustRes struct {
+	Success bool  `json:"success"`
+	Account g.Map `json:"account"`
+}
+
+func (c *ControllerV1) Adjust(ctx context.Context, req *AdjustReq) (res *AdjustRes, err error) {
+	// 验证金额
+	amount, err := strconv.ParseFloat(req.Amount, 64)
+	if err != nil || amount <= 0 {
+		return nil, gerror.New("金额格式错误")
+	}
+
+	// 验证用户是否存在
+	count, err := g.Model("users").Ctx(ctx).Where("id", req.UserID).Count()
+	if err != nil {
+		return nil, err
+	}
+	if count == 0 {
+		return nil, gerror.New("用户不存在")
+	}
+
+	// 使用事务
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		// 查询或创建账户
+		var account g.Map
+		err := tx.Model("accounts").
+			Where("user_id", req.UserID).
+			Where("asset", req.Asset).
+			Scan(&account)
+
+		var accountID uint64
+		var newBalance float64
+
+		if err != nil || len(account) == 0 {
+			// 创建新账户
+			result, err := tx.Model("accounts").Data(g.Map{
+				"user_id": req.UserID,
+				"asset":   req.Asset,
+				"balance": req.Amount,
+				"frozen":  "0",
+			}).Insert()
+
+			if err != nil {
+				return err
+			}
+
+			id, _ := result.LastInsertId()
+			accountID = uint64(id)
+			newBalance = amount
+		} else {
+			// 更新余额
+			accountID = account["id"].(uint64)
+			currentBalance, _ := strconv.ParseFloat(account["balance"].(string), 64)
+			newBalance = currentBalance + amount
+
+			_, err = tx.Model("accounts").
+				Where("id", accountID).
+				Update(g.Map{"balance": strconv.FormatFloat(newBalance, 'f', -1, 64)})
+
+			if err != nil {
+				return err
+			}
+		}
+
+		var accountNew = g.Map{
+			"user_id":     req.UserID,
+			"account_id":  accountID,
+			"asset":       req.Asset,
+			"change_type": "admin_add",
+			"amount":      req.Amount,
+			"balance":     strconv.FormatFloat(newBalance, 'f', -1, 64),
+			"ref_id":      0, // 建议显式填充，表示系统/管理员操作
+			"remark":      "管理员添加资金:" + req.Remark,
+		}
+
+		// 创建流水记录
+		_, err = tx.Model("account_flows").Data(accountNew).Update()
+
+		return err
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询更新后的账户
+	var account g.Map
+	g.Model("accounts").Ctx(ctx).
+		Where("user_id", req.UserID).
+		Where("asset", req.Asset).
+		Scan(&account)
+
+	return &AdjustRes{
+		Success: true,
+		Account: account,
+	}, nil
+}
