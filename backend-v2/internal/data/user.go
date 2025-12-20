@@ -26,6 +26,7 @@ type User struct {
 	Username string
 	Password string
 	Email    string
+	Phone    string
 }
 
 func (r *userRepo) Save(ctx context.Context, u *biz.User) (*biz.User, error) {
@@ -33,6 +34,7 @@ func (r *userRepo) Save(ctx context.Context, u *biz.User) (*biz.User, error) {
 		Username: u.Username,
 		Password: u.Password,
 		Email:    u.Email,
+		Phone:    u.Phone,
 	}
 	if err := r.data.db.WithContext(ctx).Create(user).Error; err != nil {
 		return nil, err
@@ -51,6 +53,7 @@ func (r *userRepo) FindByUsername(ctx context.Context, username string) (*biz.Us
 		Username: user.Username,
 		Password: user.Password,
 		Email:    user.Email,
+		Phone:    user.Phone,
 	}, nil
 }
 

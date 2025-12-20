@@ -16,6 +16,7 @@ type User struct {
 	Username  string
 	Password  string
 	Email     string
+	Phone     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -41,13 +42,14 @@ func NewUserUsecase(repo UserRepo, conf *conf.Bootstrap) *UserUsecase {
 	}
 }
 
-func (uc *UserUsecase) Register(ctx context.Context, username, password, email string) (*User, error) {
+func (uc *UserUsecase) Register(ctx context.Context, username, password, email string, phone string) (*User, error) {
 	// TODO: Check if user exists
 	// TODO: Hash password
 	u := &User{
 		Username: username,
 		Password: password, // In real world this should be hashed
 		Email:    email,
+		Phone:    phone,
 	}
 	return uc.repo.Save(ctx, u)
 }

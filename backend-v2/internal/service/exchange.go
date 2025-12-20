@@ -35,7 +35,7 @@ func (s *ExchangeService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.
 }
 
 func (s *ExchangeService) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
-	u, err := s.user.Register(ctx, req.Username, req.Password, req.Email)
+	u, err := s.user.Register(ctx, req.Username, req.Password, req.Email, req.Phone)
 	if err != nil {
 		return &pb.RegisterResponse{Success: false, Message: err.Error()}, nil
 	}

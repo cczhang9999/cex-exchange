@@ -36,6 +36,7 @@ func NewDB(bc *conf.Bootstrap) *gorm.DB {
 	if err != nil {
 		panic(fmt.Sprintf("failed to open database: %v", err))
 	}
+	db.AutoMigrate(&User{})
 	return db
 }
 

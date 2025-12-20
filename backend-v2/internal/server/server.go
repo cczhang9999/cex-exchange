@@ -60,6 +60,40 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		})
 	})
 
+	//register
+	r.POST("/api/register", func(c *gin.Context) {
+		type RegisterReq struct {
+			Username string `json:"username"`
+			Password string `json:"password"`
+			Email    string `json:"email"`
+			Phone    string `json:"phone"`
+		}
+
+		var req RegisterReq
+		if err := c.ShouldBindJSON(&req); err != nil {
+			response.Error(c, 400, "Invalid request body")
+			return
+		}
+
+		res, err := s.Register(c.Request.Context(), &pb.RegisterRequest{
+			Username: req.Username,
+			Password: req.Password,
+			Email:    req.Email,
+			Phone:    req.Phone,
+		})
+		if err != nil {
+			response.Error(c, 500, "Internal server error")
+			return
+		}
+
+		if !res.Success {
+			response.Error(c, 401, res.Message)
+			return
+		}
+
+		response.Success(c, gin.H{})
+	})
+
 	// Protected routes
 	auth := r.Group("/api", middleware.AuthMiddleware(bc.Auth.JwtSecret))
 	{
