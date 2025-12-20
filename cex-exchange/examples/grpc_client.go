@@ -15,7 +15,7 @@ import (
 
 func main() {
 	// 连接到 gRPC 服务器
-	conn, err := grpc.Dial("localhost:50051", 
+	conn, err := grpc.Dial("localhost:50051",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithBlock(),
 	)
@@ -149,7 +149,7 @@ func main() {
 	} else {
 		ticker := tickerResp.Ticker
 		fmt.Printf("✅ 行情: 最新价=%s, 24h高=%s, 24h低=%s, 24h量=%s, 24h涨跌=%s\n",
-			ticker.LastPrice, ticker.High24H, ticker.Low24H, ticker.Volume24H, ticker.Change24H)
+			ticker.LastPrice, ticker.High_24H, ticker.Low_24H, ticker.Volume_24H, ticker.Change_24H)
 	}
 
 	// 9. 获取最近成交

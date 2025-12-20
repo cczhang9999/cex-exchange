@@ -65,3 +65,17 @@ func (c *ControllerV1) ListMyTrades(ctx context.Context, req *ListMyTradesReq) (
 	// service.Trade.ListMyTrades 会查询 trades 表，并通过 buy_user_id 或 sell_user_id 匹配
 	return service.Trade.ListMyTrades(ctx, uid)
 }
+
+type CancelOrderReq struct {
+	g.Meta `path:"/order/cancel/:id" method:"post" tags:"Order" summary:"撤销订单"`
+	Id     uint64 `p:"id" v:"required#订单ID不能为空"`
+}
+
+type CancelOrderRes struct{}
+
+// CancelOrder 撤销订单
+func (c *ControllerV1) CancelOrder(ctx context.Context, req *CancelOrderReq) (res *CancelOrderRes, err error) {
+	uid := g.RequestFromCtx(ctx).GetCtxVar("uid").Uint64()
+	err = service.Order.CancelOrder(ctx, uid, req.Id)
+	return
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"os"
@@ -16,15 +17,15 @@ import (
 )
 
 func main() {
-	ctx := g.Ctx()
+	ctx := context.Background()
 
 	// 读取配置
 	port := g.Cfg().MustGet(ctx, "grpc.port", 50051).Int()
-	
+
 	// 创建 gRPC 服务器
 	server := grpc.NewServer(
-		grpc.MaxRecvMsgSize(10 * 1024 * 1024), // 10MB
-		grpc.MaxSendMsgSize(10 * 1024 * 1024), // 10MB
+		grpc.MaxRecvMsgSize(10*1024*1024), // 10MB
+		grpc.MaxSendMsgSize(10*1024*1024), // 10MB
 	)
 
 	// 注册服务

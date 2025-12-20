@@ -342,10 +342,10 @@ func (s *ExchangeServer) GetTicker(ctx context.Context, req *pb.GetTickerRequest
 		Ticker: &pb.Ticker{
 			Symbol:     ticker.Symbol,
 			LastPrice:  ticker.LastPrice,
-			High24H:    ticker.High24h,
-			Low24H:     ticker.Low24h,
-			Volume24H:  ticker.Volume24h,
-			Change24H:  ticker.Change24h,
+			High_24H:   ticker.High24h,
+			Low_24H:    ticker.Low24h,
+			Volume_24H: ticker.Volume24h,
+			Change_24H: ticker.Change24h,
 		},
 	}, nil
 }

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # gRPC 代码生成脚本
+export PATH=$PATH:$(go env GOPATH)/bin
 
 # 检查 protoc 是否安装
 if ! command -v protoc &> /dev/null; then

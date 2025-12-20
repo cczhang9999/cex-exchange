@@ -15,7 +15,6 @@ import (
 	"cex-exchange/internal/controller/trade"
 	wsController "cex-exchange/internal/controller/websocket"
 	"cex-exchange/internal/middleware"
-	ws "cex-exchange/internal/websocket"
 )
 
 var (
@@ -27,12 +26,12 @@ var (
 			s := g.Server()
 
 			// 初始化WebSocket管理器
-			ws.InitManager()
-			g.Log().Info(ctx, "WebSocket管理器已启动")
+			//ws.InitManager()
+			//g.Log().Info(ctx, "WebSocket管理器已启动")
 
 			// 启动行情数据推送
-			go ws.StartMarketDataPusher()
-			g.Log().Info(ctx, "行情数据推送已启动")
+			//go ws.StartMarketDataPusher()
+			//g.Log().Info(ctx, "行情数据推送已启动")
 
 			// 全局中间件
 			s.Use(middleware.CORS)
