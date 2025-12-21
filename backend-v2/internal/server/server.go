@@ -4,21 +4,13 @@ import (
 	pb "backend-v2/api/proto"
 	"backend-v2/internal/conf"
 	"backend-v2/internal/pkg/response"
-	"backend-v2/internal/server/middleware"
 	"backend-v2/internal/service"
-	"context"
 	"fmt"
-	"log"
 	"net"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-)
-const (
-	targetAddr = "localhost:50051" // cex-exchange gRPC default port
 )
 
 var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer)
@@ -101,96 +93,42 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		response.Success(c, gin.H{})
 	})
 
-	// OrderBook endpoint (Dynamic)
+	// OrderBook endpoint
 	r.GET("/api/orderbook", func(c *gin.Context) {
 		symbol := c.Query("symbol")
-
-		log.Println("symbol: ", symbol)
-		// 建立临时连接 (为了稳定性和简单性)
-		conn, err := grpc.NewClient(targetAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
-		if err != nil {
-			response.Error(c, 500, "无法连接 gRPC 服务器: "+err.Error())
-			return
-		}
-		defer conn.Close()
-
-		client := pb.NewExchangeServiceClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-
-		resp, err := client.GetOrderBook(ctx, &pb.GetOrderBookRequest{
+		resp, err := s.GetOrderBook(c.Request.Context(), &pb.GetOrderBookRequest{
 			Symbol: symbol,
 		})
 		if err != nil {
 			response.Error(c, 500, "gRPC 调用失败: "+err.Error())
 			return
 		}
-
 		response.Success(c, resp)
 	})
 
-		// OrderBook endpoint (Dynamic)
+	// Trades endpoint
 	r.GET("/api/trades", func(c *gin.Context) {
 		symbol := c.Query("symbol")
 		limitStr := c.DefaultQuery("limit", "20")
 		var limit int32
 		fmt.Sscanf(limitStr, "%d", &limit)
-		log.Println("symbol: ", symbol)
-		// 建立临时连接 (为了稳定性和简单性)
-		conn, err := grpc.NewClient(targetAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
-		if err != nil {
-			response.Error(c, 500, "无法连接 gRPC 服务器: "+err.Error())
-			return
-		}
-		defer conn.Close()
 
-		client := pb.NewExchangeServiceClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-
-	resp, err := client.GetRecentTrades(ctx, &pb.GetRecentTradesRequest{
-				Symbol: symbol,
-				Limit:  limit,
-			})
+		resp, err := s.GetRecentTrades(c.Request.Context(), &pb.GetRecentTradesRequest{
+			Symbol: symbol,
+			Limit:  limit,
+		})
 		if err != nil {
 			response.Error(c, 500, "gRPC 调用失败: "+err.Error())
 			return
 		}
-
 		response.Success(c, resp.Trades)
 	})
 
 	// Protected routes
-	auth := r.Group("/api", middleware.AuthMiddleware(bc.Auth.JwtSecret))
-	{
-		auth.GET("/trades11", func(c *gin.Context) {
-			symbol := c.Query("symbol")
-			limitStr := c.DefaultQuery("limit", "20")
-			var limit int32
-			fmt.Sscanf(limitStr, "%d", &limit)
-
-			conn, err := grpc.NewClient(targetAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
-			if err != nil {
-				response.Error(c, 500, "无法连接 gRPC 服务器: "+err.Error())
-				return
-			}
-			defer conn.Close()
-
-			client := pb.NewExchangeServiceClient(conn)
-			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-			defer cancel()
-
-			resp, err := client.GetRecentTrades(ctx, &pb.GetRecentTradesRequest{
-				Symbol: symbol,
-				Limit:  limit,
-			})
-			if err != nil {
-				response.Error(c, 500, "gRPC 调用失败: "+err.Error())
-				return
-			}
-			response.Success(c, resp)
-		})
-	}
+	// auth := r.Group("/api", middleware.AuthMiddleware(bc.Auth.JwtSecret))
+	// {
+	// 	// 可以在这里添加需要鉴权的接口
+	// }
 	
 
 	return r

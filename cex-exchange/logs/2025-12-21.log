@@ -173,3 +173,6 @@ Stack:
 2025-12-21T13:58:38.290+08:00 [INFO] gRPC GetRecentTrades: symbol=ETH/USDT, limit=20
 2025-12-21T16:54:08.620+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=0
 2025-12-21T16:54:08.683+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=20
+2025-12-21T17:01:04.486+08:00 [INFO] gRPC GetRecentTrades: symbol=ETH/USDT, limit=20
+2025-12-21T17:01:04.486+08:00 [INFO] gRPC GetOrderBook: symbol=ETH/USDT, depth=0
+2025-12-21T17:02:19.006+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=0
