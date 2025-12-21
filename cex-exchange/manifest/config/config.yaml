@@ -1,5 +1,5 @@
 server:
-  address: ":8080"
+  address: ":8081"
   serverRoot: "public"
   dumpRouterMap: true
   routeOverWrite: true

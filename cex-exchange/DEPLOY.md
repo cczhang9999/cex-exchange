@@ -86,3 +86,13 @@ npm run backend: 只启动后端Go服务（使用nodemon热重载）
 npm run start: 同时启动前后端服务
 npm run build: 构建前端生产版本
 npm run preview: 预览构建后的前端
+
+
+cd /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange
+go run cmd/grpc/main.go
+
+
+go run cmd/server/main.go
+
+make build
+./bin/server
