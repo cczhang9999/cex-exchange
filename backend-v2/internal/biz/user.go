@@ -25,6 +25,7 @@ type UserRepo interface {
 	Save(ctx context.Context, user *User) (*User, error)
 	FindByUsername(ctx context.Context, username string) (*User, error)
 	ValidatePassword(user *User, password string) bool
+	FindUserList(ctx context.Context) ([]*User, error)
 }
 
 type UserUsecase struct {
@@ -67,4 +68,8 @@ func (uc *UserUsecase) Login(ctx context.Context, username, password string) (st
 		return "", 0, err
 	}
 	return token, u.ID, nil
+}
+
+func (uc *UserUsecase) ListUsers(ctx context.Context) ([]*User, error) {
+	return uc.repo.FindUserList(ctx)
 }

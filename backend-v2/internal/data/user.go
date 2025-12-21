@@ -60,3 +60,23 @@ func (r *userRepo) FindByUsername(ctx context.Context, username string) (*biz.Us
 func (r *userRepo) ValidatePassword(u *biz.User, password string) bool {
 	return u.Password == password // Simple check for now
 }
+
+func (r *userRepo) FindUserList(ctx context.Context) ([]*biz.User, error) {
+	var users []User
+	if err := r.data.db.WithContext(ctx).Find(&users).Error; err != nil {
+		return nil, err
+	}
+	res := make([]*biz.User, 0, len(users))
+	for _, u := range users {
+		res = append(res, &biz.User{
+			ID:        uint64(u.ID),
+			Username:  u.Username,
+			Password:  u.Password,
+			Email:     u.Email,
+			Phone:     u.Phone,
+			CreatedAt: u.CreatedAt,
+			UpdatedAt: u.UpdatedAt,
+		})
+	}
+	return res, nil
+}
