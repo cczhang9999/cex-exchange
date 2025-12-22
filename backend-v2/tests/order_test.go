@@ -19,7 +19,6 @@ func TestCreateOrder(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to load config from %s: %v", configPath, err)
 	}
-
 	// 2. 初始化数据层
 	db := data.NewDB(bc)
 	rdb := data.NewRedis(bc)
@@ -28,34 +27,14 @@ func TestCreateOrder(t *testing.T) {
 		t.Fatalf("failed to init data: %v", err)
 	}
 	defer cleanup()
-
 	repo := data.NewOrderRepo(d)
-
 	// 3. 调用并验证
 	ctx := context.Background()
-
-	//order := &biz.Order{
-	//	UserID:    1,
-	//	Symbol:    "BTC/USDT",
-	//	Side:      "BUY",
-	//	Type:      "LIMIT",
-	//	Price:     10000,
-	//	Amount:    0.1,
-	//	Status:    "OPEN",
-	//	CreatedAt: time.Now(),
-	//	UpdatedAt: time.Now(),
-	//}
-	//saveOrder, err := repo.Save(ctx, order)
-	//if err != nil {
-	//	t.Fatalf("Save failed: %v", err)
-	//}
-	//fmt.Printf("Successfully created order with ID: %d\n", saveOrder.ID)
-
-	orderList, err := repo.FindOpenOrders(ctx, "BTC/USDT")
+	orderMyList, err := repo.FindByUserID(ctx, 1)
 	if err != nil {
 		t.Fatalf("FindOpenOrders failed: %v", err)
 	}
-	for _, o := range orderList {
+	for _, o := range orderMyList {
 		fmt.Printf("Order: %+v\n", o)
 	}
 }

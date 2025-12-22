@@ -4,12 +4,15 @@ import (
 	"backend-v2/internal/conf"
 	"context"
 	"fmt"
+	"log"
+	"os"
 	"time"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // ProviderSet is data providers.
@@ -32,11 +35,25 @@ func NewData(db *gorm.DB, rdb *redis.Client) (*Data, func(), error) {
 
 func NewDB(bc *conf.Bootstrap) *gorm.DB {
 	dsn := bc.Data.Database.Source
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	// 创建自定义的日志记录器
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second, // 慢 SQL 阈值
+			LogLevel:                  logger.Info, // 日志级别
+			IgnoreRecordNotFoundError: false,       // 忽略ErrRecordNotFound（记录未找到）错误
+			Colorful:                  true,        // 彩色打印
+		},
+	)
+
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: newLogger, // 设置日志记录器
+	})
 	if err != nil {
 		panic(fmt.Sprintf("failed to open database: %v", err))
 	}
-	db.AutoMigrate(&User{})
+	//db.AutoMigrate(&User{})
 	return db
 }
 
