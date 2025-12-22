@@ -126,12 +126,12 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 
 	r.GET("/api/my_orders", func(c *gin.Context) {
 
-		resp, err := s.GetUserOrders(c.Request.Context(), 1)
+		resp, err := s.GetUserOrders(c.Request.Context(), &pb.GetMyOrdersRequest{})
 		if err != nil {
 			response.Error(c, 500, "失败: "+err.Error())
 			return
 		}
-		response.Success(c, resp)
+		response.Success(c, resp.Orders)
 	})
 	return r
 }
