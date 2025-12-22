@@ -31,6 +31,11 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column prop="created_at" label="时间">
+          <template #default="{ row }">
+            <span class="text-muted">{{ formatDate(row.created_at) }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-button 
@@ -67,7 +72,7 @@
         </el-table-column>
         <el-table-column prop="created_at" label="时间">
            <template #default="{ row }">
-             <span class="text-muted">{{ new Date(row.created_at).toLocaleString() }}</span>
+             <span class="text-muted">{{ formatDate(row.created_at) }}</span>
            </template>
         </el-table-column>
       </el-table>
@@ -80,6 +85,29 @@ import { getMyOrders, getMyTrades, cancelOrder as cancelOrderApi } from '../api/
 
 const orders = ref([])
 const trades = ref([])
+
+// 格式化时间显示
+const formatDate = (timestamp) => {
+  if (!timestamp) return ''
+  
+  // 检查时间戳是否是毫秒格式（13位数字）
+  // 如果是秒格式（10位数字），则乘以1000转换为毫秒
+  let timestampMs = timestamp
+  if (String(timestamp).length <= 10) {
+    timestampMs = timestamp * 1000
+  }
+  
+  const date = new Date(timestampMs)
+  return date.toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  })
+}
 
 const fetchOrders = async () => {
   const { data } = await getMyOrders()
