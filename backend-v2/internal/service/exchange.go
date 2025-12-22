@@ -13,12 +13,14 @@ var ProviderSet = wire.NewSet(NewExchangeService)
 type ExchangeService struct {
 	pb.UnimplementedExchangeServiceServer
 	user   *biz.UserUsecase
+	order  *biz.OrderUsecase
 	client pb.ExchangeServiceClient
 }
 
 func NewExchangeService(user *biz.UserUsecase, client pb.ExchangeServiceClient) *ExchangeService {
 	return &ExchangeService{
 		user:   user,
+		order:  order,
 		client: client,
 	}
 }
@@ -54,6 +56,10 @@ func (s *ExchangeService) GetOrderBook(ctx context.Context, req *pb.GetOrderBook
 
 func (s *ExchangeService) GetRecentTrades(ctx context.Context, req *pb.GetRecentTradesRequest) (*pb.GetRecentTradesResponse, error) {
 	return s.client.GetRecentTrades(ctx, req)
+}
+
+func (s *ExchangeService) GetUserOrders(ctx context.Context, req *pb.GetMyOrdersRequest) (*pb.GetOrderBookRequest, error) {
+	return s.order.GetUserOrders(ctx, uint64(1))
 }
 
 // Implement other methods as Unimplemented or TODO

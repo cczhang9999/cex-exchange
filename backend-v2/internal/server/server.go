@@ -124,13 +124,15 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		response.Success(c, resp.Trades)
 	})
 
-	// Protected routes
-	// auth := r.Group("/api", middleware.AuthMiddleware(bc.Auth.JwtSecret))
-	// {
-	// 	// 可以在这里添加需要鉴权的接口
-	// }
-	
+	r.GET("/api/my_orders", func(c *gin.Context) {
 
+		resp, err := s.GetUserOrders(c.Request.Context(), 1)
+		if err != nil {
+			response.Error(c, 500, "失败: "+err.Error())
+			return
+		}
+		response.Success(c, resp)
+	})
 	return r
 }
 
