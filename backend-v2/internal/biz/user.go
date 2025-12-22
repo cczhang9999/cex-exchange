@@ -5,11 +5,7 @@ import (
 	"backend-v2/internal/pkg/jwt"
 	"context"
 	"time"
-
-	"github.com/google/wire"
 )
-
-var ProviderSet = wire.NewSet(NewUserUsecase)
 
 type User struct {
 	ID        uint64
