@@ -5,6 +5,7 @@ import (
 	"backend-v2/internal/data"
 	"context"
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -34,19 +35,13 @@ func TestBasic(t *testing.T) {
 
 func TestListUsers(t *testing.T) {
 	// 1. 初始化配置
-	bc := &conf.Bootstrap{
-		Data: &conf.Data{
-			Database: &conf.Database{
-				Driver: "mysql",
-				Source: "hobart:123456@tcp(212.227.166.131:9257)/cex_exchange?charset=utf8mb4&parseTime=True&loc=Local",
-			},
-			Redis: &conf.Redis{
-				Addr:         "194.164.194.118:9502",
-				Password:     "pass123editmelol",
-				ReadTimeout:  "5s",
-				WriteTimeout: "5s",
-			},
-		},
+	configPath := "../configs/config.yaml"
+	if path := os.Getenv("CONFIG_PATH"); path != "" {
+		configPath = path
+	}
+	bc, err := conf.Load(configPath)
+	if err != nil {
+		t.Fatalf("failed to load config from %s: %v", configPath, err)
 	}
 
 	// 2. 初始化数据层

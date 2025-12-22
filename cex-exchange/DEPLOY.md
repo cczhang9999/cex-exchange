@@ -96,3 +96,7 @@ go run cmd/server/main.go
 
 make build
 ./bin/server
+
+测试 测试环境的
+cd tests
+CONFIG_PATH=../configs/config-test.yaml go test -v -run TestListUsers
