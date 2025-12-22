@@ -4,20 +4,32 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	pb "backend-v2/api/proto"
+	"backend-v2/internal/conf"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-const (
-	targetAddr = "localhost:50051" // cex-exchange gRPC default port
-)
-
 func main() {
 	fmt.Println("🔗 [backend-v2] 正在尝试调用 [cex-exchange] gRPC 服务...")
+
+	// 加载配置
+	configPath := "../configs/config.yaml"
+	if path := os.Getenv("CONFIG_PATH"); path != "" {
+		configPath = path
+	}
+
+	bc, err := conf.Load(configPath)
+	if err != nil {
+		log.Fatalf("加载配置文件失败: %v", err)
+	}
+
+	targetAddr := bc.Client.Exchange.Addr
+	fmt.Printf("📍 目标地址: %s\n", targetAddr)
 
 	// 1. 建立连接
 	conn, err := grpc.Dial(targetAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))

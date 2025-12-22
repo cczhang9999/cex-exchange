@@ -23,15 +23,12 @@ func TestBasic(t *testing.T) {
 		{3, "Charlie"},
 	}
 
-
-	fmt.Println("userList", userList)	
+	fmt.Println("userList", userList)
 
 	for _, u := range userList {
 		key := fmt.Sprintf("user:orders:%d:", u.ID)
 		fmt.Printf("User: %s, Key: %s\n", u.Name, key)
 	}
-
-
 
 }
 
@@ -74,9 +71,4 @@ func TestListUsers(t *testing.T) {
 	for _, u := range users {
 		fmt.Printf("ID: %d, Username: %s, Email: %s,CreatedAt: %v,UpdatedAt: %v\n", u.ID, u.Username, u.Email, u.CreatedAt, u.UpdatedAt)
 	}
-}
-
-func TestHash(t *testing.T) {
-	ctx := context.Background()
-	fmt.Println("dd", ctx)
 }

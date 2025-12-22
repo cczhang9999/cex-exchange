@@ -99,6 +99,9 @@ const onSubmit = async () => {
     // 保存token - 后端返回的数据在 data.data 中
     userStore.setToken(data.data.token)
     
+    // 保存用户名
+    userStore.setUsername(form.username)
+    
     ElMessage.success('登录成功！')
     
     // 跳转到首页

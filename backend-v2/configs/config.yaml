@@ -1,0 +1,26 @@
+server:
+  http:
+    addr: ":8080"
+    timeout: "1s"
+  grpc:
+    addr: ":9000"
+    timeout: "1s"
+
+data:
+  database:
+    driver: "mysql"
+    source: "hobart:123456@tcp(212.227.166.131:9257)/cex_exchange?charset=utf8mb4&parseTime=True&loc=Local"
+  redis:
+    addr: "194.164.194.118:9502"
+    password: "pass123editmelol"
+    read_timeout: "5s"
+    write_timeout: "5s"
+
+auth:
+  jwt_secret: "super-secret-key-change-me"
+  jwt_expiry: "24h"
+
+client:
+  exchange:
+    addr: "localhost:50051"
+    timeout: "5s"

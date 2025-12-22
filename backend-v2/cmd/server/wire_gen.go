@@ -16,6 +16,11 @@ import (
 
 // Injectors from wire.go:
 
+// initApp 是应用程序的初始化入口（Injector）。
+// 它接收配置参数 bc (*conf.Bootstrap)，并负责构建并返回：
+// 1. *server.Server: 已经装配好所有依赖的服务器实例
+// 2. func(): 用于资源释放的清理函数（例如关闭数据库连接）
+// 3. error: 初始化过程中可能产生的错误
 func initApp(bc *conf.Bootstrap) (*server.Server, func(), error) {
 	db := data.NewDB(bc)
 	client := data.NewRedis(bc)
@@ -25,11 +30,17 @@ func initApp(bc *conf.Bootstrap) (*server.Server, func(), error) {
 	}
 	userRepo := data.NewUserRepo(dataData)
 	userUsecase := biz.NewUserUsecase(userRepo, bc)
-	exchangeService := service.NewExchangeService(userUsecase)
+	exchangeServiceClient, cleanup2, err := data.NewExchangeClient(bc)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	exchangeService := service.NewExchangeService(userUsecase, exchangeServiceClient)
 	grpcServer := server.NewGRPCServer(bc, exchangeService)
 	engine := server.NewHTTPServer(bc, exchangeService)
 	serverServer := server.NewServer(grpcServer, engine, bc)
 	return serverServer, func() {
+		cleanup2()
 		cleanup()
 	}, nil
 }

@@ -6,8 +6,6 @@ import (
 	"context"
 
 	"github.com/google/wire"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 var ProviderSet = wire.NewSet(NewExchangeService)
@@ -18,17 +16,10 @@ type ExchangeService struct {
 	client pb.ExchangeServiceClient
 }
 
-func NewExchangeService(user *biz.UserUsecase) *ExchangeService {
-	// 建立到 cex-exchange 的连接
-	// 注意：在实际生产环境中，这应该通过配置注入或使用连接池
-	conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		panic("failed to connect to cex-exchange: " + err.Error())
-	}
-
+func NewExchangeService(user *biz.UserUsecase, client pb.ExchangeServiceClient) *ExchangeService {
 	return &ExchangeService{
 		user:   user,
-		client: pb.NewExchangeServiceClient(conn),
+		client: client,
 	}
 }
 

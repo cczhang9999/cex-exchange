@@ -4,6 +4,7 @@ type Bootstrap struct {
 	Server *Server
 	Data   *Data
 	Auth   *Auth
+	Client *Client
 }
 
 type Auth struct {
@@ -41,4 +42,13 @@ type Redis struct {
 	Password     string
 	ReadTimeout  string
 	WriteTimeout string
+}
+
+type Client struct {
+	Exchange *ExchangeClient
+}
+
+type ExchangeClient struct {
+	Addr    string
+	Timeout string
 }

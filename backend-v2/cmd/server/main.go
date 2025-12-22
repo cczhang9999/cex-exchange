@@ -10,31 +10,15 @@ import (
 
 func main() {
 	// 1. 初始化配置 (Bootstrap)
-	// 在实际生产环境中，这些配置通常从 config.yaml 文件中读取，
-	// 这里为了演示或简化，直接在代码中硬编码了配置信息。
-	bc := &conf.Bootstrap{
-		Server: &conf.Server{
-			Http: &conf.ServerHTTP{Addr: ":8080", Timeout: "1s"}, // HTTP 服务配置
-			Grpc: &conf.ServerGRPC{Addr: ":9000", Timeout: "1s"}, // gRPC 服务配置
-		},
-		Data: &conf.Data{
-			// 数据库连接配置（MySQL）
-			Database: &conf.Database{
-				Driver: "mysql", 
-				Source: "hobart:123456@tcp(212.227.166.131:9257)/cex_exchange?charset=utf8mb4&parseTime=True&loc=Local",
-			},
-			// Redis 缓存配置
-			Redis: &conf.Redis{
-				Addr: "194.164.194.118:9502", 
-				Password: "pass123editmelol", 
-				ReadTimeout: "5s", 
-				WriteTimeout: "5s",
-			},
-		},
-		Auth: &conf.Auth{
-			JwtSecret: "super-secret-key-change-me", // 用于 JWT 签名的密钥
-			JwtExpiry: "24h",                         // Token 过期时间
-		},
+	// 从 config.yaml 文件中读取配置信息
+	configPath := "configs/config.yaml"
+	if path := os.Getenv("CONFIG_PATH"); path != "" {
+		configPath = path
+	}
+
+	bc, err := conf.Load(configPath)
+	if err != nil {
+		panic(fmt.Sprintf("failed to load config: %v", err))
 	}
 
 	// 2. 依赖注入与应用初始化
@@ -44,7 +28,7 @@ func main() {
 	if err != nil {
 		panic(err) // 如果初始化失败，直接宕机
 	}
-	
+
 	// 3. 注册资源释放回调
 	// 使用 defer 确保在程序退出前执行 cleanup 函数。
 	// cleanup 通常包含：关闭数据库连接、关闭 Redis 连接、刷新日志缓冲区等。
@@ -60,13 +44,13 @@ func main() {
 	// 5. 优雅关机 (Graceful Shutdown)
 	// 创建一个监听系统信号的通道（Channel）。
 	quit := make(chan os.Signal, 1)
-	
+
 	// 监听中断信号（Ctrl+C）和终止信号（如 kill 命令）。
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	
+
 	// 阻塞在这里，直到接收到上述信号。
 	<-quit
-	
+
 	// 收到信号后打印日志并开始清理流程。
 	fmt.Println("Shutting down server...")
 }
