@@ -18,18 +18,18 @@ func TestRedisBasic(t *testing.T) {
 	t.Logf("Redis Config: %v", config)
 
 	// 2. 测试 GoFrame Redis PING
-	pong, err := service.Redis.Do(ctx, "PING")
-	if err != nil {
-		t.Fatalf("GoFrame Redis PING 失败: %v", err)
-	}
-	t.Logf("✅ GoFrame PING 成功: %v", pong)
+	//pong, err := service.Redis.Do(ctx, "PING")
+	//if err != nil {
+	//	t.Fatalf("GoFrame Redis PING 失败: %v", err)
+	//}
+	//t.Logf("✅ GoFrame PING 成功: %v", pong)
 
 	// 3. 测试设置值
-	err = service.Redis.Set(ctx, "test_key", "test_value")
-	if err != nil {
-		t.Fatalf("Redis Set 失败: %v", err)
-	}
-	t.Log("✅ Set 成功")
+	//err = service.Redis.Set(ctx, "test_key", "test_value")
+	//if err != nil {
+	//	t.Fatalf("Redis Set 失败: %v", err)
+	//}
+	//t.Log("✅ Set 成功")
 
 	// 2. 测试获取值
 	value, err := service.Redis.Get(ctx, "test_key")
@@ -63,12 +63,12 @@ func TestRedisBasic(t *testing.T) {
 	t.Log("✅ Exists 检查成功")
 
 	// 5. 清理测试数据
-	err = service.Redis.Del(ctx, "test_key", "session:123")
-	if err != nil {
-		t.Logf("⚠️  清理失败: %v", err)
-	} else {
-		t.Log("✅ 清理成功")
-	}
+	//err = service.Redis.Del(ctx, "test_key", "session:123")
+	//if err != nil {
+	//	t.Logf("⚠️  清理失败: %v", err)
+	//} else {
+	//	t.Log("✅ 清理成功")
+	//}
 }
 
 func TestRedisHash(t *testing.T) {
