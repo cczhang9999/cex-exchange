@@ -5,6 +5,7 @@ import (
 	"backend-v2/internal/biz"
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/google/wire"
 )
@@ -84,6 +85,7 @@ func (s *ExchangeService) GetUserOrders(ctx context.Context, req *pb.GetMyOrders
 		})
 	}
 
+	log.Print("GetUserOrders: ", pbOrders)
 	return &pb.GetMyOrdersResponse{
 		Success: true,
 		Message: "Success",

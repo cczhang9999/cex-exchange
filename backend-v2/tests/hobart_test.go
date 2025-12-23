@@ -17,21 +17,36 @@ func TestBasic(t *testing.T) {
 	fmt.Println(uid)
 	ss := fmt.Sprintf("user:orders:%d:", uid)
 	fmt.Println(ss)
-	userList := []struct {
+	type user struct {
 		ID   int
 		Name string
-	}{
+	}
+	userList := []user{
 		{1, "Alice"},
 		{2, "Bob"},
 		{3, "Charlie"},
 	}
-
 	fmt.Println("userList", userList)
+	// 创建一个map来存储userList
+	userMap := make(map[int][]user)
+	fmt.Println("userMap", userMap)
+	// 将userList中的元素放入map中
+	userMap[1] = userList
+	userMap[2] = userList
+	fmt.Printf("&userList: %p\n", &userList)
+	fmt.Println("userMap", userMap)
+	fmt.Println("userMap", userMap[1])
 
-	for _, u := range userList {
-		key := fmt.Sprintf("user:orders:%d:", u.ID)
-		fmt.Printf("User: %s, Key: %s\n", u.Name, key)
+	var filteredUsers []struct {
+		ID   int
+		Name string
 	}
+	for _, u := range userList {
+		if u.ID != 1 {
+			filteredUsers = append(filteredUsers, u)
+		}
+	}
+	fmt.Println(filteredUsers)
 
 }
 
