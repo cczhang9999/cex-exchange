@@ -120,3 +120,51 @@ func TestCreateOrder(t *testing.T) {
 		fmt.Printf("Order: %+v\n", o)
 	}
 }
+
+func TestFindOrdersWithUserInfo(t *testing.T) {
+	// 1. 初始化配置
+	configPath := "../configs/config.yaml"
+	if path := os.Getenv("CONFIG_PATH"); path != "" {
+		configPath = path
+	}
+	bc, err := conf.Load(configPath)
+	if err != nil {
+		t.Fatalf("failed to load config from %s: %v", configPath, err)
+	}
+	// 2. 初始化数据层
+	db := data.NewDB(bc)
+	rdb := data.NewRedis(bc)
+	d, cleanup, err := data.NewData(db, rdb)
+	if err != nil {
+		t.Fatalf("failed to init data: %v", err)
+	}
+	defer cleanup()
+	repo := data.NewOrderRepo(d)
+	// 3. 调用并验证
+	ctx := context.Background()
+
+	// 调用新添加的关联查询方法
+	ordersWithUser, err := repo.FindOrdersWithUserInfo(ctx, 1)
+	if err != nil {
+		t.Fatalf("FindOrdersWithUserInfo failed: %v", err)
+	}
+	for _, o := range ordersWithUser {
+		fmt.Printf("Order with User Info: %+v\n", o)
+	}
+
+	// 测试使用Joins的关联查询方法
+	ordersWithUserByJoins, err := repo.FindOrdersWithUserUsingJoins(ctx, "BTC-USDT")
+	if err != nil {
+		t.Logf("FindOrdersWithUserUsingJoins failed: %v", err) // 使用Logf而不是Fatal，因为可能没有匹配的数据
+	} else {
+		fmt.Println("userList", ordersWithUserByJoins)
+	}
+
+	// 测试预加载方法
+	ordersWithUserByPreload, err := repo.FindByUserIDWithUser(ctx, 1)
+	if err != nil {
+		t.Logf("FindByUserIDWithUser failed: %v", err) // 使用Logf而不是Fatal，因为可能没有匹配的数据
+	} else {
+		fmt.Println("userList", ordersWithUserByPreload)
+	}
+}

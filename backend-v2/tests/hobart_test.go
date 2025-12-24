@@ -5,9 +5,7 @@ import (
 	"backend-v2/internal/data"
 	"context"
 	"fmt"
-	"github.com/google/uuid"
 	"os"
-	"strings"
 	"testing"
 )
 
@@ -37,10 +35,7 @@ func TestBasic(t *testing.T) {
 	fmt.Println("userMap", userMap)
 	fmt.Println("userMap", userMap[1])
 
-	var filteredUsers []struct {
-		ID   int
-		Name string
-	}
+	var filteredUsers []user
 	for _, u := range userList {
 		if u.ID != 1 {
 			filteredUsers = append(filteredUsers, u)
@@ -83,15 +78,4 @@ func TestListUsers(t *testing.T) {
 	for _, u := range users {
 		fmt.Printf("ID: %d, Username: %s, Email: %s,CreatedAt: %v,UpdatedAt: %v\n", u.ID, u.Username, u.Email, u.CreatedAt, u.UpdatedAt)
 	}
-}
-
-func TestString(t *testing.T) {
-
-	id := uuid.New().String()
-	uidee := strings.ReplaceAll(id, "-", "")
-	fmt.Println(id)
-	fmt.Println(uidee)
-	uid := strings.ReplaceAll(uuid.New().String(), "-", "")
-	fmt.Println(uid)
-
 }

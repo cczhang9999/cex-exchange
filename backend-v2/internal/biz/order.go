@@ -59,6 +59,10 @@ type OrderRepo interface {
 	UpdateStatus(ctx context.Context, id uint64, status OrderStatus) error
 	UpdateFilled(ctx context.Context, id uint64, filled float64) error
 	FindOpenOrders(ctx context.Context, symbol string) ([]*Order, error)
+	// 关联查询方法
+	FindByUserIDWithUser(ctx context.Context, userID uint64) ([]*Order, error)
+	FindOrdersWithUserInfo(ctx context.Context, userID uint64) ([]*Order, error)
+	FindOrdersWithUserUsingJoins(ctx context.Context, symbol string) ([]*Order, error)
 }
 
 // OrderUsecase 定义订单业务逻辑
@@ -98,6 +102,21 @@ func (uc *OrderUsecase) GetOrder(ctx context.Context, id uint64) (*Order, error)
 // GetUserOrders 获取用户订单列表
 func (uc *OrderUsecase) GetUserOrders(ctx context.Context, userID uint64) ([]*Order, error) {
 	return uc.repo.FindByUserID(ctx, userID)
+}
+
+// GetUserOrdersWithUser 获取用户订单列表及用户信息
+func (uc *OrderUsecase) GetUserOrdersWithUser(ctx context.Context, userID uint64) ([]*Order, error) {
+	return uc.repo.FindByUserIDWithUser(ctx, userID)
+}
+
+// GetOrdersWithUserInfo 获取订单列表及用户信息
+func (uc *OrderUsecase) GetOrdersWithUserInfo(ctx context.Context, userID uint64) ([]*Order, error) {
+	return uc.repo.FindOrdersWithUserInfo(ctx, userID)
+}
+
+// GetOrdersWithUserByJoins 获取订单列表及用户信息（使用Joins）
+func (uc *OrderUsecase) GetOrdersWithUserByJoins(ctx context.Context, symbol string) ([]*Order, error) {
+	return uc.repo.FindOrdersWithUserUsingJoins(ctx, symbol)
 }
 
 // CancelOrder 取消订单

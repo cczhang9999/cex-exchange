@@ -53,7 +53,8 @@ func NewDB(bc *conf.Bootstrap) *gorm.DB {
 	if err != nil {
 		panic(fmt.Sprintf("failed to open database: %v", err))
 	}
-	//db.AutoMigrate(&User{})
+	// 自动迁移数据库表结构
+	//db.AutoMigrate(&User{}, &Order{})
 	return db
 }
 
