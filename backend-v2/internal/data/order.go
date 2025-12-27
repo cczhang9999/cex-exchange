@@ -3,6 +3,7 @@ package data
 import (
 	"backend-v2/internal/biz"
 	"context"
+	"time"
 
 	"github.com/google/wire"
 	"gorm.io/gorm"
@@ -132,22 +133,21 @@ func (r *orderRepo) FindByUserIDWithUser(ctx context.Context, userID uint64) ([]
 }
 
 // 使用原生SQL进行关联查询
-func (r *orderRepo) FindOrdersWithUserInfo(ctx context.Context, userID uint64) ([]*biz.Order, error) {
+func (r *orderRepo) FindOrdersWithUserInfo(ctx context.Context, userID uint64) (map[uint64]*biz.Order, error) {
 	var results []struct {
-		ID        uint                   `json:"id"`
-		UserID    uint64                 `json:"user_id"`
-		Symbol    string                 `json:"symbol"`
-		Side      string                 `json:"side"`
-		Type      string                 `json:"type"`
-		Price     float64                `json:"price"`
-		Amount    float64                `json:"amount"`
-		Filled    float64                `json:"filled"`
-		Status    string                 `json:"status"`
-		CreatedAt interface{}            `json:"created_at"`
-		UpdatedAt interface{}            `json:"updated_at"`
-		Username  string                 `json:"username"`
-		Email     string                 `json:"email"`
-		UserInfo  map[string]interface{} `json:"user_info"`
+		ID        uint      `json:"id"`
+		UserID    uint64    `json:"user_id"`
+		Symbol    string    `json:"symbol"`
+		Side      string    `json:"side"`
+		Type      string    `json:"type"`
+		Price     float64   `json:"price"`
+		Amount    float64   `json:"amount"`
+		Filled    float64   `json:"filled"`
+		Status    string    `json:"status"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
+		Username  string    `json:"username"`
+		Email     string    `json:"email"`
 	}
 
 	// 使用原生SQL进行关联查询
@@ -163,21 +163,23 @@ func (r *orderRepo) FindOrdersWithUserInfo(ctx context.Context, userID uint64) (
 		return nil, err
 	}
 
-	// 转换为业务模型
-	res := make([]*biz.Order, 0, len(results))
+	// 转换为业务模型，使用map存储，键为订单ID
+	res := make(map[uint64]*biz.Order, len(results))
 	for _, result := range results {
 		order := &biz.Order{
-			ID:     uint64(result.ID),
-			UserID: result.UserID,
-			Symbol: result.Symbol,
-			Side:   biz.OrderSide(result.Side),
-			Type:   biz.OrderType(result.Type),
-			Price:  result.Price,
-			Amount: result.Amount,
-			Filled: result.Filled,
-			Status: biz.OrderStatus(result.Status),
+			ID:        uint64(result.ID),
+			UserID:    result.UserID,
+			Symbol:    result.Symbol,
+			Side:      biz.OrderSide(result.Side),
+			Type:      biz.OrderType(result.Type),
+			Price:     result.Price,
+			Amount:    result.Amount,
+			Filled:    result.Filled,
+			Status:    biz.OrderStatus(result.Status),
+			CreatedAt: result.CreatedAt,
+			UpdatedAt: result.UpdatedAt,
 		}
-		res = append(res, order)
+		res[uint64(result.ID)] = order
 	}
 
 	return res, nil

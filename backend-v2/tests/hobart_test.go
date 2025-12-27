@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend-v2/internal/biz"
 	"backend-v2/internal/conf"
 	"backend-v2/internal/data"
 	"context"
@@ -42,6 +43,10 @@ func TestBasic(t *testing.T) {
 		}
 	}
 	fmt.Println(filteredUsers)
+
+	fmt.Println(" biz.OrderStatus(order.Status),", biz.OrderStatus("open"))
+
+	fmt.Println(biz.OrderStatusOpen == "open1")
 
 }
 

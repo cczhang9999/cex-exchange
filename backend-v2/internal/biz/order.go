@@ -61,7 +61,7 @@ type OrderRepo interface {
 	FindOpenOrders(ctx context.Context, symbol string) ([]*Order, error)
 	// 关联查询方法
 	FindByUserIDWithUser(ctx context.Context, userID uint64) ([]*Order, error)
-	FindOrdersWithUserInfo(ctx context.Context, userID uint64) ([]*Order, error)
+	FindOrdersWithUserInfo(ctx context.Context, userID uint64) (map[uint64]*Order, error)
 	FindOrdersWithUserUsingJoins(ctx context.Context, symbol string) ([]*Order, error)
 }
 
@@ -110,7 +110,7 @@ func (uc *OrderUsecase) GetUserOrdersWithUser(ctx context.Context, userID uint64
 }
 
 // GetOrdersWithUserInfo 获取订单列表及用户信息
-func (uc *OrderUsecase) GetOrdersWithUserInfo(ctx context.Context, userID uint64) ([]*Order, error) {
+func (uc *OrderUsecase) GetOrdersWithUserInfo(ctx context.Context, userID uint64) (map[uint64]*Order, error) {
 	return uc.repo.FindOrdersWithUserInfo(ctx, userID)
 }
 

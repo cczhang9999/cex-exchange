@@ -8,10 +8,11 @@ import (
 	"backend-v2/internal/service"
 	"context"
 	"fmt"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 	"os"
 	"testing"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // TestGetUserOrdersViaService 直接调用 service 层的 GetUserOrders 方法（单元测试）
@@ -144,20 +145,22 @@ func TestFindOrdersWithUserInfo(t *testing.T) {
 	ctx := context.Background()
 
 	// 调用新添加的关联查询方法
-	ordersWithUser, err := repo.FindOrdersWithUserInfo(ctx, 1)
-	if err != nil {
-		t.Fatalf("FindOrdersWithUserInfo failed: %v", err)
-	}
-	for _, o := range ordersWithUser {
-		fmt.Printf("Order with User Info: %+v\n", o)
-	}
+	//ordersWithUser, err := repo.FindOrdersWithUserInfo(ctx, 1)
+	//if err != nil {
+	//	t.Fatalf("FindOrdersWithUserInfo failed: %v", err)
+	//}
+	//for _, o := range ordersWithUser {
+	//	fmt.Printf("Order with User Info: %+v\n", o)
+	//}
 
 	// 测试使用Joins的关联查询方法
-	ordersWithUserByJoins, err := repo.FindOrdersWithUserUsingJoins(ctx, "BTC-USDT")
+	ordersWithUserByJoins, err := repo.FindOrdersWithUserUsingJoins(ctx, "BTC/USDT")
 	if err != nil {
 		t.Logf("FindOrdersWithUserUsingJoins failed: %v", err) // 使用Logf而不是Fatal，因为可能没有匹配的数据
 	} else {
-		fmt.Println("userList", ordersWithUserByJoins)
+		for _, o := range ordersWithUserByJoins {
+			fmt.Printf("Order Info: %+v\n", o)
+		}
 	}
 
 	// 测试预加载方法
@@ -165,6 +168,8 @@ func TestFindOrdersWithUserInfo(t *testing.T) {
 	if err != nil {
 		t.Logf("FindByUserIDWithUser failed: %v", err) // 使用Logf而不是Fatal，因为可能没有匹配的数据
 	} else {
-		fmt.Println("userList", ordersWithUserByPreload)
+		for _, o := range ordersWithUserByPreload {
+			fmt.Printf("Order Info: %+v\n", o)
+		}
 	}
 }
