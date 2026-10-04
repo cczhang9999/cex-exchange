@@ -14,18 +14,20 @@ var ProviderSet = wire.NewSet(NewExchangeService)
 
 type ExchangeService struct {
 	pb.UnimplementedExchangeServiceServer
-	user    *biz.UserUsecase
-	order   *biz.OrderUsecase
-	account *biz.AccountUsecase
-	client  pb.ExchangeServiceClient
+	user        *biz.UserUsecase
+	order       *biz.OrderUsecase
+	account     *biz.AccountUsecase
+	accountFlow *biz.AccountFlowUsecase
+	client      pb.ExchangeServiceClient
 }
 
-func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, client pb.ExchangeServiceClient) *ExchangeService {
+func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, accountFlow *biz.AccountFlowUsecase, client pb.ExchangeServiceClient) *ExchangeService {
 	return &ExchangeService{
-		user:    user,
-		order:   order,
-		account: account,
-		client:  client,
+		user:        user,
+		order:       order,
+		account:     account,
+		accountFlow: accountFlow,
+		client:      client,
 	}
 }
 
@@ -105,6 +107,11 @@ func (s *ExchangeService) GetUserAccounts(ctx context.Context, userID uint64, as
 		return []*biz.Account{acc}, nil
 	}
 	return s.account.GetAccounts(ctx, userID)
+}
+
+// GetUserAccountFlows 分页查询用户资金流水
+func (s *ExchangeService) GetUserAccountFlows(ctx context.Context, q biz.AccountFlowQuery) (*biz.AccountFlowPage, error) {
+	return s.accountFlow.GetAccountFlows(ctx, q)
 }
 
 // Implement other methods as Unimplemented or TODO

@@ -2,17 +2,20 @@ package server
 
 import (
 	pb "backend-v2/api/proto"
+	"backend-v2/internal/biz"
 	"backend-v2/internal/conf"
 	"backend-v2/internal/pkg/response"
 	"backend-v2/internal/service"
 	"errors"
 	"fmt"
 	"net"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
-	"gorm.io/gorm"
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 )
 
 var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer)
@@ -153,7 +156,52 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		}
 		response.Success(c, accounts)
 	})
+
+	// 查询用户资金流水列表，可选参数 asset / change_type / start_time / end_time / page / page_size
+	r.GET("/api/account_flows", func(c *gin.Context) {
+		q := biz.AccountFlowQuery{
+			Asset:      c.Query("asset"),
+			ChangeType: c.Query("change_type"),
+		}
+		// TODO: Extract userID from token
+		// For now using hardcoded userID 1 as in original code
+		q.UserID = 1
+
+		if p, err := strconv.Atoi(c.Query("page")); err == nil && p > 0 {
+			q.Page = p
+		}
+		if ps, err := strconv.Atoi(c.Query("page_size")); err == nil && ps > 0 {
+			q.PageSize = ps
+		}
+		if t, ok := parseQueryTime(c.Query("start_time")); ok {
+			q.StartTime = t
+		}
+		if t, ok := parseQueryTime(c.Query("end_time")); ok {
+			q.EndTime = t
+		}
+
+		resp, err := s.GetUserAccountFlows(c.Request.Context(), q)
+		if err != nil {
+			response.Error(c, 500, "查询失败: "+err.Error())
+			return
+		}
+		response.Success(c, resp)
+	})
 	return r
+}
+
+// parseQueryTime 解析查询参数时间，支持 RFC3339 或 "2006-01-02 15:04:05" 格式
+func parseQueryTime(s string) (time.Time, bool) {
+	if s == "" {
+		return time.Time{}, false
+	}
+	if t, err := time.Parse(time.RFC3339, s); err == nil {
+		return t, true
+	}
+	if t, err := time.Parse("2006-01-02 15:04:05", s); err == nil {
+		return t, true
+	}
+	return time.Time{}, false
 }
 
 type Server struct {
