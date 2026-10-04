@@ -25,12 +25,14 @@ func initApp(bc *conf.Bootstrap) (*server.Server, func(), error) {
 	// wire.Build 会根据传入的 ProviderSet（供应者集合）和构造函数，
 	// 自动分析依赖关系图，并生成对应的初始化代码（通常在 wire_gen.go 中）。
 	panic(wire.Build(
-		server.ProviderSet,    // 网络服务层的依赖集合（如 HTTP/gRPC server）
-		data.ProviderSet,      // 数据访问层的通用依赖（如 DB、Redis 客户端）
-		data.UserProviderSet,  // 用户模块特有的数据层依赖
-		biz.ProviderSet,       // 业务逻辑层（Domain/UseCase）的依赖集合
-		service.ProviderSet,   // 服务实现层（实现 Proto 定义的接口）的依赖集合
-		server.NewServer,      // 最终创建 Server 实例的构造函数
+		server.ProviderSet,      // 网络服务层的依赖集合（如 HTTP/gRPC server）
+		data.ProviderSet,        // 数据访问层的通用依赖（如 DB、Redis 客户端）
+		data.UserProviderSet,    // 用户模块特有的数据层依赖
+		data.OrderProviderSet,   // 订单模块特有的数据层依赖
+		data.AccountProviderSet, // 账户模块特有的数据层依赖
+		biz.ProviderSet,         // 业务逻辑层（Domain/UseCase）的依赖集合
+		service.ProviderSet,     // 服务实现层（实现 Proto 定义的接口）的依赖集合
+		server.NewServer,        // 最终创建 Server 实例的构造函数
 	))
 }
 

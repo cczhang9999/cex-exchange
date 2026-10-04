@@ -1,0 +1,6 @@
+2025-12-27T09:23:46.876+08:00 [INFO] {90768180fded841854307e78e572da33} Config path set to: manifest/config
+2025-12-27T09:23:50.345+08:00 [INFO] {90768180fded841854307e78e572da33} ✅ Database connected successfully!
+2025-12-27T09:23:52.083+08:00 [INFO] ✅ Redis connected successfully (v8)!
+2025-12-27T12:15:44.879+08:00 [INFO] {402568d95ff7841848415f03508c38cc} Config path set to: manifest/config
+2025-12-27T12:15:48.018+08:00 [INFO] {402568d95ff7841848415f03508c38cc} ✅ Database connected successfully!
+2025-12-27T12:15:49.537+08:00 [INFO] ✅ Redis connected successfully (v8)!

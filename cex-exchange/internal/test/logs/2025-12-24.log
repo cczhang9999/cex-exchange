@@ -1,0 +1,19 @@
+2025-12-24T12:43:24.102+08:00 [INFO] {d843cc76240d8418130d6947666a0114} Config path set to: manifest/config
+2025-12-24T12:43:27.230+08:00 [INFO] {d843cc76240d8418130d6947666a0114} ✅ Database connected successfully!
+2025-12-24T12:43:28.778+08:00 [INFO] ✅ Redis connected successfully (v8)!
+2025-12-24T12:43:30.326+08:00 [INFO] ✅ Redis connected successfully (v8)!
+2025-12-24T12:43:31.182+08:00 [WARN] Redis Get Error: redis: nil
+2025-12-24T12:43:31.183+08:00 [INFO] ⚠️ Cache Miss for user: 1
+2025-12-24T12:43:33.230+08:00 [INFO] ✅ Cache Set Success for user: 1
+2025-12-24T12:43:34.050+08:00 [INFO] ✅ Cache Hit for user: 1
+2025-12-24T12:43:34.459+08:00 [WARN] Redis Get Error: redis: nil
+2025-12-24T12:43:34.459+08:00 [INFO] ⚠️ Cache Miss for user: 1
+2025-12-24T12:43:35.688+08:00 [INFO] ✅ Cache Set Success for user: 1
+2025-12-24T12:43:36.054+08:00 [WARN] Redis Get Error: redis: nil
+2025-12-24T12:43:36.054+08:00 [INFO] ⚠️ Cache Miss for user: 1
+2025-12-24T12:43:37.277+08:00 [INFO] ✅ Cache Set Success for user: 1
+2025-12-24T12:45:49.958+08:00 [INFO] {002c9a6c460d841871b12e4c6dc73271} Config path set to: manifest/config
+2025-12-24T12:45:52.964+08:00 [INFO] {002c9a6c460d841871b12e4c6dc73271} ✅ Database connected successfully!
+2025-12-24T12:45:54.483+08:00 [INFO] ✅ Redis connected successfully (v8)!
+2025-12-24T12:45:56.012+08:00 [INFO] ✅ Redis connected successfully (v8)!
+2025-12-24T12:45:56.795+08:00 [INFO] ✅ Cache Hit for user: 1

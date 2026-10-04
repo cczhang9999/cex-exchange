@@ -7,7 +7,7 @@ import (
 )
 
 // 更新ProviderSet，包含OrderUsecase
-var ProviderSet = wire.NewSet(NewUserUsecase, NewOrderUsecase)
+var ProviderSet = wire.NewSet(NewUserUsecase, NewOrderUsecase, NewAccountUsecase)
 
 // 定义订单方向
 type OrderSide string

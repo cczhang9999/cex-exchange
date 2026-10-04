@@ -9,9 +9,9 @@ server:
 data:
   database:
     driver: "mysql"
-    source: "hobart:123456@tcp(212.227.166.131:9257)/cex_exchange?charset=utf8mb4&parseTime=True&loc=Local"
+    source: "hobart:123456@tcp(78.154.103.23:9257)/cex_exchange?charset=utf8mb4&parseTime=True&loc=Local"
   redis:
-    addr: "194.164.194.118:9502"
+    addr: "78.154.103.26:9502"
     password: "pass123editmelol"
     read_timeout: "5s"
     write_timeout: "5s"

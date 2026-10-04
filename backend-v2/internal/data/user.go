@@ -3,6 +3,7 @@ package data
 import (
 	"backend-v2/internal/biz"
 	"context"
+	"fmt"
 
 	"github.com/google/wire"
 	"gorm.io/gorm"
@@ -66,6 +67,7 @@ func (r *userRepo) FindUserList(ctx context.Context) ([]*biz.User, error) {
 	if err := r.data.db.WithContext(ctx).Find(&users).Error; err != nil {
 		return nil, err
 	}
+	fmt.Printf("ccc %+v\n", users)
 	res := make([]*biz.User, 0, len(users))
 	for _, u := range users {
 		res = append(res, &biz.User{

@@ -32,12 +32,14 @@ func initApp(bc *conf.Bootstrap) (*server.Server, func(), error) {
 	userUsecase := biz.NewUserUsecase(userRepo, bc)
 	orderRepo := data.NewOrderRepo(dataData)
 	orderUsecase := biz.NewOrderUsecase(orderRepo)
+	accountRepo := data.NewAccountRepo(dataData)
+	accountUsecase := biz.NewAccountUsecase(accountRepo)
 	exchangeServiceClient, cleanup2, err := data.NewExchangeClient(bc)
 	if err != nil {
 		cleanup()
 		return nil, nil, err
 	}
-	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, exchangeServiceClient)
+	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, accountUsecase, exchangeServiceClient)
 	grpcServer := server.NewGRPCServer(bc, exchangeService)
 	engine := server.NewHTTPServer(bc, exchangeService)
 	serverServer := server.NewServer(grpcServer, engine, bc)

@@ -5,11 +5,13 @@ import (
 	"backend-v2/internal/conf"
 	"backend-v2/internal/pkg/response"
 	"backend-v2/internal/service"
+	"errors"
 	"fmt"
 	"net"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 	"google.golang.org/grpc"
 )
 
@@ -132,6 +134,24 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 			return
 		}
 		response.Success(c, resp.Orders)
+	})
+
+	// 查询用户账户列表，可选参数 asset 过滤币种
+	r.GET("/api/accounts", func(c *gin.Context) {
+		asset := c.Query("asset")
+
+		// TODO: Extract userID from token
+		// For now using hardcoded userID 1 as in original code
+		accounts, err := s.GetUserAccounts(c.Request.Context(), uint64(1), asset)
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				response.Error(c, 404, "账户不存在")
+				return
+			}
+			response.Error(c, 500, "查询失败: "+err.Error())
+			return
+		}
+		response.Success(c, accounts)
 	})
 	return r
 }

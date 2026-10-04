@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查看当前账号信息</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #303133;
+            margin-top: 0;
+        }
+        .info-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f5f7fa;
+            border-radius: 8px;
+        }
+        .label {
+            font-weight: bold;
+            color: #606266;
+            margin-bottom: 5px;
+        }
+        .value {
+            color: #303133;
+            word-break: break-all;
+        }
+        .warning {
+            color: #e6a23c;
+            padding: 15px;
+            background: #fdf6ec;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .error {
+            color: #f56c6c;
+            padding: 15px;
+            background: #fef0f0;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>当前账号信息</h1>
+        <div id="content"></div>
+    </div>
+
+    <script>
+        function displayAccountInfo() {
+            const content = document.getElementById('content');
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                content.innerHTML = '<div class="error">⚠️ 未找到登录信息，您可能还未登录。</div>';
+                return;
+            }
+
+            // 尝试解析 JWT token
+            try {
+                const parts = token.split('.');
+                if (parts.length === 3) {
+                    const payload = JSON.parse(atob(parts[1]));
+                    
+                    let html = '<div class="info-item">';
+                    html += '<div class="label">✅ 已登录</div>';
+                    html += '</div>';
+                    
+                    html += '<div class="info-item">';
+                    html += '<div class="label">用户名 (Username):</div>';
+                    html += `<div class="value">${payload.username || payload.sub || '未知'}</div>`;
+                    html += '</div>';
+                    
+                    if (payload.user_id || payload.id) {
+                        html += '<div class="info-item">';
+                        html += '<div class="label">用户ID (User ID):</div>';
+                        html += `<div class="value">${payload.user_id || payload.id}</div>`;
+                        html += '</div>';
+                    }
+                    
+                    if (payload.exp) {
+                        const expDate = new Date(payload.exp * 1000);
+                        html += '<div class="info-item">';
+                        html += '<div class="label">Token 过期时间:</div>';
+                        html += `<div class="value">${expDate.toLocaleString('zh-CN')}</div>`;
+                        html += '</div>';
+                    }
+                    
+                    html += '<div class="info-item">';
+                    html += '<div class="label">完整 Token 信息:</div>';
+                    html += `<div class="value">${JSON.stringify(payload, null, 2)}</div>`;
+                    html += '</div>';
+                    
+                    content.innerHTML = html;
+                } else {
+                    content.innerHTML = `
+                        <div class="warning">Token 格式不是标准的 JWT 格式</div>
+                        <div class="info-item">
+                            <div class="label">Token:</div>
+                            <div class="value">${token}</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                content.innerHTML = `
+                    <div class="warning">无法解析 Token 信息</div>
+                    <div class="info-item">
+                        <div class="label">Token:</div>
+                        <div class="value">${token}</div>
+                    </div>
+                    <div class="error">错误信息: ${error.message}</div>
+                `;
+            }
+        }
+
+        displayAccountInfo();
+    </script>
+</body>
+</html>

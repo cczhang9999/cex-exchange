@@ -27,14 +27,12 @@ func TestBasic(t *testing.T) {
 	}
 	fmt.Println("userList", userList)
 	// 创建一个map来存储userList
-	userMap := make(map[int][]user)
+	// userList 转 map
+	userMap := make(map[int]user, len(userList))
+	for _, u := range userList {
+		userMap[u.ID] = u
+	}
 	fmt.Println("userMap", userMap)
-	// 将userList中的元素放入map中
-	userMap[1] = userList
-	userMap[2] = userList
-	fmt.Printf("&userList: %p\n", &userList)
-	fmt.Println("userMap", userMap)
-	fmt.Println("userMap", userMap[1])
 
 	var filteredUsers []user
 	for _, u := range userList {
@@ -42,17 +40,27 @@ func TestBasic(t *testing.T) {
 			filteredUsers = append(filteredUsers, u)
 		}
 	}
+	a := []int{1, 2}
+	b := []int{3, 4, 5}
+
+	a = append(a, b...)
+	fmt.Println(" a===", a)
 	fmt.Println(filteredUsers)
 
-	fmt.Println(" biz.OrderStatus(order.Status),", biz.OrderStatus("open"))
-
+	fmt.Printf("status=%v\n", biz.OrderStatusOpen)
 	fmt.Println(biz.OrderStatusOpen == "open1")
+	order := biz.Order{
+		ID:     1001,
+		UserID: 2001,
+		Amount: 99.9,
+	}
+	fmt.Println(order)
 
 }
 
 func TestListUsers(t *testing.T) {
 	// 1. 初始化配置
-	configPath := "../configs/config.yaml"
+	configPath := "../configs/config-test.yaml"
 	if path := os.Getenv("CONFIG_PATH"); path != "" {
 		configPath = path
 	}
@@ -80,7 +88,7 @@ func TestListUsers(t *testing.T) {
 	}
 
 	fmt.Printf("Successfully fetched %d users from database\n", len(users))
-	for _, u := range users {
-		fmt.Printf("ID: %d, Username: %s, Email: %s,CreatedAt: %v,UpdatedAt: %v\n", u.ID, u.Username, u.Email, u.CreatedAt, u.UpdatedAt)
-	}
+	//for _, u := range users {
+	//	fmt.Printf("ID: %d, Username: %s, Email: %s,CreatedAt: %v,UpdatedAt: %v\n", u.ID, u.Username, u.Email, u.CreatedAt, u.UpdatedAt)
+	//}
 }

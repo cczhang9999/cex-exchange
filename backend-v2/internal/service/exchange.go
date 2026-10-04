@@ -14,16 +14,18 @@ var ProviderSet = wire.NewSet(NewExchangeService)
 
 type ExchangeService struct {
 	pb.UnimplementedExchangeServiceServer
-	user   *biz.UserUsecase
-	order  *biz.OrderUsecase
-	client pb.ExchangeServiceClient
+	user    *biz.UserUsecase
+	order   *biz.OrderUsecase
+	account *biz.AccountUsecase
+	client  pb.ExchangeServiceClient
 }
 
-func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, client pb.ExchangeServiceClient) *ExchangeService {
+func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, client pb.ExchangeServiceClient) *ExchangeService {
 	return &ExchangeService{
-		user:   user,
-		order:  order,
-		client: client,
+		user:    user,
+		order:   order,
+		account: account,
+		client:  client,
 	}
 }
 
@@ -91,6 +93,18 @@ func (s *ExchangeService) GetUserOrders(ctx context.Context, req *pb.GetMyOrders
 		Message: "Success",
 		Orders:  pbOrders,
 	}, nil
+}
+
+// GetUserAccounts 查询用户账户列表，asset 为空时查询全部币种
+func (s *ExchangeService) GetUserAccounts(ctx context.Context, userID uint64, asset string) ([]*biz.Account, error) {
+	if asset != "" {
+		acc, err := s.account.GetAccount(ctx, userID, asset)
+		if err != nil {
+			return nil, err
+		}
+		return []*biz.Account{acc}, nil
+	}
+	return s.account.GetAccounts(ctx, userID)
 }
 
 // Implement other methods as Unimplemented or TODO

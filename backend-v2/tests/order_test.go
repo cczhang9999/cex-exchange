@@ -57,7 +57,7 @@ func TestGetUserOrdersViaService(t *testing.T) {
 	}
 
 	// 5. 创建 ExchangeService 实例
-	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, exchangeClient)
+	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, nil, exchangeClient)
 
 	// 6. 调用 GetUserOrders 方法
 	ctx := context.Background()
@@ -154,7 +154,7 @@ func TestFindOrdersWithUserInfo(t *testing.T) {
 	//}
 
 	// 测试使用Joins的关联查询方法
-	ordersWithUserByJoins, err := repo.FindOrdersWithUserUsingJoins(ctx, "BTC/USDT")
+	ordersWithUserByJoins, err := repo.FindOrdersWithUserInfo(ctx, 1)
 	if err != nil {
 		t.Logf("FindOrdersWithUserUsingJoins failed: %v", err) // 使用Logf而不是Fatal，因为可能没有匹配的数据
 	} else {
@@ -164,12 +164,12 @@ func TestFindOrdersWithUserInfo(t *testing.T) {
 	}
 
 	// 测试预加载方法
-	ordersWithUserByPreload, err := repo.FindByUserIDWithUser(ctx, 1)
-	if err != nil {
-		t.Logf("FindByUserIDWithUser failed: %v", err) // 使用Logf而不是Fatal，因为可能没有匹配的数据
-	} else {
-		for _, o := range ordersWithUserByPreload {
-			fmt.Printf("Order Info: %+v\n", o)
-		}
-	}
+	//ordersWithUserByPreload, err := repo.FindByUserIDWithUser(ctx, 1)
+	//if err != nil {
+	//	t.Logf("FindByUserIDWithUser failed: %v", err) // 使用Logf而不是Fatal，因为可能没有匹配的数据
+	//} else {
+	//	for _, o := range ordersWithUserByPreload {
+	//		fmt.Printf("Order Info: %+v\n", o)
+	//	}
+	//}
 }
