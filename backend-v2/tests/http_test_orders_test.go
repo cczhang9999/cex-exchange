@@ -97,7 +97,7 @@ func (r *fakeOrderRepo) FindOrdersWithUserUsingJoins(ctx context.Context, symbol
 func TestHttpMyOrders(t *testing.T) {
 	repo := newFakeOrderRepo()
 	uc := biz.NewOrderUsecase(repo)
-	svc := service.NewExchangeService(nil, uc, nil, nil, nil)
+	svc := service.NewExchangeService(nil, uc, nil, nil, nil, nil)
 	r := server.NewHTTPServer(nil, svc)
 
 	// 预置用户 1 的订单数据（service.GetUserOrders 内部硬编码查询 userID=1）

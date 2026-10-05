@@ -29,6 +29,7 @@ func initApp(bc *conf.Bootstrap) (*server.Server, func(), error) {
 		data.ProviderSet,            // 数据访问层的通用依赖（如 DB、Redis 客户端）
 		data.UserProviderSet,        // 用户模块特有的数据层依赖
 		data.OrderProviderSet,       // 订单模块特有的数据层依赖
+		data.KlineProviderSet,       // K线模块特有的数据层依赖
 		data.AccountProviderSet,     // 账户模块特有的数据层依赖
 		data.AccountFlowProviderSet, // 资金流水模块特有的数据层依赖
 		biz.ProviderSet,             // 业务逻辑层（Domain/UseCase）的依赖集合

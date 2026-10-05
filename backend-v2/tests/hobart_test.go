@@ -48,7 +48,7 @@ func TestBasic(t *testing.T) {
 	fmt.Println(filteredUsers)
 
 	fmt.Printf("status=%v\n", biz.OrderStatusOpen)
-	fmt.Println(biz.OrderStatusOpen == "open1")
+	fmt.Println(biz.OrderStatusOpen == "open")
 	order := biz.Order{
 		ID:     1001,
 		UserID: 2001,

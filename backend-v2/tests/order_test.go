@@ -43,6 +43,7 @@ func TestGetUserOrdersViaService(t *testing.T) {
 	orderUsecase := biz.NewOrderUsecase(orderRepo)
 	userUsecase := biz.NewUserUsecase(userRepo, bc)
 	accountFlowUsecase := biz.NewAccountFlowUsecase(data.NewAccountFlowRepo(d))
+	klineUsecase := biz.NewKlineUsecase(data.NewKlineRepo(d))
 
 	// 4. 创建 exchange client（可以传 nil 如果不需要调用外部服务）
 	var exchangeClient pb.ExchangeServiceClient
@@ -58,7 +59,7 @@ func TestGetUserOrdersViaService(t *testing.T) {
 	}
 
 	// 5. 创建 ExchangeService 实例
-	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, nil, accountFlowUsecase, exchangeClient)
+	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, nil, accountFlowUsecase, klineUsecase, exchangeClient)
 
 	// 6. 调用 GetUserOrders 方法
 	ctx := context.Background()

@@ -129,6 +129,30 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		response.Success(c, resp.Trades)
 	})
 
+	// K线数据 endpoint
+	r.GET("/api/klines", func(c *gin.Context) {
+		symbol := c.Query("symbol")
+		interval := c.DefaultQuery("interval", "1m")
+		startTime, _ := strconv.ParseInt(c.Query("start_time"), 10, 64)
+		endTime, _ := strconv.ParseInt(c.Query("end_time"), 10, 64)
+		limitStr := c.DefaultQuery("limit", "500")
+		var limit int32
+		fmt.Sscanf(limitStr, "%d", &limit)
+
+		resp, err := s.GetKlines(c.Request.Context(), &pb.GetKlinesRequest{
+			Symbol:    symbol,
+			Interval:  interval,
+			StartTime: startTime,
+			EndTime:   endTime,
+			Limit:     limit,
+		})
+		if err != nil {
+			response.Error(c, 500, "查询失败: "+err.Error())
+			return
+		}
+		response.Success(c, resp.Klines)
+	})
+
 	r.GET("/api/my_orders", func(c *gin.Context) {
 
 		resp, err := s.GetUserOrders(c.Request.Context(), &pb.GetMyOrdersRequest{})

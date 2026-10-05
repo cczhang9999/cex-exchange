@@ -49,7 +49,7 @@ func TestHttpAccount(t *testing.T) {
 	repo := newFakeOrderRepo()
 	uc := biz.NewOrderUsecase(repo)
 	accUc := biz.NewAccountUsecase(newFakeAccountRepo())
-	svc := service.NewExchangeService(nil, uc, accUc, nil, nil)
+	svc := service.NewExchangeService(nil, uc, accUc, nil, nil, nil)
 	r := server.NewHTTPServer(nil, svc)
 
 	// 创建 HTTP 请求
@@ -142,7 +142,7 @@ func (r *fakeAccountFlowRepo) FindPageByUserID(ctx context.Context, q biz.Accoun
 func TestHttpAccountFlows(t *testing.T) {
 	uc := biz.NewOrderUsecase(newFakeOrderRepo())
 	flowUc := biz.NewAccountFlowUsecase(newFakeAccountFlowRepo())
-	svc := service.NewExchangeService(nil, uc, nil, flowUc, nil)
+	svc := service.NewExchangeService(nil, uc, nil, flowUc, nil, nil)
 	r := server.NewHTTPServer(nil, svc)
 
 	req := httptest.NewRequest(

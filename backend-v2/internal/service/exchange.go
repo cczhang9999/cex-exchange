@@ -18,15 +18,17 @@ type ExchangeService struct {
 	order       *biz.OrderUsecase
 	account     *biz.AccountUsecase
 	accountFlow *biz.AccountFlowUsecase
+	kline       *biz.KlineUsecase
 	client      pb.ExchangeServiceClient
 }
 
-func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, accountFlow *biz.AccountFlowUsecase, client pb.ExchangeServiceClient) *ExchangeService {
+func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, accountFlow *biz.AccountFlowUsecase, kline *biz.KlineUsecase, client pb.ExchangeServiceClient) *ExchangeService {
 	return &ExchangeService{
 		user:        user,
 		order:       order,
 		account:     account,
 		accountFlow: accountFlow,
+		kline:       kline,
 		client:      client,
 	}
 }
@@ -62,6 +64,31 @@ func (s *ExchangeService) GetOrderBook(ctx context.Context, req *pb.GetOrderBook
 
 func (s *ExchangeService) GetRecentTrades(ctx context.Context, req *pb.GetRecentTradesRequest) (*pb.GetRecentTradesResponse, error) {
 	return s.client.GetRecentTrades(ctx, req)
+}
+
+func (s *ExchangeService) GetKlines(ctx context.Context, req *pb.GetKlinesRequest) (*pb.GetKlinesResponse, error) {
+	klines, err := s.kline.GetKlines(ctx, req.Symbol, req.Interval, req.StartTime, req.EndTime, req.Limit)
+	if err != nil {
+		return &pb.GetKlinesResponse{Success: false, Message: err.Error()}, nil
+	}
+
+	pbKlines := make([]*pb.Kline, 0, len(klines))
+	for _, k := range klines {
+		pbKlines = append(pbKlines, &pb.Kline{
+			Timestamp: k.OpenTime.Unix(),
+			Open:      fmt.Sprintf("%.8f", k.Open),
+			High:      fmt.Sprintf("%.8f", k.High),
+			Low:       fmt.Sprintf("%.8f", k.Low),
+			Close:     fmt.Sprintf("%.8f", k.Close),
+			Volume:    fmt.Sprintf("%.8f", k.Volume),
+		})
+	}
+
+	return &pb.GetKlinesResponse{
+		Success: true,
+		Message: "Success",
+		Klines:  pbKlines,
+	}, nil
 }
 
 func (s *ExchangeService) GetUserOrders(ctx context.Context, req *pb.GetMyOrdersRequest) (*pb.GetMyOrdersResponse, error) {
