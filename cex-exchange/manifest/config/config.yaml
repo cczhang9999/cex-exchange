@@ -14,7 +14,7 @@ server:
 
 database:
   default:
-    link: "mysql:hobart:123456@tcp(212.227.166.131:9257)/test?charset=utf8mb4&parseTime=True&loc=Local"
+    link: "mysql:hobart:123456@tcp(78.154.103.23:9257)/test?charset=utf8mb4&parseTime=True&loc=Local"
     type: "mysql"
     debug: true
     dryRun: false
@@ -24,7 +24,7 @@ database:
 
 redis:
   default:
-    address: "194.164.194.118:9502"
+    address: "78.154.103.26:9502"
     db: 0
     pass: "pass123editmelol"
     idleTimeout: 600

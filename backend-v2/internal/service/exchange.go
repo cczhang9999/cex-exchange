@@ -141,4 +141,9 @@ func (s *ExchangeService) GetUserAccountFlows(ctx context.Context, q biz.Account
 	return s.accountFlow.GetAccountFlows(ctx, q)
 }
 
+// GetUserOrderPage 分页查询用户订单
+func (s *ExchangeService) GetUserOrderPage(ctx context.Context, q biz.OrderQuery) (*biz.OrderPage, error) {
+	return s.order.GetOrdersPage(ctx, q)
+}
+
 // Implement other methods as Unimplemented or TODO

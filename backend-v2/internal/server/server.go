@@ -211,6 +211,42 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		}
 		response.Success(c, resp)
 	})
+
+	// 查询用户订单分页列表，可选参数 symbol / status / side / start_time / end_time / page / page_size
+	r.GET("/api/orders", func(c *gin.Context) {
+		q := biz.OrderQuery{
+			Symbol: c.Query("symbol"),
+		}
+		// TODO: Extract userID from token
+		// For now using hardcoded userID 1 as in original code
+		q.UserID = 1
+
+		if s := biz.OrderStatus(c.Query("status")); s != "" {
+			q.Status = s
+		}
+		if s := biz.OrderSide(c.Query("side")); s != "" {
+			q.Side = s
+		}
+		if p, err := strconv.Atoi(c.Query("page")); err == nil && p > 0 {
+			q.Page = p
+		}
+		if ps, err := strconv.Atoi(c.Query("page_size")); err == nil && ps > 0 {
+			q.PageSize = ps
+		}
+		if t, ok := parseQueryTime(c.Query("start_time")); ok {
+			q.StartTime = t
+		}
+		if t, ok := parseQueryTime(c.Query("end_time")); ok {
+			q.EndTime = t
+		}
+
+		resp, err := s.GetUserOrderPage(c.Request.Context(), q)
+		if err != nil {
+			response.Error(c, 500, "查询失败: "+err.Error())
+			return
+		}
+		response.Success(c, resp)
+	})
 	return r
 }
 

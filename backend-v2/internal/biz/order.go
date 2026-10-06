@@ -51,11 +51,32 @@ type Order struct {
 	DeletedAt *time.Time  `json:"deleted_at,omitempty"`
 }
 
+// OrderQuery 分页查询条件
+type OrderQuery struct {
+	UserID    uint64
+	Symbol    string
+	Status    OrderStatus
+	Side      OrderSide
+	StartTime time.Time
+	EndTime   time.Time
+	Page      int
+	PageSize  int
+}
+
+// OrderPage 分页结果
+type OrderPage struct {
+	Total    int64    `json:"total"`
+	Page     int      `json:"page"`
+	PageSize int      `json:"page_size"`
+	Orders   []*Order `json:"orders"`
+}
+
 // OrderRepo 定义订单存储接口
 type OrderRepo interface {
 	Save(ctx context.Context, order *Order) (*Order, error)
 	FindByID(ctx context.Context, id uint64) (*Order, error)
 	FindByUserID(ctx context.Context, userID uint64) ([]*Order, error)
+	FindPage(ctx context.Context, q OrderQuery) (*OrderPage, error)
 	UpdateStatus(ctx context.Context, id uint64, status OrderStatus) error
 	UpdateFilled(ctx context.Context, id uint64, filled float64) error
 	FindOpenOrders(ctx context.Context, symbol string) ([]*Order, error)
@@ -117,6 +138,20 @@ func (uc *OrderUsecase) GetOrdersWithUserInfo(ctx context.Context, userID uint64
 // GetOrdersWithUserByJoins 获取订单列表及用户信息（使用Joins）
 func (uc *OrderUsecase) GetOrdersWithUserByJoins(ctx context.Context, symbol string) ([]*Order, error) {
 	return uc.repo.FindOrdersWithUserUsingJoins(ctx, symbol)
+}
+
+// GetOrdersPage 分页查询订单
+func (uc *OrderUsecase) GetOrdersPage(ctx context.Context, q OrderQuery) (*OrderPage, error) {
+	if q.Page <= 0 {
+		q.Page = 1
+	}
+	if q.PageSize <= 0 {
+		q.PageSize = 20
+	}
+	if q.PageSize > 100 {
+		q.PageSize = 100
+	}
+	return uc.repo.FindPage(ctx, q)
 }
 
 // CancelOrder 取消订单

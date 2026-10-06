@@ -60,7 +60,7 @@ func testGRPC() {
 		fmt.Printf("✅ 成功! Token: %s\n", loginResp.Token)
 	}
 
-	fmt.Printf("%v\n", loginResp)
+	fmt.Printf("loginResp==%v\n", loginResp)
 }
 
 // func testHTTP() {

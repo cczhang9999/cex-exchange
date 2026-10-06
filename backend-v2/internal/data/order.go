@@ -104,6 +104,74 @@ func (r *orderRepo) FindByUserID(ctx context.Context, userID uint64) ([]*biz.Ord
 	return res, nil
 }
 
+// FindPage 按条件分页查询订单
+func (r *orderRepo) FindPage(ctx context.Context, q biz.OrderQuery) (*biz.OrderPage, error) {
+	db := r.data.db.WithContext(ctx).Model(&Order{})
+	if q.UserID != 0 {
+		db = db.Where("user_id = ?", q.UserID)
+	}
+	if q.Symbol != "" {
+		db = db.Where("symbol = ?", q.Symbol)
+	}
+	if q.Status != "" {
+		db = db.Where("status = ?", string(q.Status))
+	}
+	if q.Side != "" {
+		db = db.Where("side = ?", string(q.Side))
+	}
+	if !q.StartTime.IsZero() {
+		db = db.Where("created_at >= ?", q.StartTime)
+	}
+	if !q.EndTime.IsZero() {
+		db = db.Where("created_at <= ?", q.EndTime)
+	}
+
+	var total int64
+	if err := db.Count(&total).Error; err != nil {
+		return nil, err
+	}
+
+	page, pageSize := q.Page, q.PageSize
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 20
+	}
+	if pageSize > 100 {
+		pageSize = 100
+	}
+
+	var orders []Order
+	if err := db.Order("id ASC").Offset((page - 1) * pageSize).Limit(pageSize).Find(&orders).Error; err != nil {
+		return nil, err
+	}
+
+	res := make([]*biz.Order, 0, len(orders))
+	for _, o := range orders {
+		res = append(res, &biz.Order{
+			ID:        uint64(o.ID),
+			UserID:    o.UserID,
+			Symbol:    o.Symbol,
+			Side:      biz.OrderSide(o.Side),
+			Type:      biz.OrderType(o.Type),
+			Price:     o.Price,
+			Amount:    o.Amount,
+			Filled:    o.Filled,
+			Status:    biz.OrderStatus(o.Status),
+			CreatedAt: o.CreatedAt,
+			UpdatedAt: o.UpdatedAt,
+		})
+	}
+
+	return &biz.OrderPage{
+		Total:    total,
+		Page:     page,
+		PageSize: pageSize,
+		Orders:   res,
+	}, nil
+}
+
 // 添加关联查询方法 - 通过预加载获取订单及用户信息
 func (r *orderRepo) FindByUserIDWithUser(ctx context.Context, userID uint64) ([]*biz.Order, error) {
 	var orders []Order

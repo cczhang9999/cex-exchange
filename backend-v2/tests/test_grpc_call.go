@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 
 	pb "backend-v2/api/proto"
@@ -14,11 +15,34 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
+// findConfigPath 自动探测配置文件位置，兼容多种运行方式：
+//   - go run tests/test_grpc_call.go  （从项目根目录运行）
+//   - cd tests && go run test_grpc_call.go
+//   - 直接执行已编译的二进制文件
+func findConfigPath() string {
+	candidates := []string{
+		"configs/config.yaml",    // 从项目根目录运行
+		"../configs/config.yaml", // 从 tests/ 目录运行
+		filepath.Join(filepath.Dir(exePath()), "configs/config.yaml"), // 从可执行文件目录运行
+	}
+	for _, c := range candidates {
+		if _, err := os.ReadFile(c); err == nil {
+			return c
+		}
+	}
+	return "configs/config.yaml" // 兜底
+}
+
+func exePath() string {
+	p, _ := os.Executable()
+	return p
+}
+
 func main() {
 	fmt.Println("🔗 [backend-v2] 正在尝试调用 [cex-exchange] gRPC 服务...")
 
 	// 加载配置
-	configPath := "../configs/config.yaml"
+	configPath := findConfigPath()
 	if path := os.Getenv("CONFIG_PATH"); path != "" {
 		configPath = path
 	}

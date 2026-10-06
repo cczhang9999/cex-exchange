@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"sort"
 	"testing"
 	"time"
 
@@ -19,6 +20,75 @@ type fakeOrderRepo struct {
 
 func newFakeOrderRepo() *fakeOrderRepo {
 	return &fakeOrderRepo{orders: map[uint64]*biz.Order{}}
+}
+
+// seedOrders 预置 n 条订单（单线程插入，ID 依次为 1..n）
+func (r *fakeOrderRepo) seedOrders(n int, userID uint64) {
+	for i := 0; i < n; i++ {
+		side := biz.OrderSideBuy
+		if i%2 == 1 {
+			side = biz.OrderSideSell
+		}
+		_, _ = r.Save(context.Background(), &biz.Order{
+			UserID: userID,
+			Symbol: "BTC/USDT",
+			Side:   side,
+			Type:   biz.OrderTypeLimit,
+			Price:  65000.0 + float64(i),
+			Amount: 0.1,
+			Status: biz.OrderStatusOpen,
+		})
+	}
+}
+
+// FindPage 按条件分页查询订单（内存版，按 ID 升序保证分页稳定）
+func (r *fakeOrderRepo) FindPage(ctx context.Context, q biz.OrderQuery) (*biz.OrderPage, error) {
+	var matched []*biz.Order
+	for _, o := range r.orders {
+		if o.UserID != q.UserID {
+			continue
+		}
+		if q.Symbol != "" && o.Symbol != q.Symbol {
+			continue
+		}
+		if q.Status != "" && o.Status != q.Status {
+			continue
+		}
+		if q.Side != "" && o.Side != q.Side {
+			continue
+		}
+		if !q.StartTime.IsZero() && o.CreatedAt.Before(q.StartTime) {
+			continue
+		}
+		if !q.EndTime.IsZero() && o.CreatedAt.After(q.EndTime) {
+			continue
+		}
+		matched = append(matched, o)
+	}
+	sort.Slice(matched, func(i, j int) bool { return matched[i].ID < matched[j].ID })
+
+	page, pageSize := q.Page, q.PageSize
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 20
+	}
+	start := (page - 1) * pageSize
+	if start > len(matched) {
+		start = len(matched)
+	}
+	end := start + pageSize
+	if end > len(matched) {
+		end = len(matched)
+	}
+
+	return &biz.OrderPage{
+		Total:    int64(len(matched)),
+		Page:     page,
+		PageSize: pageSize,
+		Orders:   matched[start:end],
+	}, nil
 }
 
 func (r *fakeOrderRepo) Save(ctx context.Context, order *biz.Order) (*biz.Order, error) {
