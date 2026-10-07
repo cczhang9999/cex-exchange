@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"sort"
 	"sync"
 	"sync/atomic"
@@ -13,6 +14,8 @@ import (
 	"time"
 
 	"backend-v2/internal/biz"
+	"backend-v2/internal/conf"
+	"backend-v2/internal/data"
 	"backend-v2/internal/server"
 	"backend-v2/internal/service"
 )
@@ -495,37 +498,63 @@ func TestConcurrentWithTimeout(t *testing.T) {
 // 示例 5: 高并发分页查询 /api/orders，多线程拉取全部页后合并校验
 // ---------------------------------------------------------------------------
 
-// TestConcurrentOrders_MergeByPage 高并发分页查询集成测试。
-// 多个 goroutine 并发拉取 /api/orders 的全部页，分别校验每页元信息，
-// 再将各页结果按订单 ID 去重合并，校验数据无丢失、无重复、ID 连续。
-// 预置 25 条订单（user 1），每页 5 条，共 5 页；并发数 10 大于页数以制造真实竞争。
+// TestConcurrentOrders_MergeByPage 高并发分页查询集成测试（查询 test 数据库真实数据）。
+// 连接 configs/config.yaml 中配置的 test MySQL 数据库（可用 CONFIG_PATH 覆盖），
+// 通过 /api/orders 接口由多个 goroutine 并发拉取 user 1 的全部订单页，
+// 分别校验每页元信息，再将各页结果按订单 ID 去重合并，校验数据无丢失、无重复。
+// 每页 page_size=5，总页数由第 1 页探测到的 Total 动态计算；并发数 10 制造真实竞争。
 func TestConcurrentOrders_MergeByPage(t *testing.T) {
-	// 1. 构建内存服务，预置 25 条订单（user 1），page_size=5 共 5 页
-	orderRepo := newFakeOrderRepo()
-	orderRepo.seedOrders(25, 1)
-	orderUc := biz.NewOrderUsecase(orderRepo)
+	// 1. 初始化配置，连接 test 数据库
+	configPath := "../configs/config.yaml"
+	if path := os.Getenv("CONFIG_PATH"); path != "" {
+		configPath = path
+	}
+	bc, err := conf.Load(configPath)
+	if err != nil {
+		t.Fatalf("failed to load config from %s: %v", configPath, err)
+	}
+
+	// 2. 初始化数据层，使用真实 OrderRepo 查询 test 数据库
+	db := data.NewDB(bc)
+	rdb := data.NewRedis(bc)
+	d, cleanup, err := data.NewData(db, rdb)
+	if err != nil {
+		t.Fatalf("failed to init data: %v", err)
+	}
+	defer cleanup()
+
+	orderUc := biz.NewOrderUsecase(data.NewOrderRepo(d))
 	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil)
 	router := server.NewHTTPServer(nil, svc)
 
 	const (
-		totalOrders = 25
 		pageSize    = 5
 		concurrency = 10 // 并发 goroutine 数（大于页数，制造真实竞争）
 	)
-	totalPages := totalOrders / pageSize
 	ctx := context.Background()
 
-	type OrderPage = biz.OrderPage
+	// 3. 先同步探测第 1 页，获取 test 数据库中 user 1 的订单总数
+	probe, err := fetchOrderPage(router, ctx, 1, pageSize)
+	if err != nil {
+		t.Fatalf("探测第 1 页失败: %v", err)
+	}
+	total := probe.Total
+	if total == 0 {
+		t.Skip("test 数据库中 user 1 无订单数据，跳过")
+		return
+	}
+	totalPages := int((total + pageSize - 1) / pageSize)
+	t.Logf("[Orders] test 数据库探测: user 1 共 %d 条订单, page_size=%d, 共 %d 页", total, pageSize, totalPages)
 
-	// 并发安全收集：页面结果、错误、耗时、成功/失败计数
+	// 4. 并发安全收集：页面结果、错误、耗时、成功/失败计数
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 	var latencies []time.Duration
 	var success, failed atomic.Int64
-	var pages []*OrderPage
+	var pages []*biz.OrderPage
 	var errs []error
 
-	// 2. 并发拉取每一页：sem 信号量控制最大并发 goroutine 数，defer 释放避免泄漏
+	// 5. 并发拉取每一页：sem 信号量控制最大并发 goroutine 数，defer 释放避免泄漏
 	sem := make(chan struct{}, concurrency)
 	startWall := time.Now()
 	for p := 1; p <= totalPages; p++ {
@@ -535,57 +564,37 @@ func TestConcurrentOrders_MergeByPage(t *testing.T) {
 			defer wg.Done()
 			defer func() { <-sem }()
 			start := time.Now()
-			url := fmt.Sprintf("/api/orders?page=%d&page_size=%d", page, pageSize)
-			req := httptest.NewRequest(http.MethodGet, url, nil)
-			req = req.WithContext(ctx)
-			w := httptest.NewRecorder()
-			router.ServeHTTP(w, req)
+			pg, err := fetchOrderPage(router, ctx, page, pageSize)
 			lat := time.Since(start)
 
 			mu.Lock()
 			latencies = append(latencies, lat)
 			mu.Unlock()
 
-			if w.Code != http.StatusOK {
-				failed.Add(1)
-				mu.Lock()
-				errs = append(errs, fmt.Errorf("page=%d status=%d body=%s", page, w.Code, w.Body.String()))
-				mu.Unlock()
-				return
-			}
-			var resp ApiResponse
-			if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
+			if err != nil {
 				failed.Add(1)
 				mu.Lock()
 				errs = append(errs, err)
 				mu.Unlock()
 				return
 			}
-			var pg OrderPage
-			if err := json.Unmarshal(resp.Data, &pg); err != nil {
-				failed.Add(1)
-				mu.Lock()
-				errs = append(errs, err)
-				mu.Unlock()
-				return
-			}
-			// 校验每页元信息：总条数、当前页码、每页条数
-			if pg.Total != totalOrders || pg.Page != page || pg.PageSize != pageSize {
+			// 校验每页元信息：总条数、当前页码、每页条数（末页允许不满页）
+			if pg.Total != total || pg.Page != page || pg.PageSize != pageSize {
 				failed.Add(1)
 				mu.Lock()
 				errs = append(errs, fmt.Errorf("page=%d 元信息不符: total=%d page=%d pageSize=%d", page, pg.Total, pg.Page, pg.PageSize))
 				mu.Unlock()
 				return
 			}
-			if len(pg.Orders) != pageSize {
+			if len(pg.Orders) == 0 || len(pg.Orders) > pageSize {
 				failed.Add(1)
 				mu.Lock()
-				errs = append(errs, fmt.Errorf("page=%d 条数不符: got %d want %d", page, len(pg.Orders), pageSize))
+				errs = append(errs, fmt.Errorf("page=%d 条数不符: got %d want 1..%d", page, len(pg.Orders), pageSize))
 				mu.Unlock()
 				return
 			}
 			mu.Lock()
-			pages = append(pages, &pg)
+			pages = append(pages, pg)
 			mu.Unlock()
 			success.Add(1)
 		}(p)
@@ -599,22 +608,44 @@ func TestConcurrentOrders_MergeByPage(t *testing.T) {
 		t.Fatalf("分页请求失败: %v", errs[0])
 	}
 
-	// 3. 合并全部分页：按订单 ID 去重、升序排序，校验无丢失、无重复
+	// 6. 合并全部分页：按订单 ID 去重、升序排序，校验无丢失、无重复
 	merged := mergeOrderPages(pages)
-	t.Logf("[Orders] 分页批次=%d 合并后总条数=%d", len(pages), len(merged))
+	t.Logf("[Orders] 分页批次=%d 合并后总条数=%d (test 数据库 Total=%d)", len(pages), len(merged), total)
 
-	if len(merged) != totalOrders {
-		t.Fatalf("合并后数量不符合预期: got %d want %d", len(merged), totalOrders)
+	if int64(len(merged)) != total {
+		t.Fatalf("合并后数量与 test 数据库 Total 不符: got %d want %d", len(merged), total)
 	}
-	// 校验 ID 连续无缺失（fakeRepo 预置 ID 1..25）
-	for i, o := range merged {
-		if o.ID != uint64(i+1) {
-			t.Fatalf("合并后订单 ID 不连续: index=%d ID=%d", i, o.ID)
+	// 校验 ID 严格递增：无重复、无乱序（数据库自增 ID 不要求连续）
+	for i := 1; i < len(merged); i++ {
+		if merged[i].ID <= merged[i-1].ID {
+			t.Fatalf("合并后订单 ID 重复或乱序: index=%d ID=%d prevID=%d", i, merged[i].ID, merged[i-1].ID)
 		}
 	}
 	for _, o := range merged {
 		t.Logf("  Order ID=%d Symbol=%s Side=%s Price=%.2f Status=%s", o.ID, o.Symbol, o.Side, o.Price, o.Status)
 	}
+}
+
+// fetchOrderPage 单次请求 /api/orders 指定页并解析响应
+func fetchOrderPage(router http.Handler, ctx context.Context, page, pageSize int) (*biz.OrderPage, error) {
+	url := fmt.Sprintf("/api/orders?page=%d&page_size=%d", page, pageSize)
+	req := httptest.NewRequest(http.MethodGet, url, nil)
+	req = req.WithContext(ctx)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		return nil, fmt.Errorf("page=%d status=%d body=%s", page, w.Code, w.Body.String())
+	}
+	var resp ApiResponse
+	if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
+		return nil, fmt.Errorf("page=%d 解析响应失败: %w", page, err)
+	}
+	var pg biz.OrderPage
+	if err := json.Unmarshal(resp.Data, &pg); err != nil {
+		return nil, fmt.Errorf("page=%d 解析分页数据失败: %w", page, err)
+	}
+	return &pg, nil
 }
 
 // mergeOrderPages 将多页订单结果按 ID 去重合并，并按 ID 升序排序
