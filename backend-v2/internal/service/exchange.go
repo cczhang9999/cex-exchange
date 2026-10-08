@@ -3,9 +3,13 @@ package service
 import (
 	pb "backend-v2/api/proto"
 	"backend-v2/internal/biz"
+	"backend-v2/internal/conf"
+	"backend-v2/internal/pkg/jwt"
+	"backend-v2/internal/server/middleware"
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/google/wire"
 )
@@ -20,9 +24,14 @@ type ExchangeService struct {
 	accountFlow *biz.AccountFlowUsecase
 	kline       *biz.KlineUsecase
 	client      pb.ExchangeServiceClient
+	jwtSecret   string
 }
 
-func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, accountFlow *biz.AccountFlowUsecase, kline *biz.KlineUsecase, client pb.ExchangeServiceClient) *ExchangeService {
+func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, accountFlow *biz.AccountFlowUsecase, kline *biz.KlineUsecase, client pb.ExchangeServiceClient, conf *conf.Bootstrap) *ExchangeService {
+	jwtSecret := ""
+	if conf != nil && conf.Auth != nil {
+		jwtSecret = conf.Auth.JwtSecret
+	}
 	return &ExchangeService{
 		user:        user,
 		order:       order,
@@ -30,7 +39,31 @@ func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account 
 		accountFlow: accountFlow,
 		kline:       kline,
 		client:      client,
+		jwtSecret:   jwtSecret,
 	}
+}
+
+// extractUserIDFromToken 解析 token，返回 user_id；token 为空或解析失败时返回 0 和错误
+func (s *ExchangeService) extractUserIDFromToken(token string) (uint64, error) {
+	if token == "" {
+		return 0, fmt.Errorf("token is required")
+	}
+	claims, err := jwt.ParseToken(token, s.jwtSecret)
+	if err != nil {
+		return 0, fmt.Errorf("invalid token: %w", err)
+	}
+	return claims.UserID, nil
+}
+
+// requireUserID 获取当前请求的认证用户 ID。
+// 优先从 context 中读取（由 gRPC auth 拦截器设置），其次从请求中的 token 字段解析。
+func (s *ExchangeService) requireUserID(ctx context.Context, token string) (uint64, error) {
+	// 1. 优先从 context 获取（gRPC 拦截器已完成认证）
+	if uid, ok := middleware.FromContext(ctx); ok {
+		return uid, nil
+	}
+	// 2. 回退到解析请求中的 token 字段
+	return s.extractUserIDFromToken(token)
 }
 
 func (s *ExchangeService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
@@ -91,16 +124,149 @@ func (s *ExchangeService) GetKlines(ctx context.Context, req *pb.GetKlinesReques
 	}, nil
 }
 
+// PlaceOrder 下单 (gRPC 接口)
+// 从 token 中提取用户 ID，调用 biz 层创建订单，返回订单 ID
+func (s *ExchangeService) PlaceOrder(ctx context.Context, req *pb.PlaceOrderRequest) (*pb.PlaceOrderResponse, error) {
+	// 1. 身份认证：优先从 context 获取，回退到请求 token 字段
+	userID, err := s.requireUserID(ctx, req.Token)
+	if err != nil {
+		return &pb.PlaceOrderResponse{Success: false, Message: "认证失败: " + err.Error()}, nil
+	}
+
+	// 2. 校验参数
+	if req.Symbol == "" {
+		return &pb.PlaceOrderResponse{Success: false, Message: "symbol is required"}, nil
+	}
+	if req.Side == "" {
+		return &pb.PlaceOrderResponse{Success: false, Message: "side is required"}, nil
+	}
+	if req.Type == "" {
+		return &pb.PlaceOrderResponse{Success: false, Message: "type is required"}, nil
+	}
+
+	// 3. 解析字符串类型的价格、数量 (避免浮点精度问题)
+	price, err := strconv.ParseFloat(req.Price, 64)
+	if err != nil {
+		return &pb.PlaceOrderResponse{Success: false, Message: "invalid price: " + err.Error()}, nil
+	}
+	amount, err := strconv.ParseFloat(req.Amount, 64)
+	if err != nil {
+		return &pb.PlaceOrderResponse{Success: false, Message: "invalid amount: " + err.Error()}, nil
+	}
+
+	// 4. 转换为 biz 类型并创建订单
+	side := biz.OrderSide(req.Side)
+	orderType := biz.OrderType(req.Type)
+	order, err := s.order.CreateOrder(ctx, userID, req.Symbol, side, orderType, price, amount)
+	if err != nil {
+		return &pb.PlaceOrderResponse{Success: false, Message: "下单失败: " + err.Error()}, nil
+	}
+
+	log.Printf("PlaceOrder: user_id=%d, symbol=%s, side=%s, type=%s, price=%s, amount=%s -> order_id=%d",
+		userID, req.Symbol, req.Side, req.Type, req.Price, req.Amount, order.ID)
+
+	return &pb.PlaceOrderResponse{
+		Success: true,
+		Message: "Order placed successfully",
+		OrderId: int64(order.ID),
+	}, nil
+}
+
+// CancelOrder 取消订单 (gRPC 接口)
+// 从 token 中提取用户 ID，验证订单归属后取消
+func (s *ExchangeService) CancelOrder(ctx context.Context, req *pb.CancelOrderRequest) (*pb.CancelOrderResponse, error) {
+	// 1. 身份认证
+	userID, err := s.requireUserID(ctx, req.Token)
+	if err != nil {
+		return &pb.CancelOrderResponse{Success: false, Message: "认证失败: " + err.Error()}, nil
+	}
+
+	// 2. 查询订单，验证归属
+	order, err := s.order.GetOrder(ctx, req.OrderId)
+	if err != nil {
+		return &pb.CancelOrderResponse{Success: false, Message: "订单不存在"}, nil
+	}
+	if order.UserID != userID {
+		return &pb.CancelOrderResponse{Success: false, Message: "无权取消此订单"}, nil
+	}
+
+	// 3. 取消订单
+	if err := s.order.CancelOrder(ctx, req.OrderId); err != nil {
+		return &pb.CancelOrderResponse{Success: false, Message: "取消失败: " + err.Error()}, nil
+	}
+
+	log.Printf("CancelOrder: user_id=%d, order_id=%d", userID, req.OrderId)
+	return &pb.CancelOrderResponse{
+		Success: true,
+		Message: "Order cancelled successfully",
+	}, nil
+}
+
+// GetMyOrders 查询用户订单 (gRPC 接口)
+// 从 token 中提取用户 ID，根据 symbol 可选过滤返回用户订单
+func (s *ExchangeService) GetMyOrders(ctx context.Context, req *pb.GetMyOrdersRequest) (*pb.GetMyOrdersResponse, error) {
+	// 1. 身份认证
+	userID, err := s.requireUserID(ctx, req.Token)
+	if err != nil {
+		return &pb.GetMyOrdersResponse{Success: false, Message: "认证失败: " + err.Error()}, nil
+	}
+
+	// 2. 查询用户订单
+	orders, err := s.order.GetUserOrders(ctx, userID)
+	if err != nil {
+		return &pb.GetMyOrdersResponse{Success: false, Message: "查询失败: " + err.Error()}, nil
+	}
+
+	// 3. 过滤 symbol（如果指定）
+	pbOrders := make([]*pb.Order, 0, len(orders))
+	for _, o := range orders {
+		if req.Symbol != "" && o.Symbol != req.Symbol {
+			continue
+		}
+		pbOrders = append(pbOrders, &pb.Order{
+			Id:        o.ID,
+			UserId:    o.UserID,
+			Symbol:    o.Symbol,
+			Side:      string(o.Side),
+			Type:      string(o.Type),
+			Price:     fmt.Sprintf("%.8f", o.Price),
+			Amount:    fmt.Sprintf("%.8f", o.Amount),
+			Filled:    fmt.Sprintf("%.8f", o.Filled),
+			Status:    string(o.Status),
+			CreatedAt: o.CreatedAt.Unix(),
+			UpdatedAt: o.UpdatedAt.Unix(),
+		})
+	}
+
+	log.Printf("GetMyOrders: user_id=%d, symbol=%s, count=%d", userID, req.Symbol, len(pbOrders))
+	return &pb.GetMyOrdersResponse{
+		Success: true,
+		Message: "Success",
+		Orders:  pbOrders,
+	}, nil
+}
+
+// GetUserOrders 查询用户订单（HTTP 兼容方法，token 为空时使用默认用户 ID）
+// 保留此方法以兼容 HTTP 路由中的调用。gRPC 接口请使用 GetMyOrders。
 func (s *ExchangeService) GetUserOrders(ctx context.Context, req *pb.GetMyOrdersRequest) (*pb.GetMyOrdersResponse, error) {
-	// TODO: Extract userID from token in req.Token
-	// For now using hardcoded userID 1 as in original code
-	orders, err := s.order.GetUserOrders(ctx, uint64(1))
+	// 如果 token 为空，回退到默认用户 ID 1（向后兼容 HTTP 端）
+	userID := uint64(1)
+	if req.Token != "" {
+		if uid, err := s.extractUserIDFromToken(req.Token); err == nil {
+			userID = uid
+		}
+	}
+
+	orders, err := s.order.GetUserOrders(ctx, userID)
 	if err != nil {
 		return &pb.GetMyOrdersResponse{Success: false, Message: err.Error()}, nil
 	}
 
 	pbOrders := make([]*pb.Order, 0, len(orders))
 	for _, o := range orders {
+		if req.Symbol != "" && o.Symbol != req.Symbol {
+			continue
+		}
 		pbOrders = append(pbOrders, &pb.Order{
 			Id:        o.ID,
 			UserId:    o.UserID,
@@ -121,6 +287,39 @@ func (s *ExchangeService) GetUserOrders(ctx context.Context, req *pb.GetMyOrders
 		Success: true,
 		Message: "Success",
 		Orders:  pbOrders,
+	}, nil
+}
+
+// GetBalance 查询用户资产余额 (gRPC 接口)
+// 从 token 中提取用户 ID，返回用户所有账户余额
+func (s *ExchangeService) GetBalance(ctx context.Context, req *pb.GetBalanceRequest) (*pb.GetBalanceResponse, error) {
+	// 1. 身份认证
+	userID, err := s.requireUserID(ctx, req.Token)
+	if err != nil {
+		return &pb.GetBalanceResponse{Success: false, Message: "认证失败: " + err.Error()}, nil
+	}
+
+	// 2. 查询用户账户
+	accounts, err := s.account.GetAccounts(ctx, userID)
+	if err != nil {
+		return &pb.GetBalanceResponse{Success: false, Message: "查询失败: " + err.Error()}, nil
+	}
+
+	// 3. 转换为 pb 类型
+	pbBalances := make([]*pb.Balance, 0, len(accounts))
+	for _, a := range accounts {
+		pbBalances = append(pbBalances, &pb.Balance{
+			Asset:   a.Asset,
+			Balance: fmt.Sprintf("%.8f", a.Balance),
+			Frozen:  fmt.Sprintf("%.8f", a.Frozen),
+		})
+	}
+
+	log.Printf("GetBalance: user_id=%d, count=%d", userID, len(pbBalances))
+	return &pb.GetBalanceResponse{
+		Success:  true,
+		Message:  "Success",
+		Balances: pbBalances,
 	}, nil
 }
 

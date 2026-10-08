@@ -60,7 +60,7 @@ func (r *fakeKlineRepo) FindByQuery(ctx context.Context, q biz.KlineQuery) ([]*b
 func TestHttpKlines(t *testing.T) {
 	klineUc := biz.NewKlineUsecase(newFakeKlineRepo())
 	uc := biz.NewOrderUsecase(newFakeOrderRepo())
-	svc := service.NewExchangeService(nil, uc, nil, nil, klineUc, nil)
+	svc := service.NewExchangeService(nil, uc, nil, nil, klineUc, nil, nil)
 	r := server.NewHTTPServer(nil, svc)
 
 	req := httptest.NewRequest(

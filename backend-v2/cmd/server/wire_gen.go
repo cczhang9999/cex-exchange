@@ -43,7 +43,7 @@ func initApp(bc *conf.Bootstrap) (*server.Server, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, accountUsecase, accountFlowUsecase, klineUsecase, exchangeServiceClient)
+	exchangeService := service.NewExchangeService(userUsecase, orderUsecase, accountUsecase, accountFlowUsecase, klineUsecase, exchangeServiceClient, bc)
 	grpcServer := server.NewGRPCServer(bc, exchangeService)
 	engine := server.NewHTTPServer(bc, exchangeService)
 	serverServer := server.NewServer(grpcServer, engine, bc)

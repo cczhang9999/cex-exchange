@@ -1,0 +1,9 @@
+2026-10-08T14:47:11.574+08:00 [INFO] {f85b9f47097bdc1866fd6a5bb8b07529} Config path set to: manifest/config
+2026-10-08T14:47:13.030+08:00 [INFO] {f85b9f47097bdc1866fd6a5bb8b07529} ✅ Database connected successfully!
+2026-10-08T14:47:18.032+08:00 [ERRO] ❌ Redis connection failed (v8): context deadline exceeded 
+Stack:
+1.  cex-exchange/internal/service.(*sRedis).Init
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/redis.go:35
+2.  cex-exchange/internal/boot.init.0
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/boot/boot.go:40
+

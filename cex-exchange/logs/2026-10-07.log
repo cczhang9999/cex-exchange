@@ -1,0 +1,26 @@
+2026-10-07T21:17:33.639+08:00 [INFO] {30b92f16c241dc182f93cc161ce43848} Config path set to: manifest/config
+2026-10-07T21:17:37.772+08:00 [INFO] {30b92f16c241dc182f93cc161ce43848} ✅ Database connected successfully!
+2026-10-07T21:17:42.779+08:00 [ERRO] ❌ Redis connection failed (v8): context deadline exceeded 
+Stack:
+1.  cex-exchange/internal/service.(*sRedis).Init
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/redis.go:35
+2.  cex-exchange/internal/boot.init.0
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/boot/boot.go:40
+
+2026-10-07T21:17:42.791+08:00 [FATA] net.Listen address ":8081" failed: listen tcp :8081: bind: address already in use
+1. net.Listen address ":8081" failed
+2. listen tcp :8081: bind: address already in use
+
+2026-10-07T21:23:52.962+08:00 [INFO] {a0f65f671a42dc18678d5e0822817786} Config path set to: manifest/config
+2026-10-07T21:23:55.382+08:00 [INFO] {a0f65f671a42dc18678d5e0822817786} ✅ Database connected successfully!
+2026-10-07T21:24:00.388+08:00 [ERRO] ❌ Redis connection failed (v8): context deadline exceeded 
+Stack:
+1.  cex-exchange/internal/service.(*sRedis).Init
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/service/redis.go:35
+2.  cex-exchange/internal/boot.init.0
+    /Users/zhanjun/IdeaProjects/cex-exchange/cex-exchange/internal/boot/boot.go:40
+
+2026-10-07T21:24:00.402+08:00 [FATA] net.Listen address ":8081" failed: listen tcp :8081: bind: address already in use
+1. net.Listen address ":8081" failed
+2. listen tcp :8081: bind: address already in use
+

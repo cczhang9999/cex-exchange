@@ -5,6 +5,7 @@ import (
 	"backend-v2/internal/biz"
 	"backend-v2/internal/conf"
 	"backend-v2/internal/pkg/response"
+	"backend-v2/internal/server/middleware"
 	"backend-v2/internal/service"
 	"errors"
 	"fmt"
@@ -21,7 +22,13 @@ import (
 var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer)
 
 func NewGRPCServer(bc *conf.Bootstrap, s *service.ExchangeService) *grpc.Server {
-	opts := []grpc.ServerOption{}
+	var opts []grpc.ServerOption
+
+	// 如果配置了 JWT secret，则注册认证拦截器
+	if bc != nil && bc.Auth != nil && bc.Auth.JwtSecret != "" {
+		opts = append(opts, grpc.ChainUnaryInterceptor(middleware.GrpcAuthInterceptor(bc.Auth.JwtSecret)))
+	}
+
 	srv := grpc.NewServer(opts...)
 	pb.RegisterExchangeServiceServer(srv, s)
 	return srv

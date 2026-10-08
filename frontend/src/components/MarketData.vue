@@ -1,25 +1,29 @@
 <template>
   <div class="market-data">
-    <el-card class="glass-panel">
+    <el-card class="glass-panel market-card">
       <template #header>
         <div class="market-header">
-          <div class="flex-center">
-            <span class="symbol">{{ symbol }}</span>
-            <el-tag size="small" :type="isConnected ? 'success' : 'danger'" effect="dark" class="ml-10">
+          <div class="flex-center gap-8">
+            <span class="symbol mono">{{ symbol }}</span>
+            <span
+              class="live-tag"
+              :class="{ connected: isConnected }"
+            >
+              <span class="live-dot" :class="{ off: !isConnected }"></span>
               {{ isConnected ? 'Live' : 'Offline' }}
-            </el-tag>
+            </span>
           </div>
         </div>
       </template>
-      
+
       <div class="price-info">
         <div class="current-price">
-          <span class="price">${{ formatPrice(priceChange.price) }}</span>
+          <span class="price mono">${{ formatPrice(priceChange.price) }}</span>
           <span class="change" :class="getChangeClass(priceChange.change_percent)">
             {{ formatChange(priceChange.change_percent) }}
           </span>
         </div>
-        
+
         <div class="price-details">
           <div class="detail-item">
             <span class="label">24h Change</span>
@@ -29,15 +33,15 @@
           </div>
           <div class="detail-item">
             <span class="label">24h High</span>
-            <span class="value">${{ formatPrice(priceChange.high_24h) }}</span>
+            <span class="value mono">${{ formatPrice(priceChange.high_24h) }}</span>
           </div>
           <div class="detail-item">
             <span class="label">24h Low</span>
-            <span class="value">${{ formatPrice(priceChange.low_24h) }}</span>
+            <span class="value mono">${{ formatPrice(priceChange.low_24h) }}</span>
           </div>
           <div class="detail-item">
             <span class="label">24h Vol</span>
-            <span class="value">{{ formatVolume(priceChange.volume_24h) }}</span>
+            <span class="value mono">{{ formatVolume(priceChange.volume_24h) }}</span>
           </div>
         </div>
       </div>
@@ -75,7 +79,7 @@ const formatChange = (change) => {
   return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`
 }
 
-// 格式化成交量
+// 格式化成产量
 const formatVolume = (volume) => {
   if (!volume) return '0'
   const value = parseFloat(volume)
@@ -106,18 +110,17 @@ const updateConnectionStatus = () => {
   isConnected.value = wsClient.isConnected
 }
 
+const checkConnection = () => {
+  updateConnectionStatus()
+}
+
 onMounted(() => {
   // 订阅行情数据
   wsClient.subscribe(props.symbol, handleWebSocketData)
-  
-  // 监听连接状态
-  const checkConnection = () => {
-    updateConnectionStatus()
-  }
-  
+
   // 每秒检查一次连接状态
   const connectionInterval = setInterval(checkConnection, 1000)
-  
+
   onUnmounted(() => {
     clearInterval(connectionInterval)
     wsClient.unsubscribe(props.symbol)
@@ -129,6 +132,18 @@ onMounted(() => {
 .market-data {
   margin-bottom: 20px;
 }
+
+.market-card {
+  padding: 4px;
+}
+
+.market-card :global(.el-card__header) {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  padding: 12px 20px !important;
+}
+
+.market-card :global(.el-card__body) { padding: 16px !important; }
 
 .market-header {
   display: flex;
@@ -143,6 +158,23 @@ onMounted(() => {
   letter-spacing: 0.5px;
 }
 
+.live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-tag);
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--border-color-hover), transparent 80%);
+}
+
+.live-tag.connected {
+  color: var(--success-emphasis);
+  background: var(--success-glow);
+}
+
 .price-info {
   padding: 10px 0;
 }
@@ -150,68 +182,65 @@ onMounted(() => {
 .current-price {
   display: flex;
   align-items: baseline;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .price {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 800;
   color: var(--text-main);
-  margin-right: 12px;
-  text-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.08);
 }
 
 .change {
-  font-size: 14px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 600;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: var(--radius-base);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
 }
 
 .change.positive {
-  color: var(--success);
-  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success-emphasis);
+  background: var(--success-glow);
 }
 
 .change.negative {
-  color: var(--danger);
-  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger-emphasis);
+  background: var(--danger-glow);
 }
 
 .price-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
 .detail-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.detail-item:last-child {
-  border-bottom: none;
+  padding: 10px 12px;
+  border-radius: var(--radius-base);
+  background: color-mix(in srgb, var(--bg-elevated), transparent 85%);
+  border: 1px solid var(--border-color);
 }
 
 .label {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 0.8rem;
 }
 
 .value {
-  font-size: 13px;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--text-main);
 }
 
-.value.positive {
-  color: var(--success);
-}
+.value.positive { color: var(--success-emphasis); }
+.value.negative { color: var(--danger-emphasis); }
 
-.value.negative {
-  color: var(--danger);
-}
-</style> 
+.mono { font-family: 'Roboto Mono', 'Fira Code', monospace; }
+</style>

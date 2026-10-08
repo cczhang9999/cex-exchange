@@ -1,10 +1,10 @@
 <template>
-  <el-row :gutter="20" style="height: 100%;">
-    <el-col :span="8" class="scrollable-col">
+  <el-row :gutter="20" class="trade-layout" id="trade-root">
+    <el-col :span="8" class="trade-sidebar">
       <!-- 实时行情显示 -->
       <MarketData :symbol="orderForm.symbol" />
-      
-      <el-card class="glass-panel mb-20 trade-card">
+
+      <el-card class="glass-panel trade-card">
         <template #header>
           <div class="flex-between">
             <h3 class="card-title">Place Order</h3>
@@ -13,66 +13,68 @@
         </template>
         <el-form :model="orderForm" label-position="top" class="trade-form">
           <el-form-item label="Pair">
-            <el-select v-model="orderForm.symbol" class="custom-select" style="width: 100%" popper-class="custom-dropdown">
+            <el-select v-model="orderForm.symbol" class="custom-select w-100" popper-class="custom-dropdown">
               <el-option v-for="symbol in availableSymbols" :key="symbol" :label="symbol" :value="symbol" />
             </el-select>
           </el-form-item>
-          
-          <el-form-item class="mb-4">
+
+          <el-form-item label="Side" class="mb-4">
             <div class="trade-type-switch">
-              <div 
-                class="switch-item" 
+              <div
+                class="switch-item"
                 :class="{ active: orderForm.side === 'buy', 'buy-active': orderForm.side === 'buy' }"
                 @click="orderForm.side = 'buy'"
               >
-                Buy
+                <el-icon><ArrowUp /></el-icon>
+                <span>Buy</span>
               </div>
-              <div 
-                class="switch-item" 
+              <div
+                class="switch-item"
                 :class="{ active: orderForm.side === 'sell', 'sell-active': orderForm.side === 'sell' }"
                 @click="orderForm.side = 'sell'"
               >
-                Sell
+                <el-icon><ArrowDown /></el-icon>
+                <span>Sell</span>
               </div>
             </div>
           </el-form-item>
 
           <el-form-item label="Type">
-            <el-select v-model="orderForm.type" style="width: 100%" class="custom-select" popper-class="custom-dropdown">
+            <el-select v-model="orderForm.type" class="custom-select w-100" popper-class="custom-dropdown">
               <el-option label="Limit" value="limit" />
               <el-option label="Market" value="market" />
             </el-select>
           </el-form-item>
-          
+
           <el-form-item label="Price" v-if="orderForm.type === 'limit'">
             <el-input v-model="orderForm.price" placeholder="0.00" class="custom-input">
               <template #suffix>USDT</template>
             </el-input>
           </el-form-item>
-          
+
           <el-form-item label="Amount">
             <el-input v-model="orderForm.amount" placeholder="0.00" class="custom-input">
               <template #suffix>{{ orderForm.symbol.split('/')[0] }}</template>
             </el-input>
           </el-form-item>
-          
+
           <!-- 交易额估算 (仅限价单显示) -->
           <div v-if="orderForm.type === 'limit' && orderForm.price && orderForm.amount" class="trade-total mb-4">
             <span>Total</span>
-            <span class="total-value">{{ (parseFloat(orderForm.price) * parseFloat(orderForm.amount)).toFixed(2) }} USDT</span>
+            <span class="total-value mono">{{ (parseFloat(orderForm.price) * parseFloat(orderForm.amount)).toFixed(2) }} USDT</span>
           </div>
 
           <el-form-item class="mt-6">
-            <el-button 
+            <el-button
               :class="['trade-btn', orderForm.side === 'buy' ? 'btn-buy' : 'btn-sell']"
-              @click="placeOrder" 
+              @click="placeOrder"
             >
               {{ orderForm.side === 'buy' ? 'Buy' : 'Sell' }} {{ orderForm.symbol.split('/')[0] }}
             </el-button>
           </el-form-item>
         </el-form>
       </el-card>
-      
+
       <!-- K线图 -->
       <el-card class="glass-panel">
         <template #header>
@@ -85,100 +87,103 @@
             </div>
           </div>
         </template>
-        <div id="kline" style="height: 300px;"></div>
+        <div id="kline"></div>
       </el-card>
     </el-col>
-    <el-col :span="16" class="scrollable-col">
+
+    <el-col :span="16" class="trade-main">
       <el-card class="glass-panel mb-20">
         <template #header>
           <div class="flex-between">
             <h3 class="card-title">Order Book</h3>
-            <el-tag size="small" type="info">{{ orderForm.symbol }}</el-tag>
+            <el-tag size="small" type="info" class="glass-tag">{{ orderForm.symbol }}</el-tag>
           </div>
         </template>
         <el-row :gutter="20">
           <!-- 买单（Bids） -->
           <el-col :span="12">
-            <div class="book-header">
+            <div class="book-header book-header-buy">
+              <el-icon class="text-success"><ArrowUp /></el-icon>
               <span class="text-success">Bids (Buy)</span>
             </div>
-            <el-table 
-              :data="orderbook.bids" 
-              size="small" 
-              height="300" 
-              :show-header="true" 
+            <el-table
+              :data="orderbook.bids"
+              size="small"
+              height="300"
+              :show-header="true"
               class="order-book-table"
               @row-click="handleBidClick"
             >
               <el-table-column label="Price (USDT)" width="120" align="left">
                 <template #default="{ row }">
-                  <span class="text-success price-text clickable">{{ formatPrice(row.price) }}</span>
+                  <span class="text-success price-text clickable mono">{{ formatPrice(row.price) }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="Amount" width="100" align="right">
                 <template #default="{ row }">
-                  <span class="amount-text">{{ formatAmount(row.amount) }}</span>
+                  <span class="amount-text mono">{{ formatAmount(row.amount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="Total (USDT)" align="right">
                 <template #default="{ row }">
-                  <span class="total-text">{{ formatTotal(row.price, row.amount) }}</span>
+                  <span class="total-text mono">{{ formatTotal(row.price, row.amount) }}</span>
                 </template>
               </el-table-column>
             </el-table>
           </el-col>
-          
+
           <!-- 卖单（Asks） -->
           <el-col :span="12">
-            <div class="book-header">
+            <div class="book-header book-header-sell">
+              <el-icon class="text-danger"><ArrowDown /></el-icon>
               <span class="text-danger">Asks (Sell)</span>
             </div>
-            <el-table 
-              :data="orderbook.asks" 
-              size="small" 
-              height="300" 
-              :show-header="true" 
+            <el-table
+              :data="orderbook.asks"
+              size="small"
+              height="300"
+              :show-header="true"
               class="order-book-table"
               @row-click="handleAskClick"
             >
               <el-table-column label="Price (USDT)" width="120" align="left">
                 <template #default="{ row }">
-                  <span class="text-danger price-text clickable">{{ formatPrice(row.price) }}</span>
+                  <span class="text-danger price-text clickable mono">{{ formatPrice(row.price) }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="Amount" width="100" align="right">
                 <template #default="{ row }">
-                  <span class="amount-text">{{ formatAmount(row.amount) }}</span>
+                  <span class="amount-text mono">{{ formatAmount(row.amount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="Total (USDT)" align="right">
                 <template #default="{ row }">
-                  <span class="total-text">{{ formatTotal(row.price, row.amount) }}</span>
+                  <span class="total-text mono">{{ formatTotal(row.price, row.amount) }}</span>
                 </template>
               </el-table-column>
             </el-table>
           </el-col>
         </el-row>
       </el-card>
-      
+
       <el-card class="glass-panel">
         <template #header>
           <div class="flex-between">
             <h3 class="card-title">Recent Trades</h3>
-            <el-tag size="small" type="success">{{ trades.length }} trades</el-tag>
+            <el-tag size="small" type="success" class="glass-tag">{{ trades.length }} trades</el-tag>
           </div>
         </template>
         <el-table :data="trades" size="small" height="200" class="trades-table">
           <el-table-column label="Time" width="100">
             <template #default="scope">
-              <span class="text-muted time-text">{{ formatTime(scope.row.created_at) }}</span>
+              <span class="text-muted time-text mono">{{ formatTime(scope.row.created_at) }}</span>
             </template>
           </el-table-column>
           <el-table-column label="Side" width="80" align="center">
             <template #default="{ row }">
-              <el-tag 
-                :type="row.side === 'buy' ? 'success' : 'danger'" 
-                size="small" 
+              <el-tag
+                :type="row.side === 'buy' ? 'success' : 'danger'"
+                size="small"
                 effect="dark"
               >
                 {{ row.side === 'buy' ? '买入' : '卖出' }}
@@ -187,19 +192,19 @@
           </el-table-column>
           <el-table-column label="Price (USDT)" width="120" align="right">
             <template #default="{ row }">
-              <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'" class="price-text">
+              <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'" class="price-text mono">
                 {{ formatPrice(row.price) }}
               </span>
             </template>
           </el-table-column>
           <el-table-column label="Amount" width="100" align="right">
             <template #default="{ row }">
-              <span class="amount-text">{{ formatAmount(row.amount) }}</span>
+              <span class="amount-text mono">{{ formatAmount(row.amount) }}</span>
             </template>
           </el-table-column>
           <el-table-column label="Total (USDT)" align="right">
             <template #default="{ row }">
-              <span class="total-text">{{ formatTotal(row.price, row.amount) }}</span>
+              <span class="total-text mono">{{ formatTotal(row.price, row.amount) }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -215,6 +220,7 @@ import * as echarts from 'echarts'
 import wsClient from '../utils/websocket.js'
 import MarketData from './MarketData.vue'
 import { ElMessage } from 'element-plus'
+import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 
 const availableSymbols = ref(['BTC/USDT', 'ETH/USDT', 'BNB/USDT', 'SOL/USDT', 'XRP/USDT'])
 const orderForm = ref({ symbol: 'BTC/USDT', side: 'buy', type: 'limit', price: '', amount: '' })
@@ -228,10 +234,10 @@ let currentSymbol = 'BTC/USDT'
 const formatTime = (timestamp) => {
   if (!timestamp) return ''
   const date = new Date(timestamp)
-  return date.toLocaleTimeString('zh-CN', { 
-    hour: '2-digit', 
-    minute: '2-digit', 
-    second: '2-digit' 
+  return date.toLocaleTimeString('zh-CN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
   })
 }
 
@@ -239,9 +245,9 @@ const formatTime = (timestamp) => {
 const initKlineChart = () => {
   const chartDom = document.getElementById('kline')
   if (!chartDom) return
-  
+
   klineChart = echarts.init(chartDom)
-  
+
   // 模拟K线数据
   const klineData = [
     ['2024-01-15 10:00', 45100, 45150, 45050, 45120, 100],
@@ -256,14 +262,14 @@ const initKlineChart = () => {
     ['2024-01-15 10:09', 45320, 45380, 45300, 45350, 220],
     ['2024-01-15 10:10', 45350, 45400, 45320, 45380, 180]
   ]
-  
+
   const option = {
     backgroundColor: 'transparent',
     title: {
       text: 'BTC/USDT',
       left: 'center',
       textStyle: {
-        color: '#e0e0e0'
+        color: 'var(--text-muted)'
       }
     },
     tooltip: {
@@ -329,7 +335,7 @@ const initKlineChart = () => {
       }
     ]
   }
-  
+
   klineChart.setOption(option)
 }
 
@@ -344,10 +350,10 @@ const updateKlineChart = () => {
 // 使用实时数据更新K线图
 const updateKlineWithRealData = (klineData) => {
   if (!klineChart) return
-  
+
   const option = klineChart.getOption()
   const series = option.series[0]
-  
+
   // 添加新的K线数据点
   const newDataPoint = [
     new Date(klineData.close_time * 1000).toLocaleString(),
@@ -357,18 +363,18 @@ const updateKlineWithRealData = (klineData) => {
     parseFloat(klineData.high),
     parseFloat(klineData.volume)
   ]
-  
+
   // 更新数据
   series.data.push(newDataPoint)
-  
+
   // 保持最多100个数据点
   if (series.data.length > 100) {
     series.data = series.data.slice(-100)
   }
-  
+
   // 更新x轴数据
   option.xAxis[0].data = series.data.map(item => item[0])
-  
+
   klineChart.setOption(option)
 }
 
@@ -381,7 +387,7 @@ const handleWebSocketData = (dataType, data) => {
         asks: data.asks.map(item => ({ price: item[0], amount: item[1] }))
       }
       break
-      
+
     case 'trade':
       // 添加新成交记录到列表顶部
       const newTrade = {
@@ -391,17 +397,17 @@ const handleWebSocketData = (dataType, data) => {
         side: data.side
       }
       trades.value.unshift(newTrade)
-      
+
       // 保持最多50条记录
       if (trades.value.length > 50) {
         trades.value = trades.value.slice(0, 50)
       }
       break
-      
+
     case 'price_change':
       priceChange.value = data
       break
-      
+
     case 'kline':
       // 更新K线图数据
       updateKlineWithRealData(data)
@@ -433,7 +439,7 @@ const placeOrder = async () => {
     ElMessage.warning('请输入数量')
     return
   }
-  
+
   if (orderForm.value.type === 'limit' && (!orderForm.value.price || parseFloat(orderForm.value.price) <= 0)) {
     ElMessage.warning('请输入价格')
     return
@@ -441,10 +447,10 @@ const placeOrder = async () => {
 
   try {
     const response = await apiPlaceOrder(orderForm.value)
-    
+
     console.log('下单响应:', response)
     console.log('响应数据:', response.data)
-    
+
     // 检查响应的 code 字段
     if (response.data.code == 1) {
       // 后端返回了业务错误
@@ -452,20 +458,20 @@ const placeOrder = async () => {
       ElMessage.error(response.data.message || '下单失败')
       return
     }
-    
+
     fetchOrderbook()
     fetchTrades()
     ElMessage.success('下单成功')
   } catch (error) {
     console.error('下单失败:', error)
     console.log('错误响应:', error.response)
-    
+
     // 优先获取后端返回的 message
     let message = '下单失败'
     if (error.response?.data) {
       message = error.response.data.message || error.response.data.error || message
     }
-    
+
     ElMessage.error(message)
   }
 }
@@ -513,14 +519,14 @@ onMounted(async () => {
   // 连接WebSocket
   wsClient.connect()
   wsClient.startHeartbeat()
-  
+
   await fetchOrderbook()
   await fetchTrades()
-  
+
   // 等待DOM渲染完成后初始化K线图
   await nextTick()
   initKlineChart()
-  
+
   // 订阅实时行情数据
   wsClient.subscribe(currentSymbol, handleWebSocketData)
 })
@@ -528,15 +534,15 @@ onMounted(async () => {
 watch(() => orderForm.value.symbol, (newSymbol) => {
   // 取消之前的订阅
   wsClient.unsubscribe(currentSymbol)
-  
+
   // 更新当前交易对
   currentSymbol = newSymbol
-  
+
   // 重新获取数据
   fetchOrderbook()
   fetchTrades()
   updateKlineChart()
-  
+
   // 订阅新的交易对
   wsClient.subscribe(currentSymbol, handleWebSocketData)
 })
@@ -546,107 +552,114 @@ onUnmounted(() => {
   if (klineChart) {
     klineChart.dispose()
   }
-  
+
   // 取消WebSocket订阅
   wsClient.unsubscribe(currentSymbol)
 })
 </script>
 
 <style scoped>
-.mb-20 {
-  margin-bottom: 20px;
-}
-.mb-4 {
-  margin-bottom: 16px;
-}
-.mt-6 {
-  margin-top: 24px;
+.trade-layout {
+  height: 100%;
 }
 
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.trade-sidebar {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 24px;
 }
 
-.flex-center {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.trade-main {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 24px;
 }
 
-.card-title {
-  margin: 0;
-  font-weight: 600;
-  color: var(--text-main);
-  font-size: 16px;
+/* Hide scrollbar for webkit, keep it available for firefox */
+.trade-sidebar::-webkit-scrollbar,
+.trade-main::-webkit-scrollbar {
+  display: none;
+}
+.trade-sidebar,
+.trade-main {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* 交易面板样式 */
 .trade-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid color-mix(in srgb, var(--border-color-hover), transparent 60%);
 }
 
-.trade-form :deep(.el-form-item__label) {
+.trade-form :global(.el-form-item__label) {
   color: var(--text-muted);
-  padding-bottom: 4px;
+  padding-bottom: 6px;
+}
+
+.trade-form :global(.el-form-item) {
+  margin-bottom: 18px;
 }
 
 /* 买卖切换开关 */
 .trade-type-switch {
   display: flex;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+  background: color-mix(in srgb, var(--border-color-hover), transparent 88%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-base);
   padding: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 6px;
   width: 100%;
-  box-sizing: border-box;
-  gap: 8px;
+  gap: 6px;
 }
 
 .switch-item {
   flex: 1;
   text-align: center;
-  padding: 8px 0;
+  padding: 10px 0;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: calc(var(--radius-base) - 4px);
   color: var(--text-muted);
-  font-weight: 600;
-  transition: all 0.3s;
-  display: flex;
+  font-weight: 700;
+  transition: var(--transition-snap);
+  display: inline-flex;
   justify-content: center;
   align-items: center;
+  gap: 6px;
 }
 
 .switch-item:hover {
   color: var(--text-main);
+  background: color-mix(in srgb, var(--border-color-hover), transparent 85%);
 }
 
 .switch-item.active.buy-active {
   background: var(--success);
   color: #1e293b;
+  box-shadow: 0 4px 12px var(--success-glow);
 }
 
 .switch-item.active.sell-active {
   background: var(--danger);
-  color: #1e293b;
+  color: #fff;
+  box-shadow: 0 4px 12px var(--danger-glow);
 }
 
 /* 输入框样式优化 */
-.custom-input :deep(.el-input__wrapper),
-.custom-select :deep(.el-select__wrapper) {
-  background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s;
+.custom-input :global(.el-input__wrapper),
+.custom-select :global(.el-select__wrapper) {
+  background-color: color-mix(in srgb, var(--bg-elevated), transparent 75%) !important;
+  box-shadow: 0 0 0 1px var(--border-color) inset !important;
+  border: 1px solid transparent;
+  border-radius: var(--radius-input) !important;
+  transition: var(--transition-snap);
 }
 
-.custom-input :deep(.el-input__wrapper:hover),
-.custom-input :deep(.el-input__wrapper.is-focus),
-.custom-select :deep(.el-select__wrapper:hover),
-.custom-select :deep(.el-select__wrapper.is-focus) {
+.custom-input :global(.el-input__wrapper):hover,
+.custom-input :global(.el-input__wrapper.is-focus),
+.custom-select :global(.el-select__wrapper):hover,
+.custom-select :global(.el-select__wrapper.is-focus) {
   border-color: var(--primary);
-  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 1px var(--primary) inset !important;
+  background-color: color-mix(in srgb, var(--bg-elevated), transparent 60%) !important;
 }
 
 .custom-input :deep(.el-input__inner) {
@@ -661,64 +674,78 @@ onUnmounted(() => {
 /* 交易按钮 */
 .trade-btn {
   width: 100% !important;
-  height: 44px !important;
+  height: 48px !important;
   font-size: 16px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   border: none !important;
-  border-radius: 4px !important;
-  transition: all 0.2s !important;
+  border-radius: var(--radius-base) !important;
+  transition: var(--transition-snap) !important;
   display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
 }
 
 .btn-buy {
-  background: var(--success) !important;
+  background: linear-gradient(135deg, var(--success) 0%, var(--success-emphasis) 100%) !important;
   color: #1e293b !important;
-  font-weight: 700 !important;
+  box-shadow: 0 4px 16px var(--success-glow);
 }
 
 .btn-buy:hover {
-  background: #0abb75 !important; /* 稍微亮一点的绿色 */
-  transform: translateY(-1px) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px var(--success-glow);
 }
 
 .btn-sell {
-  background: var(--danger) !important;
-  color: #1e293b !important;
-  font-weight: 700 !important;
+  background: linear-gradient(135deg, var(--danger) 0%, var(--danger-emphasis) 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px var(--danger-glow);
 }
 
 .btn-sell:hover {
-  background: #f75569 !important; /* 稍微亮一点的红色 */
-  transform: translateY(-1px) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px var(--danger-glow);
 }
 
 /* 交易额估算 */
 .trade-total {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: var(--radius-base);
+  background: color-mix(in srgb, var(--bg-elevated), transparent 78%);
+  border: 1px solid var(--border-color);
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .total-value {
   color: var(--text-main);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 /* 订单簿样式 */
 .book-header {
-  padding: 12px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  font-weight: 700;
   font-size: 13px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 4px 4px 0 0;
+  background: color-mix(in srgb, var(--bg-elevated), transparent 85%);
+  border-radius: var(--radius-base) var(--radius-base) 0 0;
 }
 
-.order-book-table, .trades-table {
+.book-header-sell {
+  border-top: 2px solid var(--danger-glow);
+}
+.book-header-buy {
+  border-top: 2px solid var(--success-glow);
+}
+
+.order-book-table,
+.trades-table {
   background: transparent !important;
 }
 
@@ -728,10 +755,10 @@ onUnmounted(() => {
 }
 
 .order-book-table :deep(th) {
-  background: rgba(255, 255, 255, 0.05) !important;
-  font-weight: 600 !important;
+  background: color-mix(in srgb, var(--bg-elevated), transparent 80%) !important;
+  font-weight: 700 !important;
   color: var(--text-muted) !important;
-  font-size: 11px !important;
+  font-size: 0.75rem !important;
   padding: 8px 0 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -739,23 +766,27 @@ onUnmounted(() => {
 
 .order-book-table :deep(td), .trades-table :deep(td) {
   border-bottom: none !important;
-  padding: 6px 0 !important;
+  padding: 7px 0 !important;
 }
 
 .order-book-table :deep(tbody tr:hover) {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: color-mix(in srgb, var(--primary), transparent 94%) !important;
   cursor: pointer;
 }
 
+.order-book-table :deep(.el-table__row):hover {
+  background: color-mix(in srgb, var(--primary), transparent 94%) !important;
+}
+
 .price-text {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', 'Fira Code', monospace;
   font-weight: 600;
   font-size: 13px;
 }
 
 .price-text.clickable {
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition-snap);
 }
 
 .price-text.clickable:hover {
@@ -765,13 +796,13 @@ onUnmounted(() => {
 
 .amount-text {
   color: var(--text-muted);
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', 'Fira Code', monospace;
   font-size: 12px;
 }
 
 .total-text {
   color: var(--text-main);
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', 'Fira Code', monospace;
   font-size: 12px;
   font-weight: 500;
 }
@@ -782,12 +813,12 @@ onUnmounted(() => {
 
 .time-text {
   font-size: 11px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', 'Fira Code', monospace;
 }
 
 .glass-tag {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
+  background: color-mix(in srgb, var(--bg-elevated), transparent 75%);
+  border: 1px solid var(--border-color);
   color: var(--text-muted);
 }
 
@@ -798,29 +829,11 @@ onUnmounted(() => {
 .time-intervals .el-button:hover,
 .time-intervals .el-button.active {
   color: var(--primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--bg-elevated), transparent 78%);
 }
 
-#kline { 
-  width: 100%; 
+#kline {
+  width: 100%;
   height: 300px;
 }
-
-.scrollable-col {
-  height: 100%;
-  overflow-y: auto;
-  padding-bottom: 20px; /* Add some padding at the bottom */
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.scrollable-col::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.scrollable-col {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
 </style>
- 

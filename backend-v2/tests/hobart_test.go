@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"sort"
 	"testing"
 )
 
@@ -41,19 +42,23 @@ func TestBasic(t *testing.T) {
 		}
 	}
 	a := []int{1, 2}
-	b := []int{3, 4, 5}
+	b := []int{5, 4, 3}
 
 	a = append(a, b...)
 	fmt.Println(" a===", a)
+	sort.Slice(a, func(i, j int) bool { return a[i] > a[j] })
+	fmt.Println(" after sort===", a)
 	fmt.Println(filteredUsers)
 
 	fmt.Printf("status=%v\n", biz.OrderStatusOpen)
 	fmt.Println(biz.OrderStatusOpen == "open")
+
 	order := biz.Order{
 		ID:     1001,
 		UserID: 2001,
 		Amount: 99.9,
 	}
+
 	fmt.Println(order)
 
 }
