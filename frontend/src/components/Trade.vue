@@ -43,10 +43,23 @@
             <el-select v-model="orderForm.type" class="custom-select w-100" popper-class="custom-dropdown">
               <el-option label="Limit" value="limit" />
               <el-option label="Market" value="market" />
+              <el-option label="Stop-Limit" value="stop_limit" />
+              <el-option label="Stop-Market" value="stop_market" />
             </el-select>
           </el-form-item>
 
-          <el-form-item label="Price" v-if="orderForm.type === 'limit'">
+          <!-- 触发价格 (止损止盈订单) -->
+          <el-form-item label="Stop Price" v-if="orderForm.type === 'stop_limit' || orderForm.type === 'stop_market'">
+            <el-input v-model="orderForm.stop_price" placeholder="0.00" class="custom-input">
+              <template #suffix>USDT</template>
+            </el-input>
+            <div class="stop-hint">
+              <span v-if="orderForm.side === 'buy'">当价格 ≥ {{ orderForm.stop_price || '?' }} 时触发买入</span>
+              <span v-else>当价格 ≤ {{ orderForm.stop_price || '?' }} 时触发卖出</span>
+            </div>
+          </el-form-item>
+
+          <el-form-item label="Price" v-if="orderForm.type === 'limit' || orderForm.type === 'stop_limit'">
             <el-input v-model="orderForm.price" placeholder="0.00" class="custom-input">
               <template #suffix>USDT</template>
             </el-input>
@@ -58,10 +71,16 @@
             </el-input>
           </el-form-item>
 
-          <!-- 交易额估算 (仅限价单显示) -->
-          <div v-if="orderForm.type === 'limit' && orderForm.price && orderForm.amount" class="trade-total mb-4">
+          <!-- 交易额估算 -->
+          <div v-if="(orderForm.type === 'limit' || orderForm.type === 'stop_limit') && orderForm.price && orderForm.amount" class="trade-total mb-4">
             <span>Total</span>
             <span class="total-value mono">{{ (parseFloat(orderForm.price) * parseFloat(orderForm.amount)).toFixed(2) }} USDT</span>
+          </div>
+
+          <!-- 触发价格说明 (止损订单) -->
+          <div v-if="orderForm.type === 'stop_market' && orderForm.stop_price && orderForm.amount" class="trade-total mb-4">
+            <span>Trigger Total</span>
+            <span class="total-value mono">{{ (parseFloat(orderForm.stop_price) * parseFloat(orderForm.amount)).toFixed(2) }} USDT</span>
           </div>
 
           <el-form-item class="mt-6">
@@ -81,9 +100,16 @@
           <div class="flex-between">
             <h3 class="card-title">Chart</h3>
             <div class="flex-center time-intervals">
-              <el-button size="small" text :class="{ active: true }">1m</el-button>
-              <el-button size="small" text>15m</el-button>
-              <el-button size="small" text>1h</el-button>
+              <el-button 
+                v-for="period in klinePeriods" 
+                :key="period.value"
+                size="small" 
+                text 
+                :class="{ active: currentKlinePeriod === period.value }"
+                @click="switchKlinePeriod(period.value)"
+              >
+                {{ period.label }}
+              </el-button>
             </div>
           </div>
         </template>
@@ -223,12 +249,25 @@ import { ElMessage } from 'element-plus'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 
 const availableSymbols = ref(['BTC/USDT', 'ETH/USDT', 'BNB/USDT', 'SOL/USDT', 'XRP/USDT'])
-const orderForm = ref({ symbol: 'BTC/USDT', side: 'buy', type: 'limit', price: '', amount: '' })
+const orderForm = ref({ symbol: 'BTC/USDT', side: 'buy', type: 'limit', price: '', amount: '', stop_price: '' })
 const orderbook = ref({ bids: [], asks: [] })
 const trades = ref([])
 const priceChange = ref({})
 let klineChart = null
 let currentSymbol = 'BTC/USDT'
+
+// K线周期配置
+const klinePeriods = [
+  { label: '1m', value: '1m', interval: 60000 },
+  { label: '5m', value: '5m', interval: 300000 },
+  { label: '15m', value: '15m', interval: 900000 },
+  { label: '30m', value: '30m', interval: 1800000 },
+  { label: '1h', value: '1h', interval: 3600000 },
+  { label: '4h', value: '4h', interval: 14400000 },
+  { label: '1d', value: '1d', interval: 86400000 },
+  { label: '1w', value: '1w', interval: 604800000 }
+]
+const currentKlinePeriod = ref('1m')
 
 // 格式化时间显示
 const formatTime = (timestamp) => {
@@ -383,8 +422,8 @@ const handleWebSocketData = (dataType, data) => {
   switch (dataType) {
     case 'orderbook':
       orderbook.value = {
-        bids: data.bids.map(item => ({ price: item[0], amount: item[1] })),
-        asks: data.asks.map(item => ({ price: item[0], amount: item[1] }))
+        bids: (data.bids || []).map(item => ({ price: item[0], amount: item[1] })),
+        asks: (data.asks || []).map(item => ({ price: item[0], amount: item[1] }))
       }
       break
 
@@ -433,6 +472,43 @@ const fetchTrades = async () => {
   }
 }
 
+// K线周期切换
+const switchKlinePeriod = (period) => {
+  currentKlinePeriod.value = period
+  // 重新加载K线数据
+  loadKlineData()
+}
+
+// 加载K线数据（根据当前周期）
+const loadKlineData = () => {
+  if (klineChart) {
+    // 根据选择的周期获取不同的数据
+    // 实际项目中应该调用API获取对应周期的K线数据
+    // 这里使用模拟数据
+    const baseTime = new Date('2024-01-15 10:00').getTime()
+    const periodMs = klinePeriods.find(p => p.value === currentKlinePeriod.value)?.interval || 60000
+    
+    const klineData = []
+    for (let i = 0; i < 50; i++) {
+      const time = new Date(baseTime + i * periodMs)
+      const basePrice = 45000 + Math.random() * 500
+      klineData.push([
+        time.toLocaleString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+        basePrice,
+        basePrice + Math.random() * 100,
+        basePrice - Math.random() * 100,
+        basePrice + (Math.random() - 0.5) * 50,
+        100 + Math.random() * 200
+      ])
+    }
+    
+    klineChart.setOption({
+      xAxis: { data: klineData.map(item => item[0]) },
+      series: [{ data: klineData.map(item => item.slice(1)) }]
+    })
+  }
+}
+
 const placeOrder = async () => {
   // 验证输入
   if (!orderForm.value.amount || parseFloat(orderForm.value.amount) <= 0) {
@@ -440,13 +516,44 @@ const placeOrder = async () => {
     return
   }
 
-  if (orderForm.value.type === 'limit' && (!orderForm.value.price || parseFloat(orderForm.value.price) <= 0)) {
+  if ((orderForm.value.type === 'limit' || orderForm.value.type === 'stop_limit') && 
+      (!orderForm.value.price || parseFloat(orderForm.value.price) <= 0)) {
     ElMessage.warning('请输入价格')
     return
   }
 
+  // 止损止盈订单验证
+  if ((orderForm.value.type === 'stop_limit' || orderForm.value.type === 'stop_market') && 
+      (!orderForm.value.stop_price || parseFloat(orderForm.value.stop_price) <= 0)) {
+    ElMessage.warning('请输入触发价格')
+    return
+  }
+
+  // 市价单和止损市价单不需要价格验证
+  if (orderForm.value.type === 'market' || orderForm.value.type === 'stop_market') {
+    // 这些类型不需要价格，但需要其他验证
+  }
+
+  // 构建下单请求
+  const orderPayload = {
+    symbol: orderForm.value.symbol,
+    side: orderForm.value.side,
+    type: orderForm.value.type,
+    amount: orderForm.value.amount
+  }
+
+  // 只有限价单和止损限价单需要价格
+  if (orderForm.value.type === 'limit' || orderForm.value.type === 'stop_limit') {
+    orderPayload.price = orderForm.value.price
+  }
+
+  // 止损订单需要触发价格
+  if (orderForm.value.type === 'stop_limit' || orderForm.value.type === 'stop_market') {
+    orderPayload.stop_price = orderForm.value.stop_price
+  }
+
   try {
-    const response = await apiPlaceOrder(orderForm.value)
+    const response = await apiPlaceOrder(orderPayload)
 
     console.log('下单响应:', response)
     console.log('响应数据:', response.data)
@@ -499,19 +606,29 @@ const formatTotal = (price, amount) => {
 
 // 点击买单价格，自动填充到表单
 const handleBidClick = (row) => {
-  if (orderForm.value.type === 'limit') {
+  if (orderForm.value.type === 'limit' || orderForm.value.type === 'stop_limit') {
     orderForm.value.price = row.price
     orderForm.value.side = 'sell' // 点击买单，说明用户想卖
     ElMessage.info(`已选择卖出价格: ${row.price}`)
+  }
+  // 止损止盈单的触发价格
+  if (orderForm.value.type === 'stop_limit' || orderForm.value.type === 'stop_market') {
+    orderForm.value.stop_price = row.price
+    ElMessage.info(`已设置触发价格: ${row.price}`)
   }
 }
 
 // 点击卖单价格，自动填充到表单
 const handleAskClick = (row) => {
-  if (orderForm.value.type === 'limit') {
+  if (orderForm.value.type === 'limit' || orderForm.value.type === 'stop_limit') {
     orderForm.value.price = row.price
     orderForm.value.side = 'buy' // 点击卖单，说明用户想买
     ElMessage.info(`已选择买入价格: ${row.price}`)
+  }
+  // 止损止盈单的触发价格
+  if (orderForm.value.type === 'stop_limit' || orderForm.value.type === 'stop_market') {
+    orderForm.value.stop_price = row.price
+    ElMessage.info(`已设置触发价格: ${row.price}`)
   }
 }
 
@@ -835,5 +952,13 @@ onUnmounted(() => {
 #kline {
   width: 100%;
   height: 300px;
+}
+
+/* 止损止盈提示 */
+.stop-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  padding-left: 4px;
 }
 </style>

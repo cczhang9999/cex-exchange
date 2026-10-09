@@ -127,10 +127,12 @@ class WebSocketClient {
   }
 
   // 通知订阅者
+  // 将消息所属的 symbol（信封中的 symbol，部分后端不会再把它放进 data）一并传给回调，
+  // 便于调用方按交易对归类数据，避免出现 undefined 键名。
   notifySubscribers(symbol, dataType, data) {
     const callback = this.subscribers.get(symbol)
     if (callback) {
-      callback(dataType, data)
+      callback(dataType, data, symbol)
     }
   }
 

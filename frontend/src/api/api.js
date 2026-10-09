@@ -40,3 +40,23 @@ export const adjustBalance = (form) => request.post('/api/admin/accounts/adjust'
 export const cancelAadminOrder = (id) => request.post(`/api/admin/orders/${id}/cancel`)
 
 export const getAdminAccounts = (params) => request.get('/api/admin/accounts', params)
+
+// ========== Phase 1 新增 API ==========
+
+// 获取充币地址
+export const getDepositAddress = (asset) => request.get('/api/deposit/address', { params: { asset } })
+
+// 获取K线数据（支持多周期）
+export const getKline = (params) => request.get('/api/kline', { params: {
+  symbol: params.symbol,
+  period: params.period || '1m',
+  limit: params.limit || 100
+}})
+
+// 地址簿管理
+export const getAddressBook = () => request.get('/api/address-book')
+export const addAddressBook = (data) => request.post('/api/address-book', data)
+export const deleteAddressBook = (id) => request.delete(`/api/address-book/${id}`)
+
+// 止损止盈订单列表（可选，用于展示触发条件）
+export const getStopOrders = () => request.get('/api/my_orders', { params: { type: 'stop' } })

@@ -74,7 +74,7 @@
                   <div class="depth-title">买盘</div>
                   <div
                     class="depth-row"
-                    v-for="bid in data.bids.slice(0, 5)"
+                    v-for="bid in (data.bids || []).slice(0, 5)"
                     :key="bid[0]"
                   >
                     <span class="price mono">{{ formatPrice(bid[0]) }}</span>
@@ -85,7 +85,7 @@
                   <div class="depth-title">卖盘</div>
                   <div
                     class="depth-row"
-                    v-for="ask in data.asks.slice(0, 5)"
+                    v-for="ask in (data.asks || []).slice(0, 5)"
                     :key="ask[0]"
                   >
                     <span class="price mono">{{ formatPrice(ask[0]) }}</span>
@@ -146,17 +146,20 @@ const getChangeClass = (change) => {
 }
 
 // 处理WebSocket数据
-const handleWebSocketData = (dataType, data) => {
+// symbol 由 websocket.js 从消息信封中透传（部分后端的 orderbook data 里不含 symbol）
+const handleWebSocketData = (dataType, data, symbol) => {
+  const key = data?.symbol || symbol
+
   switch (dataType) {
     case 'price_change':
-      priceChanges.value[data.symbol] = data
+      priceChanges.value[key] = data
       break
 
     case 'trade':
       // 添加新成交记录
       const newTrade = {
         id: Date.now() + Math.random(),
-        symbol: data.symbol,
+        symbol: key,
         price: data.price,
         amount: data.amount,
         side: data.side,
@@ -171,7 +174,7 @@ const handleWebSocketData = (dataType, data) => {
       break
 
     case 'orderbook':
-      orderbooks.value[data.symbol] = data
+      orderbooks.value[key] = data
       break
   }
 }
