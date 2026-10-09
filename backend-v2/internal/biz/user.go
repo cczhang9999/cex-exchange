@@ -17,14 +17,19 @@ const (
 )
 
 type User struct {
-	ID        uint64
-	Username  string
-	Password  string
-	Email     string
-	Phone     string
-	Status    UserStatus
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        uint64     `json:"id"`
+	Username  string     `json:"username"`
+	Password  string     `json:"-"`
+	Email     string     `json:"email"`
+	Phone     string     `json:"phone"`
+	Status    UserStatus `json:"status"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+}
+
+// IsBlocked 用户是否已被封禁
+func (u *User) IsBlocked() bool {
+	return u.Status == UserStatusBlocked
 }
 
 type UserRepo interface {

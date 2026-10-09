@@ -441,16 +441,59 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		c.Next()
 	})
 	{
-		// 用户列表
+		// 用户列表（支持搜索与分页）
 		admin.GET("/users", func(c *gin.Context) {
 			users, err := s.ListUsers(c.Request.Context())
 			if err != nil {
 				response.Error(c, 500, "查询失败: "+err.Error())
 				return
 			}
+
+			// 按用户名或邮箱搜索（不区分大小写）
+			search := strings.TrimSpace(strings.ToLower(c.Query("search")))
+			filtered := make([]gin.H, 0, len(users))
+			for _, u := range users {
+				if search != "" &&
+					!strings.Contains(strings.ToLower(u.Username), search) &&
+					!strings.Contains(strings.ToLower(u.Email), search) {
+					continue
+				}
+				filtered = append(filtered, gin.H{
+					"id":         u.ID,
+					"username":   u.Username,
+					"email":      u.Email,
+					"phone":      u.Phone,
+					"status":     u.Status,
+					"is_blocked": u.IsBlocked(),
+					"created_at": u.CreatedAt.Format("2006-01-02 15:04:05"),
+					"updated_at": u.UpdatedAt.Format("2006-01-02 15:04:05"),
+				})
+			}
+
+			// 分页
+			page, err := strconv.Atoi(c.Query("page"))
+			if err != nil || page < 1 {
+				page = 1
+			}
+			limit, err := strconv.Atoi(c.Query("limit"))
+			if err != nil || limit < 1 {
+				limit = 20
+			}
+			total := len(filtered)
+			start := (page - 1) * limit
+			if start > total {
+				start = total
+			}
+			end := start + limit
+			if end > total {
+				end = total
+			}
+
 			response.Success(c, gin.H{
-				"users": users,
-				"total": len(users),
+				"users": filtered[start:end],
+				"total": total,
+				"page":  page,
+				"limit": limit,
 			})
 		})
 

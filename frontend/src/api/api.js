@@ -31,7 +31,8 @@ export const withdraw = (form) => request.post('/api/withdraw', form)
 // 添加资金
 export const addFunds = (form) => request.post('/api/admin/accounts/add-funds', form)
 
-export const blockUser = (id) => request.post(`/api/admin/users/${id}/block`)   
+// 封禁/解封用户（block=true 封禁，false 解封）
+export const blockUser = (id, block) => request.post(`/api/admin/users/${id}/block`, { block })
 
 export const getOrders = (params) => request.get('/api/admin/orders', params)
 

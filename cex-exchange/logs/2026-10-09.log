@@ -7554,3 +7554,23 @@ Stack:
 2026-10-09T14:26:21.840+08:00 [INFO] gRPC GetOrderBook: symbol=BNB/USDT, depth=20
 2026-10-09T14:26:21.841+08:00 [INFO] gRPC GetRecentTrades: symbol=BNB/USDT, limit=10
 2026-10-09T14:26:21.841+08:00 [INFO] gRPC GetTicker: symbol=BNB/USDT
+2026-10-09T14:28:00.181+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=20
+2026-10-09T14:28:00.181+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=20
+2026-10-09T14:28:00.186+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=10
+2026-10-09T14:28:00.187+08:00 [INFO] gRPC GetTicker: symbol=BTC/USDT
+2026-10-09T14:28:00.196+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=20
+2026-10-09T14:28:00.236+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=20
+2026-10-09T14:28:00.236+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=10
+2026-10-09T14:28:00.236+08:00 [INFO] gRPC GetTicker: symbol=BTC/USDT
+2026-10-09T14:28:00.645+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=20
+2026-10-09T14:28:00.645+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=10
+2026-10-09T14:28:00.645+08:00 [INFO] gRPC GetTicker: symbol=BTC/USDT
+2026-10-09T14:28:01.645+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=20
+2026-10-09T14:28:01.645+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=10
+2026-10-09T14:28:01.646+08:00 [INFO] gRPC GetTicker: symbol=BTC/USDT
+2026-10-09T14:28:02.645+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=20
+2026-10-09T14:28:02.645+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=10
+2026-10-09T14:28:02.645+08:00 [INFO] gRPC GetTicker: symbol=BTC/USDT
+2026-10-09T14:28:03.645+08:00 [INFO] gRPC GetOrderBook: symbol=BTC/USDT, depth=20
+2026-10-09T14:28:03.645+08:00 [INFO] gRPC GetRecentTrades: symbol=BTC/USDT, limit=10
+2026-10-09T14:28:03.645+08:00 [INFO] gRPC GetTicker: symbol=BTC/USDT

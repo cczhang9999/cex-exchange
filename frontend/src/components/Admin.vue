@@ -22,16 +22,21 @@
 
           <el-table :data="users" v-loading="userLoading" class="admin-table w-100">
             <el-table-column prop="id" label="ID" width="80" />
-            <el-table-column prop="email" label="邮箱/用户名" />
-            <el-table-column prop="phone" label="手机号" />
-            <el-table-column prop="is_blocked" label="状态">
+            <el-table-column prop="username" label="用户名" min-width="120" show-overflow-tooltip />
+            <el-table-column prop="email" label="邮箱" min-width="180" show-overflow-tooltip />
+            <el-table-column label="手机号" min-width="130">
+              <template #default="{ row }">
+                {{ row.phone || '—' }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="is_blocked" label="状态" width="100">
               <template #default="{ row }">
                 <el-tag :type="row.is_blocked ? 'danger' : 'success'">
                   {{ row.is_blocked ? '已封禁' : '正常' }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="created_at" label="注册时间" />
+            <el-table-column prop="created_at" label="注册时间" width="170" />
             <el-table-column label="操作" width="200">
               <template #default="{ row }">
                 <el-button
@@ -183,6 +188,7 @@
             </el-descriptions-item>
             <el-descriptions-item label="注册时间">{{ selectedUser.created_at }}</el-descriptions-item>
             <el-descriptions-item label="最后登录">{{ selectedUser.last_login || '从未登录' }}</el-descriptions-item>
+            <el-descriptions-item label="更新时间">{{ selectedUser.updated_at || '—' }}</el-descriptions-item>
           </el-descriptions>
         </div>
       </el-dialog>
@@ -378,7 +384,7 @@ const toggleUserStatus = async (user) => {
 
     await ElMessageBox.confirm(`确定要${actionText}用户 ${user.username} 吗？`, '确认操作')
 
-    await blockUser(`${user.id}/${action}`)
+    await blockUser(user.id, !user.is_blocked)
     ElMessage.success(`${actionText}成功`)
     fetchUsers()
   } catch (error) {
