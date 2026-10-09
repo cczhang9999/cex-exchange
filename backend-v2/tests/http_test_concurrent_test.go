@@ -161,7 +161,7 @@ func TestConcurrentAccounts_Merge(t *testing.T) {
 	orderRepo := newFakeOrderRepo()
 	accUc := biz.NewAccountUsecase(accRepo)
 	orderUc := biz.NewOrderUsecase(orderRepo)
-	svc := service.NewExchangeService(nil, orderUc, accUc, nil, nil, nil, nil)
+	svc := service.NewExchangeService(nil, orderUc, accUc, nil, nil, nil, nil, nil)
 	router := server.NewHTTPServer(nil, svc)
 
 	concurrency := 50 // 并发 goroutine 数
@@ -243,7 +243,7 @@ func TestConcurrentAccountFlows_MergeByPage(t *testing.T) {
 	flowRepo := newFakeAccountFlowRepo()
 	orderUc := biz.NewOrderUsecase(newFakeOrderRepo())
 	flowUc := biz.NewAccountFlowUsecase(flowRepo)
-	svc := service.NewExchangeService(nil, orderUc, nil, flowUc, nil, nil, nil)
+	svc := service.NewExchangeService(nil, orderUc, nil, flowUc, nil, nil, nil, nil)
 	router := server.NewHTTPServer(nil, svc)
 
 	// 场景：分页接口，每页 page_size=1，共 2 条数据，需要并发拉取 2 页后合并
@@ -355,7 +355,7 @@ func TestConcurrentStress_RealHTTPServer(t *testing.T) {
 	orderRepo := newFakeOrderRepo()
 	accUc := biz.NewAccountUsecase(accRepo)
 	orderUc := biz.NewOrderUsecase(orderRepo)
-	svc := service.NewExchangeService(nil, orderUc, accUc, nil, nil, nil, nil)
+	svc := service.NewExchangeService(nil, orderUc, accUc, nil, nil, nil, nil, nil)
 	router := server.NewHTTPServer(nil, svc)
 
 	// 使用真实 HTTP Server，模拟网络链路并发
@@ -449,7 +449,7 @@ func TestConcurrentWithTimeout(t *testing.T) {
 	accRepo := newFakeAccountRepo()
 	accUc := biz.NewAccountUsecase(accRepo)
 	orderUc := biz.NewOrderUsecase(newFakeOrderRepo())
-	svc := service.NewExchangeService(nil, orderUc, accUc, nil, nil, nil, nil)
+	svc := service.NewExchangeService(nil, orderUc, accUc, nil, nil, nil, nil, nil)
 	router := server.NewHTTPServer(nil, svc)
 
 	concurrency := 20
@@ -524,7 +524,7 @@ func TestConcurrentOrders_MergeByPage(t *testing.T) {
 	defer cleanup()
 
 	orderUc := biz.NewOrderUsecase(data.NewOrderRepo(d))
-	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, nil)
+	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, nil, nil)
 	router := server.NewHTTPServer(nil, svc)
 
 	const (

@@ -28,6 +28,7 @@ type User struct {
 	Password string
 	Email    string
 	Phone    string
+	Status   int
 }
 
 func (r *userRepo) Save(ctx context.Context, u *biz.User) (*biz.User, error) {
@@ -36,6 +37,7 @@ func (r *userRepo) Save(ctx context.Context, u *biz.User) (*biz.User, error) {
 		Password: u.Password,
 		Email:    u.Email,
 		Phone:    u.Phone,
+		Status:   int(u.Status),
 	}
 	if err := r.data.db.WithContext(ctx).Create(user).Error; err != nil {
 		return nil, err
@@ -62,6 +64,27 @@ func (r *userRepo) ValidatePassword(u *biz.User, password string) bool {
 	return u.Password == password // Simple check for now
 }
 
+func (r *userRepo) FindByID(ctx context.Context, id uint64) (*biz.User, error) {
+	var user User
+	if err := r.data.db.WithContext(ctx).Where("id = ?", id).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &biz.User{
+		ID:        uint64(user.ID),
+		Username:  user.Username,
+		Password:  user.Password,
+		Email:     user.Email,
+		Phone:     user.Phone,
+		Status:    biz.UserStatus(user.Status),
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+	}, nil
+}
+
+func (r *userRepo) UpdateStatus(ctx context.Context, id uint64, status biz.UserStatus) error {
+	return r.data.db.WithContext(ctx).Model(&User{}).Where("id = ?", id).Update("status", int(status)).Error
+}
+
 func (r *userRepo) FindUserList(ctx context.Context) ([]*biz.User, error) {
 	var users []User
 	if err := r.data.db.WithContext(ctx).Find(&users).Error; err != nil {
@@ -76,6 +99,7 @@ func (r *userRepo) FindUserList(ctx context.Context) ([]*biz.User, error) {
 			Password:  u.Password,
 			Email:     u.Email,
 			Phone:     u.Phone,
+			Status:    biz.UserStatus(u.Status),
 			CreatedAt: u.CreatedAt,
 			UpdatedAt: u.UpdatedAt,
 		})

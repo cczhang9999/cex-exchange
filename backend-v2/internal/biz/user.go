@@ -4,7 +4,16 @@ import (
 	"backend-v2/internal/conf"
 	"backend-v2/internal/pkg/jwt"
 	"context"
+	"fmt"
 	"time"
+)
+
+// UserStatus 用户状态
+type UserStatus int
+
+const (
+	UserStatusNormal  UserStatus = 1 // 正常
+	UserStatusBlocked UserStatus = 0 // 禁用/封禁
 )
 
 type User struct {
@@ -13,6 +22,7 @@ type User struct {
 	Password  string
 	Email     string
 	Phone     string
+	Status    UserStatus
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -22,6 +32,8 @@ type UserRepo interface {
 	FindByUsername(ctx context.Context, username string) (*User, error)
 	ValidatePassword(user *User, password string) bool
 	FindUserList(ctx context.Context) ([]*User, error)
+	FindByID(ctx context.Context, id uint64) (*User, error)
+	UpdateStatus(ctx context.Context, id uint64, status UserStatus) error
 }
 
 type UserUsecase struct {
@@ -47,10 +59,12 @@ func (uc *UserUsecase) Register(ctx context.Context, username, password, email s
 		Password: password, // In real world this should be hashed
 		Email:    email,
 		Phone:    phone,
+		Status:   UserStatusNormal,
 	}
 	return uc.repo.Save(ctx, u)
 }
 
+// Login 登录：查询用户、校验密码、拒绝已封禁用户
 func (uc *UserUsecase) Login(ctx context.Context, username, password string) (string, uint64, error) {
 	u, err := uc.repo.FindByUsername(ctx, username)
 	if err != nil {
@@ -58,6 +72,9 @@ func (uc *UserUsecase) Login(ctx context.Context, username, password string) (st
 	}
 	if !uc.repo.ValidatePassword(u, password) {
 		return "", 0, nil // Invalid password
+	}
+	if u.Status == UserStatusBlocked {
+		return "", 0, fmt.Errorf("账户已被封禁")
 	}
 	token, err := jwt.GenerateToken(u.ID, uc.secret, uc.expiry)
 	if err != nil {
@@ -68,4 +85,18 @@ func (uc *UserUsecase) Login(ctx context.Context, username, password string) (st
 
 func (uc *UserUsecase) ListUsers(ctx context.Context) ([]*User, error) {
 	return uc.repo.FindUserList(ctx)
+}
+
+// GetUser 获取单个用户
+func (uc *UserUsecase) GetUser(ctx context.Context, id uint64) (*User, error) {
+	return uc.repo.FindByID(ctx, id)
+}
+
+// BlockUser 封禁/解封用户
+func (uc *UserUsecase) BlockUser(ctx context.Context, id uint64, block bool) error {
+	status := UserStatusNormal
+	if block {
+		status = UserStatusBlocked
+	}
+	return uc.repo.UpdateStatus(ctx, id, status)
 }

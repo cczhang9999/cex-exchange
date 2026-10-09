@@ -97,7 +97,7 @@ func TestGRPCCPlaceOrderViaRemoteCall(t *testing.T) {
 
 	// 2. 创建 service（传入配置以支持 JWT 解析）
 	cfg := grpcTestConfig(jwtSecret)
-	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg)
+	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg, nil)
 
 	// 3. 启动 gRPC 服务器 + 客户端
 	client, cleanup := startTestGRPCServer(t, svc, jwtSecret)
@@ -150,7 +150,7 @@ func TestGRPCCancelOrderViaRemoteCall(t *testing.T) {
 	orderRepo := newFakeOrderRepo()
 	orderUc := biz.NewOrderUsecase(orderRepo)
 	cfg := grpcTestConfig(jwtSecret)
-	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg)
+	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg, nil)
 
 	client, cleanup := startTestGRPCServer(t, svc, jwtSecret)
 	defer cleanup()
@@ -189,7 +189,7 @@ func TestGRPCGetMyOrdersViaRemoteCall(t *testing.T) {
 	orderRepo := newFakeOrderRepo()
 	orderUc := biz.NewOrderUsecase(orderRepo)
 	cfg := grpcTestConfig(jwtSecret)
-	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg)
+	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg, nil)
 
 	client, cleanup := startTestGRPCServer(t, svc, jwtSecret)
 	defer cleanup()
@@ -231,7 +231,7 @@ func TestGRPCOrderAuthFailure(t *testing.T) {
 	orderRepo := newFakeOrderRepo()
 	orderUc := biz.NewOrderUsecase(orderRepo)
 	cfg := grpcTestConfig(jwtSecret)
-	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg)
+	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg, nil)
 
 	client, cleanup := startTestGRPCServer(t, svc, jwtSecret)
 	defer cleanup()
@@ -279,7 +279,7 @@ func TestGRPCGetMyOrdersWithSymbolFilter(t *testing.T) {
 	orderRepo := newFakeOrderRepo()
 	orderUc := biz.NewOrderUsecase(orderRepo)
 	cfg := grpcTestConfig(jwtSecret)
-	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg)
+	svc := service.NewExchangeService(nil, orderUc, nil, nil, nil, nil, cfg, nil)
 
 	client, cleanup := startTestGRPCServer(t, svc, jwtSecret)
 	defer cleanup()

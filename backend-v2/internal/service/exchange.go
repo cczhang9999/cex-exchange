@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/google/wire"
 )
@@ -23,11 +24,12 @@ type ExchangeService struct {
 	account     *biz.AccountUsecase
 	accountFlow *biz.AccountFlowUsecase
 	kline       *biz.KlineUsecase
+	trade       *biz.TradeUsecase
 	client      pb.ExchangeServiceClient
 	jwtSecret   string
 }
 
-func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, accountFlow *biz.AccountFlowUsecase, kline *biz.KlineUsecase, client pb.ExchangeServiceClient, conf *conf.Bootstrap) *ExchangeService {
+func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account *biz.AccountUsecase, accountFlow *biz.AccountFlowUsecase, kline *biz.KlineUsecase, client pb.ExchangeServiceClient, conf *conf.Bootstrap, trade *biz.TradeUsecase) *ExchangeService {
 	jwtSecret := ""
 	if conf != nil && conf.Auth != nil {
 		jwtSecret = conf.Auth.JwtSecret
@@ -38,6 +40,7 @@ func NewExchangeService(user *biz.UserUsecase, order *biz.OrderUsecase, account 
 		account:     account,
 		accountFlow: accountFlow,
 		kline:       kline,
+		trade:       trade,
 		client:      client,
 		jwtSecret:   jwtSecret,
 	}
@@ -92,10 +95,26 @@ func (s *ExchangeService) Register(ctx context.Context, req *pb.RegisterRequest)
 }
 
 func (s *ExchangeService) GetOrderBook(ctx context.Context, req *pb.GetOrderBookRequest) (*pb.GetOrderBookResponse, error) {
+	if s.client == nil {
+		// 后端 cex-exchange 服务未配置时，返回空盘
+		return &pb.GetOrderBookResponse{
+			Success: true,
+			Message: "Success",
+			Bids:    []*pb.PriceLevel{},
+			Asks:    []*pb.PriceLevel{},
+		}, nil
+	}
 	return s.client.GetOrderBook(ctx, req)
 }
 
 func (s *ExchangeService) GetRecentTrades(ctx context.Context, req *pb.GetRecentTradesRequest) (*pb.GetRecentTradesResponse, error) {
+	if s.client == nil {
+		return &pb.GetRecentTradesResponse{
+			Success: true,
+			Message: "Success",
+			Trades:  []*pb.Trade{},
+		}, nil
+	}
 	return s.client.GetRecentTrades(ctx, req)
 }
 
@@ -183,7 +202,7 @@ func (s *ExchangeService) CancelOrder(ctx context.Context, req *pb.CancelOrderRe
 
 	// 2. 查询订单，验证归属
 	order, err := s.order.GetOrder(ctx, req.OrderId)
-	if err != nil {
+	if err != nil || order == nil {
 		return &pb.CancelOrderResponse{Success: false, Message: "订单不存在"}, nil
 	}
 	if order.UserID != userID {
@@ -345,4 +364,185 @@ func (s *ExchangeService) GetUserOrderPage(ctx context.Context, q biz.OrderQuery
 	return s.order.GetOrdersPage(ctx, q)
 }
 
-// Implement other methods as Unimplemented or TODO
+// GetMyTrades 查询用户成交记录（HTTP 兼容方法）
+func (s *ExchangeService) GetMyTrades(ctx context.Context, userID uint64) ([]*biz.Trade, error) {
+	if s.trade == nil {
+		return nil, fmt.Errorf("trade service unavailable")
+	}
+	return s.trade.GetMyTrades(ctx, userID)
+}
+
+// ==================== 管理员接口（HTTP 兼容方法） ====================
+
+// ListUsers 获取用户列表（不返回密码）
+func (s *ExchangeService) ListUsers(ctx context.Context) ([]*biz.User, error) {
+	if s.user == nil {
+		return nil, fmt.Errorf("user service unavailable")
+	}
+	users, err := s.user.ListUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for i := range users {
+		users[i].Password = ""
+	}
+	return users, nil
+}
+
+// ListAllAccounts 获取全部账户（管理员）
+func (s *ExchangeService) ListAllAccounts(ctx context.Context) ([]*biz.Account, error) {
+	if s.account == nil {
+		return nil, fmt.Errorf("account service unavailable")
+	}
+	return s.account.GetAllAccounts(ctx)
+}
+
+// AdminAddFunds 管理员为用户添加资金
+func (s *ExchangeService) AdminAddFunds(ctx context.Context, userID uint64, asset, amount string) error {
+	if s.account == nil {
+		return fmt.Errorf("account service unavailable")
+	}
+	return s.account.AdjustBalance(ctx, userID, asset, amount)
+}
+
+// AdminAdjustBalance 管理员调账（同 AddFunds）
+func (s *ExchangeService) AdminAdjustBalance(ctx context.Context, userID uint64, asset, amount string) error {
+	return s.AdminAddFunds(ctx, userID, asset, amount)
+}
+
+// AdminBlockUser 管理员封禁/解封用户
+func (s *ExchangeService) AdminBlockUser(ctx context.Context, userID uint64, block bool) error {
+	if s.user == nil {
+		return fmt.Errorf("user service unavailable")
+	}
+	return s.user.BlockUser(ctx, userID, block)
+}
+
+// ==================== 以下为补全的 gRPC 接口 ====================
+
+// GetTicker 获取行情 (gRPC 接口)
+// 优先委托给后端 cex-exchange gRPC 服务获取行情，失败时返回本地模拟数据。
+func (s *ExchangeService) GetTicker(ctx context.Context, req *pb.GetTickerRequest) (*pb.GetTickerResponse, error) {
+	if s.client != nil {
+		resp, err := s.client.GetTicker(ctx, req)
+		if err == nil {
+			return resp, nil
+		}
+		log.Printf("GetTicker: delegate to client failed, using local fallback: %v", err)
+	}
+	// 本地模拟行情
+	ticker := &pb.Ticker{
+		Symbol:     req.Symbol,
+		LastPrice:  "50000.00",
+		High_24H:   "52000.00",
+		Low_24H:    "48000.00",
+		Volume_24H: "1234.56",
+		Change_24H: "+2.5%",
+	}
+	return &pb.GetTickerResponse{
+		Success: true,
+		Message: "Success",
+		Ticker:  ticker,
+	}, nil
+}
+
+// Deposit 充值 (gRPC 接口)
+func (s *ExchangeService) Deposit(ctx context.Context, req *pb.DepositRequest) (*pb.DepositResponse, error) {
+	userID, err := s.requireUserID(ctx, req.Token)
+	if err != nil {
+		return &pb.DepositResponse{Success: false, Message: "认证失败: " + err.Error()}, nil
+	}
+	if req.Asset == "" {
+		return &pb.DepositResponse{Success: false, Message: "asset is required"}, nil
+	}
+	if err := s.account.Deposit(ctx, userID, req.Asset, req.Amount); err != nil {
+		return &pb.DepositResponse{Success: false, Message: "充值失败: " + err.Error()}, nil
+	}
+	log.Printf("Deposit: user_id=%d, asset=%s, amount=%s", userID, req.Asset, req.Amount)
+	return &pb.DepositResponse{Success: true, Message: "充值成功"}, nil
+}
+
+// Withdraw 提现 (gRPC 接口)
+func (s *ExchangeService) Withdraw(ctx context.Context, req *pb.WithdrawRequest) (*pb.WithdrawResponse, error) {
+	userID, err := s.requireUserID(ctx, req.Token)
+	if err != nil {
+		return &pb.WithdrawResponse{Success: false, Message: "认证失败: " + err.Error()}, nil
+	}
+	if req.Asset == "" {
+		return &pb.WithdrawResponse{Success: false, Message: "asset is required"}, nil
+	}
+	if err := s.account.Withdraw(ctx, userID, req.Asset, req.Amount, req.Address); err != nil {
+		return &pb.WithdrawResponse{Success: false, Message: "提现失败: " + err.Error()}, nil
+	}
+	log.Printf("Withdraw: user_id=%d, asset=%s, amount=%s, address=%s", userID, req.Asset, req.Amount, req.Address)
+	return &pb.WithdrawResponse{Success: true, Message: "提现成功"}, nil
+}
+
+// SubscribeOrderBook 订阅订单簿更新（服务端流式）(gRPC 接口)
+// 当 client 为空时，每秒推送一次本地获取到的订单簿；当 client 可用时通过 GetOrderBook
+// 拉取（委托至后端 cex-exchange 服务）。
+func (s *ExchangeService) SubscribeOrderBook(req *pb.SubscribeOrderBookRequest, stream pb.ExchangeService_SubscribeOrderBookServer) error {
+	ctx := stream.Context()
+	symbol := req.Symbol
+	if symbol == "" {
+		symbol = "BTC/USDT"
+	}
+
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case <-ticker.C:
+			resp, err := s.GetOrderBook(ctx, &pb.GetOrderBookRequest{Symbol: symbol, Depth: 20})
+			if err != nil || !resp.Success {
+				continue
+			}
+			update := &pb.OrderBookUpdate{
+				Symbol:    symbol,
+				Bids:      resp.Bids,
+				Asks:      resp.Asks,
+				Timestamp: time.Now().Unix(),
+			}
+			if err := stream.Send(update); err != nil {
+				return err
+			}
+		}
+	}
+}
+
+// SubscribeTrades 订阅成交更新（服务端流式）(gRPC 接口)
+// 每隔 500ms 通过 GetRecentTrades 拉取最新成交并推送到客户端。
+func (s *ExchangeService) SubscribeTrades(req *pb.SubscribeTradesRequest, stream pb.ExchangeService_SubscribeTradesServer) error {
+	ctx := stream.Context()
+	symbol := req.Symbol
+	if symbol == "" {
+		symbol = "BTC/USDT"
+	}
+
+	ticker := time.NewTicker(500 * time.Millisecond)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case <-ticker.C:
+			resp, err := s.GetRecentTrades(ctx, &pb.GetRecentTradesRequest{Symbol: symbol, Limit: 1})
+			if err != nil || len(resp.Trades) == 0 {
+				continue
+			}
+			t := resp.Trades[0]
+			update := &pb.TradeUpdate{
+				Symbol:    t.Symbol,
+				Price:     t.Price,
+				Amount:    t.Amount,
+				Side:      t.Side,
+				Timestamp: time.Now().Unix(),
+			}
+			if err := stream.Send(update); err != nil {
+				return err
+			}
+		}
+	}
+}

@@ -44,6 +44,27 @@ func NewAccountFlowRepo(data *Data) biz.AccountFlowRepo {
 	}
 }
 
+// Create 记录一条资金流水
+func (r *accountFlowRepo) Create(ctx context.Context, flow *biz.AccountFlow) (*biz.AccountFlow, error) {
+	m := &AccountFlow{
+		UserID:     flow.UserID,
+		AccountID:  flow.AccountID,
+		Asset:      flow.Asset,
+		ChangeType: flow.ChangeType,
+		Amount:     flow.Amount,
+		Balance:    flow.Balance,
+		RefID:      flow.RefID,
+		Remark:     flow.Remark,
+	}
+	if err := r.data.db.WithContext(ctx).Create(m).Error; err != nil {
+		return nil, err
+	}
+	flow.ID = uint64(m.ID)
+	flow.CreatedAt = m.CreatedAt
+	flow.UpdatedAt = m.UpdatedAt
+	return flow, nil
+}
+
 // FindPageByUserID 按条件分页查询用户的资金流水
 func (r *accountFlowRepo) FindPageByUserID(ctx context.Context, q biz.AccountFlowQuery) (*biz.AccountFlowPage, error) {
 	tx := r.data.db.WithContext(ctx).Model(&AccountFlow{}).Where("user_id = ?", q.UserID)

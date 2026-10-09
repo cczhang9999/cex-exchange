@@ -33,6 +33,7 @@ func initApp(bc *conf.Bootstrap) (*server.Server, func(), error) {
 		data.AccountProviderSet,     // 账户模块特有的数据层依赖
 		data.AccountFlowProviderSet, // 资金流水模块特有的数据层依赖
 		biz.ProviderSet,             // 业务逻辑层（Domain/UseCase）的依赖集合
+		data.TradeProviderSet,       // 成交模块的数据层依赖
 		service.ProviderSet,         // 服务实现层（实现 Proto 定义的接口）的依赖集合
 		server.NewServer,            // 最终创建 Server 实例的构造函数
 	))

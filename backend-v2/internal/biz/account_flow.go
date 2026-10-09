@@ -43,6 +43,8 @@ type AccountFlowPage struct {
 type AccountFlowRepo interface {
 	// FindPageByUserID 按条件分页查询用户的资金流水
 	FindPageByUserID(ctx context.Context, q AccountFlowQuery) (*AccountFlowPage, error)
+	// Create 记录资金流水
+	Create(ctx context.Context, flow *AccountFlow) (*AccountFlow, error)
 }
 
 // AccountFlowUsecase 定义资金流水业务逻辑
