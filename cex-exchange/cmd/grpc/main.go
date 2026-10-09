@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	pb "cex-exchange/api/proto"
+	_ "cex-exchange/internal/boot" // 注册 MySQL 驱动并按 boot.init 初始化配置路径 (manifest/config)
 	grpcServer "cex-exchange/internal/grpc"
 )
 

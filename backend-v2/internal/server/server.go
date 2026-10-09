@@ -585,6 +585,11 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		})
 	}
 
+	// WebSocket routes
+	wsMgr := newWSManager(s)
+	r.GET("/ws", wsMgr.handleWebSocket)
+	r.GET("/ws/status", wsMgr.getStatus)
+
 	return r
 }
 

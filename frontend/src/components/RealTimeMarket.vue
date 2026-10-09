@@ -181,7 +181,12 @@ const updateConnectionStatus = () => {
   isConnected.value = wsClient.isConnected
 }
 
+let connectionInterval = null
+
 onMounted(() => {
+  // 连接WebSocket
+  wsClient.connect()
+
   // 订阅主要交易对
   const symbols = ['BTC/USDT', 'ETH/USDT', 'BNB/USDT']
   symbols.forEach((symbol) => {
@@ -189,14 +194,12 @@ onMounted(() => {
   })
 
   // 每秒检查一次连接状态
-  const connectionInterval = setInterval(updateConnectionStatus, 1000)
+  connectionInterval = setInterval(updateConnectionStatus, 1000)
+})
 
-  onUnmounted(() => {
-    clearInterval(connectionInterval)
-    symbols.forEach((symbol) => {
-      wsClient.unsubscribe(symbol)
-    })
-  })
+onUnmounted(() => {
+  clearInterval(connectionInterval)
+  wsClient.disconnect()
 })
 </script>
 

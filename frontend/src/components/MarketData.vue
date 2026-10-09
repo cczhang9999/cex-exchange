@@ -114,17 +114,22 @@ const checkConnection = () => {
   updateConnectionStatus()
 }
 
+let connectionInterval = null
+
 onMounted(() => {
+  // 连接WebSocket
+  wsClient.connect()
+
   // 订阅行情数据
   wsClient.subscribe(props.symbol, handleWebSocketData)
 
   // 每秒检查一次连接状态
-  const connectionInterval = setInterval(checkConnection, 1000)
+  connectionInterval = setInterval(checkConnection, 1000)
+})
 
-  onUnmounted(() => {
-    clearInterval(connectionInterval)
-    wsClient.unsubscribe(props.symbol)
-  })
+onUnmounted(() => {
+  clearInterval(connectionInterval)
+  wsClient.disconnect()
 })
 </script>
 
