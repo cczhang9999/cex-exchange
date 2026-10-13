@@ -31,8 +31,12 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="created_at" label="注册时间" width="170" />
-            <el-table-column label="操作" width="200">
+            <el-table-column prop="created_at" label="注册时间" width="170">
+              <template #default="{ row }">
+                <span class="text-muted mono table-time">{{ formatDate(row.created_at) }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="200" class-name="table-op">
               <template #default="{ row }">
                 <el-button
                   :type="row.is_blocked ? 'success' : 'danger'"
@@ -95,8 +99,12 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="created_at" label="创建时间" />
-            <el-table-column label="操作" width="120">
+            <el-table-column prop="created_at" label="创建时间" width="170">
+              <template #default="{ row }">
+                <span class="text-muted mono table-time">{{ formatDate(row.created_at) }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="120" class-name="table-op">
               <template #default="{ row }">
                 <el-button
                   v-if="row.status === 'open'"
@@ -141,16 +149,30 @@
           <el-table :data="accounts" v-loading="accountLoading" class="admin-table w-100">
             <el-table-column prop="id" label="ID" width="80" />
             <el-table-column prop="user_id" label="用户ID" width="100" />
-            <el-table-column prop="asset" label="币种" />
-            <el-table-column prop="balance" label="可用余额" />
-            <el-table-column prop="frozen" label="冻结余额" />
-            <el-table-column label="总余额">
+            <el-table-column prop="asset" label="币种" width="100" />
+            <el-table-column prop="balance" label="可用余额" min-width="130">
               <template #default="{ row }">
-                {{ (parseFloat(row.balance) + parseFloat(row.frozen)).toFixed(8) }}
+                <span class="mono">{{ row.balance }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="updated_at" label="更新时间" />
-            <el-table-column label="操作" width="200">
+            <el-table-column prop="frozen" label="冻结余额" min-width="130">
+              <template #default="{ row }">
+                <span class="mono">{{ row.frozen }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="总余额" min-width="150">
+              <template #default="{ row }">
+                <span class="mono">
+                  {{ ((parseFloat(row.balance) || 0) + (parseFloat(row.frozen) || 0)).toFixed(8) }}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="updated_at" label="更新时间" width="170">
+              <template #default="{ row }">
+                <span class="text-muted mono table-time">{{ formatDate(row.updated_at) }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="200" class-name="table-op">
               <template #default="{ row }">
                 <el-button type="primary" size="small" @click="openAdjustBalance(row)">调整余额</el-button>
                 <el-button type="success" size="small" @click="addFundsToAccount(row)">添加资金</el-button>
@@ -527,6 +549,17 @@ const getOrderStatusText = (status) => {
   return statusMap[status] || status
 }
 
+// 格式化时间显示（单行，避免单元格折行导致行高不一致）
+const formatDate = (timestamp) => {
+  if (!timestamp) return '—'
+  // 兼容秒级时间戳（<=10 位）与 ISO 字符串
+  const ms = /^\d{10}$/.test(String(timestamp)) ? Number(timestamp) * 1000 : timestamp
+  const date = new Date(ms)
+  if (Number.isNaN(date.getTime())) return String(timestamp)
+  const pad = (n) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+}
+
 // 打开添加资金对话框
 const openAddFunds = () => {
   addFundsForm.value = {
@@ -599,6 +632,33 @@ onMounted(() => {
 
 .admin-table {
   border-radius: var(--radius-base);
+}
+
+/* 行对齐：单元格统一垂直居中，避免多行内容把行高撑歪 */
+.admin-table :deep(.el-table__cell) {
+  vertical-align: middle !important;
+}
+
+/* 时间列单行显示，不折行 */
+.admin-table :deep(.table-time) {
+  white-space: nowrap;
+}
+
+/* 操作列：按钮同一行水平居中 */
+.admin-table :deep(.table-op .cell) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.admin-table :deep(.table-op .el-button) {
+  margin: 0 !important;
+}
+
+.admin-table :deep(.table-op .el-button + .el-button) {
+  margin-left: 8px !important;
 }
 
 .admin-table :global(.el-table__row):hover {
