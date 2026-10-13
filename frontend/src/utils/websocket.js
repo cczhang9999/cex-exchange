@@ -1,161 +1,173 @@
-// WebSocket客户端工具类
+// WebSocket 客户端工具类（生产级）
+// - 支持同一交易对被多个组件同时订阅（Map<symbol, Set<callback>>）
+// - 指数退避重连 + 心跳保活 + 主动销毁
 class WebSocketClient {
   constructor(url) {
     this.url = url
     this.ws = null
     this.isConnected = false
     this.reconnectAttempts = 0
-    this.maxReconnectAttempts = 5
-    this.reconnectInterval = 3000
-    this.subscribers = new Map()
-    this.messageHandlers = new Map()
+    this.maxReconnectAttempts = 8
+    this.baseReconnectInterval = 1500
+    this.subscribers = new Map() // symbol -> Set<callback>
+    this.heartbeatTimer = null
+    this.reconnectTimer = null
+    this.manuallyClosed = false
   }
 
-  // 连接WebSocket
   connect() {
+    if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
+      return
+    }
+    this.manuallyClosed = false
+
     try {
       this.ws = new WebSocket(this.url)
-      
+
       this.ws.onopen = () => {
-        console.log('WebSocket连接成功')
         this.isConnected = true
         this.reconnectAttempts = 0
-        
-        // 重新订阅之前的频道
-        this.subscribers.forEach((callback, symbol) => {
-          this.subscribe(symbol, callback)
+        // 重连后重新订阅所有频道
+        this.subscribers.forEach((_, symbol) => {
+          this.send({ type: 'subscribe', symbol })
         })
       }
 
       this.ws.onmessage = (event) => {
         try {
-          const data = JSON.parse(event.data)
-          this.handleMessage(data)
+          this.handleMessage(JSON.parse(event.data))
         } catch (error) {
-          console.error('解析WebSocket消息失败:', error)
+          console.error('解析 WebSocket 消息失败:', error)
         }
       }
 
       this.ws.onclose = () => {
-        console.log('WebSocket连接断开')
         this.isConnected = false
-        this.reconnect()
+        this.stopHeartbeat()
+        if (!this.manuallyClosed) this.reconnect()
       }
 
-      this.ws.onerror = (error) => {
-        console.error('WebSocket错误:', error)
+      this.ws.onerror = () => {
         this.isConnected = false
       }
     } catch (error) {
-      console.error('WebSocket连接失败:', error)
+      console.error('WebSocket 连接失败:', error)
       this.reconnect()
     }
   }
 
-  // 重连机制
+  // 指数退避重连，避免雪崩式重试
   reconnect() {
-    if (this.reconnectAttempts < this.maxReconnectAttempts) {
-      this.reconnectAttempts++
-      console.log(`尝试重连 (${this.reconnectAttempts}/${this.maxReconnectAttempts})`)
-      
-      setTimeout(() => {
-        this.connect()
-      }, this.reconnectInterval)
-    } else {
-      console.error('WebSocket重连失败，已达到最大重连次数')
+    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+      console.warn('WebSocket 已达到最大重连次数，停止重连')
+      return
     }
+    const delay = Math.min(this.baseReconnectInterval * 2 ** this.reconnectAttempts, 20000)
+    this.reconnectAttempts++
+    clearTimeout(this.reconnectTimer)
+    this.reconnectTimer = setTimeout(() => this.connect(), delay)
   }
 
-  // 发送消息
   send(message) {
-    if (this.isConnected && this.ws) {
+    if (this.isConnected && this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(message))
-    } else {
-      console.warn('WebSocket未连接，无法发送消息')
     }
   }
 
-  // 订阅行情数据
+  // 订阅行情数据（同一 symbol 可注册多个回调）
   subscribe(symbol, callback) {
-    this.subscribers.set(symbol, callback)
-    
-    if (this.isConnected) {
-      this.send({
-        type: 'subscribe',
-        symbol: symbol
-      })
+    if (!this.subscribers.has(symbol)) {
+      this.subscribers.set(symbol, new Set())
+      if (this.isConnected) this.send({ type: 'subscribe', symbol })
     }
+    this.subscribers.get(symbol).add(callback)
   }
 
-  // 取消订阅
-  unsubscribe(symbol) {
-    this.subscribers.delete(symbol)
+  // 取消订阅；不传 callback 则移除该 symbol 的全部回调
+  unsubscribe(symbol, callback) {
+    const set = this.subscribers.get(symbol)
+    if (!set) return
+    if (callback) {
+      set.delete(callback)
+    } else {
+      set.clear()
+    }
+    if (set.size === 0) this.subscribers.delete(symbol)
   }
 
-  // 处理接收到的消息
   handleMessage(data) {
-    const { type, symbol, data: messageData, timestamp } = data
-
+    const { type, symbol, data: messageData } = data
     switch (type) {
       case 'welcome':
-        console.log('WebSocket连接成功:', messageData)
-        break
-        
       case 'pong':
-        // 心跳响应
         break
-        
       case 'orderbook':
-        this.notifySubscribers(symbol, 'orderbook', messageData)
-        break
-        
       case 'trade':
-        this.notifySubscribers(symbol, 'trade', messageData)
-        break
-        
       case 'price_change':
-        this.notifySubscribers(symbol, 'price_change', messageData)
-        break
-        
       case 'kline':
-        this.notifySubscribers(symbol, 'kline', messageData)
+        this.notifySubscribers(symbol, type, messageData)
         break
-        
       default:
-        console.log('未知消息类型:', type, data)
+        break
     }
   }
 
-  // 通知订阅者
-  // 将消息所属的 symbol（信封中的 symbol，部分后端不会再把它放进 data）一并传给回调，
-  // 便于调用方按交易对归类数据，避免出现 undefined 键名。
+  // 把信封中的 symbol 一并透传给回调，便于调用方按交易对归类
   notifySubscribers(symbol, dataType, data) {
-    const callback = this.subscribers.get(symbol)
-    if (callback) {
-      callback(dataType, data, symbol)
-    }
-  }
-
-  // 发送心跳
-  startHeartbeat() {
-    setInterval(() => {
-      if (this.isConnected) {
-        this.send({ type: 'ping' })
+    const set = this.subscribers.get(symbol)
+    if (!set) return
+    set.forEach((cb) => {
+      try {
+        cb(dataType, data, symbol)
+      } catch (error) {
+        console.error('WebSocket 订阅回调异常:', error)
       }
-    }, 30000) // 每30秒发送一次心跳
+    })
   }
 
-  // 断开连接
-  disconnect() {
-    if (this.ws) {
-      this.ws.close()
+  startHeartbeat() {
+    this.stopHeartbeat()
+    this.heartbeatTimer = setInterval(() => {
+      if (this.isConnected) this.send({ type: 'ping' })
+    }, 30000)
+  }
+
+  stopHeartbeat() {
+    if (this.heartbeatTimer) {
+      clearInterval(this.heartbeatTimer)
+      this.heartbeatTimer = null
     }
+  }
+
+  disconnect() {
+    this.manuallyClosed = true
+    this.stopHeartbeat()
+    clearTimeout(this.reconnectTimer)
+    if (this.ws) {
+      try {
+        this.ws.close()
+      } catch (error) {
+        /* noop */
+      }
+    }
+    this.ws = null
     this.isConnected = false
   }
 }
 
-// 创建全局WebSocket实例
-const wsClient = new WebSocketClient('ws://localhost:8080/ws')
+// 根据当前页面协议自动选择 ws / wss；Vite 开发服务器（5173）走本机后端 8080
+const wsProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws'
+const isViteDev =
+  typeof window !== 'undefined' &&
+  window.location.port === '5173' &&
+  ['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname)
+const wsHost =
+  isViteDev
+    ? 'localhost:8080'
+    : typeof window !== 'undefined'
+      ? window.location.host
+      : 'localhost:8080'
 
-// 导出WebSocket客户端
-export default wsClient 
+const wsClient = new WebSocketClient(`${wsProtocol}://${wsHost}/ws`)
+
+export default wsClient

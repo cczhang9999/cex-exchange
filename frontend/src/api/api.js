@@ -48,9 +48,10 @@ export const getAdminAccounts = (params) => request.get('/api/admin/accounts', p
 export const getDepositAddress = (asset) => request.get('/api/deposit/address', { params: { asset } })
 
 // 获取K线数据（支持多周期）
-export const getKline = (params) => request.get('/api/kline', { params: {
+// 注意：后端路由为 /api/klines（复数），周期参数名为 interval（不是 period）
+export const getKline = (params) => request.get('/api/klines', { params: {
   symbol: params.symbol,
-  period: params.period || '1m',
+  interval: params.period || params.interval || '1m',
   limit: params.limit || 100
 }})
 

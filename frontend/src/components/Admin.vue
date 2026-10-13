@@ -1,13 +1,8 @@
 <template>
-  <div class="admin-page">
-    <el-card class="glass-panel content-card" shadow="hover">
-      <template #header>
-        <div class="flex-center gap-8">
-          <el-icon><Setting /></el-icon>
-          <span class="card-title">后台管理</span>
-        </div>
-      </template>
+  <div class="admin-page page-container">
+    <PageHeader title="后台管理" subtitle="用户、订单与资金账户运营管理" icon="Setting" tone="primary" />
 
+    <el-card class="glass-panel content-card" shadow="hover">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">
         <el-tab-pane label="用户管理" name="users">
           <div class="filter-bar mb-20">
@@ -264,9 +259,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import axios from 'axios'
+import PageHeader from './ui/PageHeader.vue'
 
 import { getUsers, addFunds, getAdminAccounts, getOrders, adjustBalance, cancelAadminOrder, blockUser } from '../api/api'
 

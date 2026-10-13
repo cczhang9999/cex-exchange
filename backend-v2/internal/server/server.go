@@ -146,6 +146,13 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 			response.Error(c, 500, "gRPC 调用失败: "+err.Error())
 			return
 		}
+		// 保证 bids/asks 始终是数组，避免前端拿到 null
+		if resp.Bids == nil {
+			resp.Bids = []*pb.PriceLevel{}
+		}
+		if resp.Asks == nil {
+			resp.Asks = []*pb.PriceLevel{}
+		}
 		response.Success(c, resp)
 	})
 
@@ -163,6 +170,10 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		if err != nil {
 			response.Error(c, 500, "gRPC 调用失败: "+err.Error())
 			return
+		}
+		// 空列表返回 [] 而不是 null
+		if resp.Trades == nil {
+			resp.Trades = []*pb.Trade{}
 		}
 		response.Success(c, resp.Trades)
 	})
@@ -200,6 +211,10 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		if err != nil {
 			response.Error(c, 500, "查询失败: "+err.Error())
 			return
+		}
+		// 空列表返回 [] 而不是 null
+		if resp.Klines == nil {
+			resp.Klines = []*pb.Kline{}
 		}
 		response.Success(c, resp.Klines)
 	})
@@ -628,10 +643,10 @@ func NewHTTPServer(bc *conf.Bootstrap, s *service.ExchangeService) *gin.Engine {
 		})
 	}
 
-	// WebSocket routes
-	wsMgr := newWSManager(s)
-	r.GET("/ws", wsMgr.handleWebSocket)
-	r.GET("/ws/status", wsMgr.getStatus)
+	// WebSocket routes backend-v2 /ws 注释
+	//wsMgr := newWSManager(s)
+	//r.GET("/ws", wsMgr.handleWebSocket)
+	//r.GET("/ws/status", wsMgr.getStatus)
 
 	return r
 }

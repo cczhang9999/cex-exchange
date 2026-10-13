@@ -1,11 +1,13 @@
 <template>
-  <div class="orders-container">
+  <div class="orders-container page-container">
+    <PageHeader title="订单管理" subtitle="查看挂单、筛选历史订单与成交记录" icon="Tickets" tone="warning" />
+
     <!-- 订单筛选器 -->
     <el-card class="glass-panel content-card mb-20">
       <template #header>
         <div class="flex-between">
-          <h3 class="page-title-sm">我的订单</h3>
-          <el-tag type="info" effect="dark" class="glass-tag">Open Orders</el-tag>
+          <h3 class="card-title">我的订单</h3>
+          <span class="badge badge-primary">{{ filteredOrders.length }} 条</span>
         </div>
       </template>
       
@@ -67,7 +69,7 @@
         <el-table-column prop="symbol" label="交易对" width="120" />
         <el-table-column prop="side" label="方向" width="80">
           <template #default="{ row }">
-            <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'">
+            <span :class="row.side === 'buy' ? 'text-up' : 'text-down'" class="font-semibold">
               {{ row.side === 'buy' ? '买入' : '卖出' }}
             </span>
           </template>
@@ -149,8 +151,8 @@
     <el-card class="glass-panel content-card">
       <template #header>
         <div class="flex-between">
-          <h3 class="page-title-sm">我的成交</h3>
-          <el-tag type="success" effect="dark" class="glass-tag">Trade History</el-tag>
+          <h3 class="card-title">我的成交</h3>
+          <span class="badge badge-success">{{ filteredTrades.length }} 条</span>
         </div>
       </template>
       
@@ -202,7 +204,7 @@
         </el-table-column>
         <el-table-column prop="side" label="方向" width="80">
           <template #default="{ row }">
-            <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'">
+            <span :class="row.side === 'buy' ? 'text-up' : 'text-down'" class="font-semibold">
               {{ row.side === 'buy' ? '买入' : '卖出' }}
             </span>
           </template>
@@ -237,6 +239,7 @@ import { ref, computed, onMounted } from 'vue'
 import { getMyOrders, getMyTrades, cancelOrder as cancelOrderApi } from '../api/api'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import PageHeader from './ui/PageHeader.vue'
 
 const orders = ref([])
 const trades = ref([])
@@ -497,8 +500,7 @@ onMounted(() => {
 
 <style scoped>
 .orders-container {
-  padding: 8px;
-  max-width: 1400px;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -550,8 +552,8 @@ onMounted(() => {
 .mb-16 { margin-bottom: 16px; }
 .mt-16 { margin-top: 16px; }
 .flex-between { display: flex; justify-content: space-between; align-items: center; }
-.text-success { color: var(--success); font-weight: 600; }
-.text-danger { color: var(--danger); font-weight: 600; }
+.text-up { color: var(--up); font-weight: 600; }
+.text-down { color: var(--down); font-weight: 600; }
 .text-muted { color: var(--text-muted); }
 .mono { font-family: 'Roboto Mono', 'Fira Code', monospace; }
 .content-card { background: var(--bg-card); border-radius: var(--radius-card); }

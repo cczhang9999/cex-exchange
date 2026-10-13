@@ -95,10 +95,13 @@
       </el-card>
 
       <!-- K线图 -->
-      <el-card class="glass-panel">
+      <el-card class="glass-panel chart-card">
         <template #header>
           <div class="flex-between">
-            <h3 class="card-title">Chart</h3>
+            <div class="flex-center gap-8">
+              <h3 class="card-title">{{ orderForm.symbol }}</h3>
+              <span class="badge badge-primary">K线</span>
+            </div>
             <div class="flex-center time-intervals">
               <el-button 
                 v-for="period in klinePeriods" 
@@ -113,7 +116,13 @@
             </div>
           </div>
         </template>
-        <div id="kline"></div>
+        <div class="ohlc-row">
+          <span v-for="item in ohlcItems" :key="item.label" class="ohlc-item">
+            <span class="ohlc-label">{{ item.label }}</span>
+            <span class="ohlc-value mono" :class="item.cls">{{ item.value }}</span>
+          </span>
+        </div>
+        <div id="kline" class="kline-chart"></div>
       </el-card>
     </el-col>
 
@@ -129,11 +138,11 @@
           <!-- 买单（Bids） -->
           <el-col :span="12">
             <div class="book-header book-header-buy">
-              <el-icon class="text-success"><ArrowUp /></el-icon>
-              <span class="text-success">Bids (Buy)</span>
+              <el-icon class="text-up"><ArrowUp /></el-icon>
+              <span class="text-up">Bids (Buy)</span>
             </div>
             <el-table
-              :data="orderbook.bids"
+              :data="orderbook?.bids || []"
               size="small"
               height="300"
               :show-header="true"
@@ -142,7 +151,7 @@
             >
               <el-table-column label="Price (USDT)" width="120" align="left">
                 <template #default="{ row }">
-                  <span class="text-success price-text clickable mono">{{ formatPrice(row.price) }}</span>
+                  <span class="text-up price-text clickable mono">{{ formatPrice(row.price) }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="Amount" width="100" align="right">
@@ -161,11 +170,11 @@
           <!-- 卖单（Asks） -->
           <el-col :span="12">
             <div class="book-header book-header-sell">
-              <el-icon class="text-danger"><ArrowDown /></el-icon>
-              <span class="text-danger">Asks (Sell)</span>
+              <el-icon class="text-down"><ArrowDown /></el-icon>
+              <span class="text-down">Asks (Sell)</span>
             </div>
             <el-table
-              :data="orderbook.asks"
+              :data="orderbook?.asks || []"
               size="small"
               height="300"
               :show-header="true"
@@ -174,7 +183,7 @@
             >
               <el-table-column label="Price (USDT)" width="120" align="left">
                 <template #default="{ row }">
-                  <span class="text-danger price-text clickable mono">{{ formatPrice(row.price) }}</span>
+                  <span class="text-down price-text clickable mono">{{ formatPrice(row.price) }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="Amount" width="100" align="right">
@@ -196,19 +205,19 @@
         <template #header>
           <div class="flex-between">
             <h3 class="card-title">Recent Trades</h3>
-            <el-tag size="small" type="success" class="glass-tag">{{ trades.length }} trades</el-tag>
+            <el-tag size="small" type="success" class="glass-tag">{{ trades?.length || 0 }} trades</el-tag>
           </div>
         </template>
-        <el-table :data="trades" size="small" height="200" class="trades-table">
+        <el-table :data="trades || []" size="small" height="200" class="trades-table">
           <el-table-column label="Time" width="100">
             <template #default="scope">
-              <span class="text-muted time-text mono">{{ formatTime(scope.row.created_at) }}</span>
+              <span class="text-muted time-text mono">{{ tradeTime(scope.row) }}</span>
             </template>
           </el-table-column>
           <el-table-column label="Side" width="80" align="center">
             <template #default="{ row }">
               <el-tag
-                :type="row.side === 'buy' ? 'success' : 'danger'"
+                :type="row.side === 'buy' ? 'danger' : 'success'"
                 size="small"
                 effect="dark"
               >
@@ -218,7 +227,7 @@
           </el-table-column>
           <el-table-column label="Price (USDT)" width="120" align="right">
             <template #default="{ row }">
-              <span :class="row.side === 'buy' ? 'text-success' : 'text-danger'" class="price-text mono">
+              <span :class="row.side === 'buy' ? 'text-up' : 'text-down'" class="price-text mono">
                 {{ formatPrice(row.price) }}
               </span>
             </template>
@@ -240,21 +249,53 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, nextTick, onUnmounted } from 'vue'
-import { placeOrder as apiPlaceOrder, getOrderbook, getTrades } from '../api/api.js'
+import { ref, computed, onMounted, watch, nextTick, onUnmounted } from 'vue'
+import { placeOrder as apiPlaceOrder, getOrderbook, getTrades, getKline } from '../api/api.js'
 import * as echarts from 'echarts'
 import wsClient from '../utils/websocket.js'
 import MarketData from './MarketData.vue'
 import { ElMessage } from 'element-plus'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { getChartTheme, tooltipStyle, crosshairStyle } from '../utils/chartTheme'
+import { isDark } from '../utils/theme'
+
+const props = defineProps({
+  initialSymbol: { type: String, default: 'BTC/USDT' },
+})
 
 const availableSymbols = ref(['BTC/USDT', 'ETH/USDT', 'BNB/USDT', 'SOL/USDT', 'XRP/USDT'])
-const orderForm = ref({ symbol: 'BTC/USDT', side: 'buy', type: 'limit', price: '', amount: '', stop_price: '' })
+const orderForm = ref({ symbol: props.initialSymbol || 'BTC/USDT', side: 'buy', type: 'limit', price: '', amount: '', stop_price: '' })
 const orderbook = ref({ bids: [], asks: [] })
 const trades = ref([])
 const priceChange = ref({})
 let klineChart = null
-let currentSymbol = 'BTC/USDT'
+let currentSymbol = orderForm.value.symbol
+const klineData = ref([])          // [time, open, close, low, high, volume]
+const lastCandle = ref(null)
+
+// 最新一根 K 线的 OHLC 摘要
+const ohlcItems = computed(() => {
+  const c = lastCandle.value
+  const empty = '--'
+  if (!c) {
+    return [
+      { label: '开', value: empty, cls: '' },
+      { label: '高', value: empty, cls: '' },
+      { label: '低', value: empty, cls: '' },
+      { label: '收', value: empty, cls: '' },
+      { label: '量', value: empty, cls: '' },
+    ]
+  }
+  const rising = c[2] >= c[1]
+  const dirCls = rising ? 'text-up' : 'text-down'
+  return [
+    { label: '开', value: Number(c[1]).toFixed(2), cls: dirCls },
+    { label: '高', value: Number(c[4]).toFixed(2), cls: 'text-up' },
+    { label: '低', value: Number(c[3]).toFixed(2), cls: 'text-down' },
+    { label: '收', value: Number(c[2]).toFixed(2), cls: dirCls },
+    { label: '量', value: Number(c[5]).toFixed(2), cls: 'text-muted' },
+  ]
+})
 
 // K线周期配置
 const klinePeriods = [
@@ -280,141 +321,234 @@ const formatTime = (timestamp) => {
   })
 }
 
-// 初始化K线图
-const initKlineChart = () => {
-  const chartDom = document.getElementById('kline')
-  if (!chartDom) return
+// 成交记录时间：REST 返回 timestamp（秒），WebSocket 推送为 created_at（ISO 字符串）
+const tradeTime = (row) => {
+  if (!row) return ''
+  if (row.created_at) return formatTime(row.created_at)
+  const ts = Number(row.timestamp)
+  return !Number.isNaN(ts) && ts > 0 ? formatTime(ts * 1000) : ''
+}
 
-  klineChart = echarts.init(chartDom)
+// ────────────────────────── K线图 ──────────────────────────
+const KLINE_MAX = 200
 
-  // 模拟K线数据
-  const klineData = [
-    ['2024-01-15 10:00', 45100, 45150, 45050, 45120, 100],
-    ['2024-01-15 10:01', 45120, 45180, 45100, 45160, 150],
-    ['2024-01-15 10:02', 45160, 45200, 45140, 45180, 120],
-    ['2024-01-15 10:03', 45180, 45220, 45160, 45200, 180],
-    ['2024-01-15 10:04', 45200, 45250, 45180, 45230, 200],
-    ['2024-01-15 10:05', 45230, 45280, 45200, 45250, 160],
-    ['2024-01-15 10:06', 45250, 45300, 45220, 45280, 140],
-    ['2024-01-15 10:07', 45280, 45320, 45250, 45300, 170],
-    ['2024-01-15 10:08', 45300, 45350, 45280, 45320, 190],
-    ['2024-01-15 10:09', 45320, 45380, 45300, 45350, 220],
-    ['2024-01-15 10:10', 45350, 45400, 45320, 45380, 180]
-  ]
+const toMs = (t) => {
+  const n = Number(t)
+  if (Number.isNaN(n) || n === 0) return Date.now()
+  return n > 1e12 ? n : n * 1000
+}
 
-  const option = {
+const fmtAxisTime = (ts, period) => {
+  const d = new Date(ts)
+  if (period === '1d' || period === '1w') return `${d.getMonth() + 1}/${d.getDate()}`
+  if (period === '4h' || period === '1h') {
+    return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:00`
+  }
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+}
+
+// 后端无 K 线数据时本地生成，保证图表始终可用
+const buildFallbackKline = (period, basePrice) => {
+  const periodMs = klinePeriods.find((p) => p.value === period)?.interval || 60000
+  const count = 90
+  const base = Number(basePrice) > 0 ? Number(basePrice) : 45000
+  const out = []
+  let price = base * 0.97
+  const start = Date.now() - count * periodMs
+  for (let i = 0; i < count; i++) {
+    const open = price
+    const close = Math.max(open * (1 + (Math.random() - 0.48) * 0.006), 0.0001)
+    const high = Math.max(open, close) * (1 + Math.random() * 0.0018)
+    const low = Math.min(open, close) * (1 - Math.random() * 0.0018)
+    const vol = 60 + Math.random() * 260
+    out.push([fmtAxisTime(start + i * periodMs, period), open, close, low, high, vol])
+    price = close
+  }
+  return out
+}
+
+// 构建（主题感知的）K 线配置
+const buildKlineOption = (data, symbol) => {
+  const t = getChartTheme()
+  const times = data.map((d) => d[0])
+  const ohlc = data.map((d) => [d[1], d[2], d[3], d[4]])
+  const vols = data.map((d) => ({
+    value: d[5],
+    itemStyle: { color: d[2] >= d[1] ? t.volumeUp : t.volumeDown },
+  }))
+
+  const row = (label, val, color) =>
+    `<div style="display:flex;justify-content:space-between;gap:20px">
+       <span style="opacity:.65">${label}</span>
+       <span style="font-weight:600;${color ? `color:${color}` : ''}">${Number(val).toFixed(2)}</span>
+     </div>`
+
+  return {
     backgroundColor: 'transparent',
-    title: {
-      text: 'BTC/USDT',
-      left: 'center',
-      textStyle: {
-        color: 'var(--text-muted)'
-      }
-    },
+    animation: true,
+    animationDuration: 260,
+    grid: [
+      { left: 10, right: 64, top: 14, height: '58%' },
+      { left: 10, right: 64, top: '75%', height: '16%' },
+    ],
     tooltip: {
       trigger: 'axis',
-      axisPointer: {
-        type: 'cross'
+      axisPointer: { type: 'cross', ...crosshairStyle(t) },
+      ...tooltipStyle(t),
+      formatter: (params) => {
+        const k = params.find((p) => p.seriesType === 'candlestick')
+        if (!k) return ''
+        const raw = Array.isArray(k.data) ? k.data : k.data?.value || []
+        const arr = raw.length >= 5 ? raw.slice(-4) : raw
+        const [o, c, l, h] = arr
+        const rising = c >= o
+        const col = rising ? t.upColor : t.downColor
+        const pct = o ? (((c - o) / o) * 100).toFixed(2) : '0.00'
+        const vol = params.find((p) => p.seriesType === 'bar')
+        return `<div style="min-width:158px">
+          <div style="font-weight:700;margin-bottom:6px">${k.axisValue}</div>
+          ${row('开', o)}${row('高', h, t.upColor)}${row('低', l, t.downColor)}${row('收', c, col)}
+          <div style="display:flex;justify-content:space-between;gap:20px;margin-top:4px">
+            <span style="opacity:.65">涨跌</span>
+            <span style="font-weight:700;color:${col}">${pct}%</span>
+          </div>
+          ${vol ? row('量', vol.value) : ''}
+        </div>`
       },
-      backgroundColor: 'rgba(0,0,0,0.8)',
-      borderColor: '#333',
-      textStyle: {
-        color: '#eee'
-      },
-      formatter: function (params) {
-        const data = params[0].data
-        return `Time: ${params[0].axisValue}<br/>
-                Open: ${data[1]}<br/>
-                Close: ${data[2]}<br/>
-                Low: ${data[3]}<br/>
-                High: ${data[4]}<br/>
-                Vol: ${data[5]}`
-      }
     },
-    grid: {
-      left: '10%',
-      right: '10%',
-      bottom: '15%',
-      top: '15%'
-    },
-    xAxis: {
-      type: 'category',
-      data: klineData.map(item => item[0]),
-      scale: true,
-      boundaryGap: false,
-      axisLine: { lineStyle: { color: '#555' } },
-      splitLine: { show: false },
-      axisLabel: { color: '#888' }
-    },
-    yAxis: {
-      scale: true,
-      splitArea: { show: false },
-      axisLine: { lineStyle: { color: '#555' } },
-      splitLine: { lineStyle: { color: '#333' } },
-      axisLabel: { color: '#888' }
-    },
-    dataZoom: [
+    axisPointer: { link: [{ xAxisIndex: 'all' }] },
+    xAxis: [
       {
-        type: 'inside',
-        start: 50,
-        end: 100
-      }
+        type: 'category',
+        data: times,
+        gridIndex: 0,
+        boundaryGap: false,
+        axisLine: { lineStyle: { color: t.lineColor } },
+        axisTick: { show: false },
+        axisLabel: { color: t.textColor, fontSize: 10, hideOverlap: true },
+        splitLine: { show: false },
+      },
+      {
+        type: 'category',
+        data: times,
+        gridIndex: 1,
+        axisLine: { lineStyle: { color: t.lineColor } },
+        axisTick: { show: false },
+        axisLabel: { show: false },
+        splitLine: { show: false },
+      },
+    ],
+    yAxis: [
+      {
+        scale: true,
+        gridIndex: 0,
+        position: 'right',
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { lineStyle: { color: t.splitColor } },
+        axisLabel: {
+          color: t.textColor,
+          fontSize: 10,
+          formatter: (v) => (v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v.toFixed(2)),
+        },
+      },
+      {
+        scale: true,
+        gridIndex: 1,
+        position: 'right',
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false },
+        axisLabel: { show: false },
+      },
+    ],
+    dataZoom: [
+      { type: 'inside', xAxisIndex: [0, 1], start: 45, end: 100 },
+      {
+        type: 'slider',
+        xAxisIndex: [0, 1],
+        height: 16,
+        bottom: 2,
+        borderColor: 'transparent',
+        backgroundColor: 'transparent',
+        fillerColor: 'rgba(59,130,246,0.16)',
+        handleStyle: { color: t.primary },
+        moveHandleStyle: { color: t.primary },
+        dataBackground: { lineStyle: { color: t.lineColor }, areaStyle: { color: t.splitColor } },
+        selectedDataBackground: {
+          lineStyle: { color: t.primary },
+          areaStyle: { color: 'rgba(59,130,246,0.2)' },
+        },
+        textStyle: { color: t.textColor, fontSize: 10 },
+      },
     ],
     series: [
       {
-        name: 'BTC/USDT',
+        name: symbol,
         type: 'candlestick',
-        data: klineData.map(item => item.slice(1)),
+        data: ohlc,
         itemStyle: {
-          color: '#0ecb81',
-          color0: '#f6465d',
-          borderColor: '#0ecb81',
-          borderColor0: '#f6465d'
-        }
-      }
-    ]
-  }
-
-  klineChart.setOption(option)
-}
-
-// 更新K线图
-const updateKlineChart = () => {
-  if (klineChart) {
-    // 这里可以添加实时更新K线数据的逻辑
-    klineChart.resize()
+          color: t.upColor,
+          color0: t.downColor,
+          borderColor: t.upColor,
+          borderColor0: t.downColor,
+        },
+      },
+      { name: '成交量', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: vols, barWidth: '62%' },
+    ],
   }
 }
 
-// 使用实时数据更新K线图
-const updateKlineWithRealData = (klineData) => {
+const resizeChart = () => {
+  if (klineChart) klineChart.resize()
+}
+
+const renderChart = () => {
   if (!klineChart) return
+  klineChart.setOption(buildKlineOption(klineData.value, orderForm.value.symbol), true)
+}
 
-  const option = klineChart.getOption()
-  const series = option.series[0]
+const initKlineChart = () => {
+  const dom = document.getElementById('kline')
+  if (!dom) return
+  if (klineChart) klineChart.dispose()
+  klineChart = echarts.init(dom)
+  window.addEventListener('resize', resizeChart)
+  loadKlineData()
+}
 
-  // 添加新的K线数据点
-  const newDataPoint = [
-    new Date(klineData.close_time * 1000).toLocaleString(),
-    parseFloat(klineData.open),
-    parseFloat(klineData.close),
-    parseFloat(klineData.low),
-    parseFloat(klineData.high),
-    parseFloat(klineData.volume)
+// 实时推送时合并最新一根 K 线（节流渲染，避免高频重绘）
+let renderTimer = null
+const scheduleRender = () => {
+  if (renderTimer) return
+  renderTimer = setTimeout(() => {
+    renderTimer = null
+    renderChart()
+  }, 500)
+}
+
+const updateKlineWithRealData = (k) => {
+  if (!k || !klineChart) return
+  const close = Number(k.close)
+  if (Number.isNaN(close)) return
+  const label = fmtAxisTime(toMs(k.close_time ?? k.time ?? Date.now()), currentKlinePeriod.value)
+  const candle = [
+    label,
+    Number(k.open) || close,
+    close,
+    Number(k.low) || close,
+    Number(k.high) || close,
+    Number(k.volume) || 0,
   ]
-
-  // 更新数据
-  series.data.push(newDataPoint)
-
-  // 保持最多100个数据点
-  if (series.data.length > 100) {
-    series.data = series.data.slice(-100)
+  const arr = klineData.value
+  if (arr.length && arr[arr.length - 1][0] === label) {
+    arr[arr.length - 1] = candle
+  } else {
+    arr.push(candle)
+    if (arr.length > KLINE_MAX) arr.shift()
   }
-
-  // 更新x轴数据
-  option.xAxis[0].data = series.data.map(item => item[0])
-
-  klineChart.setOption(option)
+  lastCandle.value = candle
+  scheduleRender()
 }
 
 // 处理WebSocket实时数据
@@ -457,56 +591,79 @@ const handleWebSocketData = (dataType, data) => {
 const fetchOrderbook = async () => {
   try {
     const { data } = await getOrderbook(orderForm.value.symbol)
-    orderbook.value = data.data
+    // 后端异常时返回 { code: 500, data: null } 且 HTTP 仍为 200，
+    // 因此必须校验 code / data，否则会把 orderbook 置为 null 导致模板渲染崩溃
+    const book = data?.data
+    if (data?.code !== 0 || !book) {
+      console.warn('订单簿数据不可用:', data?.message || 'empty data')
+      orderbook.value = { bids: [], asks: [] }
+      return
+    }
+    orderbook.value = {
+      bids: Array.isArray(book.bids) ? book.bids : [],
+      asks: Array.isArray(book.asks) ? book.asks : []
+    }
   } catch (error) {
     console.error('获取订单簿失败:', error)
+    orderbook.value = { bids: [], asks: [] }
   }
 }
 
 const fetchTrades = async () => {
   try {
     const { data } = await getTrades(orderForm.value.symbol)
-    trades.value = data.data
+    const list = data?.data
+    if (data?.code !== 0 || !Array.isArray(list)) {
+      console.warn('成交记录数据不可用:', data?.message || 'empty data')
+      trades.value = []
+      return
+    }
+    trades.value = list
   } catch (error) {
     console.error('获取交易记录失败:', error)
+    trades.value = []
   }
 }
 
 // K线周期切换
 const switchKlinePeriod = (period) => {
   currentKlinePeriod.value = period
-  // 重新加载K线数据
   loadKlineData()
 }
 
-// 加载K线数据（根据当前周期）
-const loadKlineData = () => {
-  if (klineChart) {
-    // 根据选择的周期获取不同的数据
-    // 实际项目中应该调用API获取对应周期的K线数据
-    // 这里使用模拟数据
-    const baseTime = new Date('2024-01-15 10:00').getTime()
-    const periodMs = klinePeriods.find(p => p.value === currentKlinePeriod.value)?.interval || 60000
-    
-    const klineData = []
-    for (let i = 0; i < 50; i++) {
-      const time = new Date(baseTime + i * periodMs)
-      const basePrice = 45000 + Math.random() * 500
-      klineData.push([
-        time.toLocaleString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
-        basePrice,
-        basePrice + Math.random() * 100,
-        basePrice - Math.random() * 100,
-        basePrice + (Math.random() - 0.5) * 50,
-        100 + Math.random() * 200
-      ])
+// 加载K线数据（优先后端接口，失败回退本地生成）
+const loadKlineData = async () => {
+  const symbol = orderForm.value.symbol
+  const period = currentKlinePeriod.value
+  let data = []
+
+  try {
+    const res = await getKline({ symbol, period, limit: 120 })
+    const list = res?.data?.data
+    if (res?.data?.code === 0 && Array.isArray(list) && list.length) {
+      data = list
+        .map((k) => [
+          fmtAxisTime(toMs(k.time ?? k.open_time ?? k.timestamp ?? k.ts), period),
+          Number(k.open),
+          Number(k.close),
+          Number(k.low),
+          Number(k.high),
+          Number(k.volume),
+        ])
+        .filter((r) => r.slice(1).every((n) => !Number.isNaN(n)))
     }
-    
-    klineChart.setOption({
-      xAxis: { data: klineData.map(item => item[0]) },
-      series: [{ data: klineData.map(item => item.slice(1)) }]
-    })
+  } catch (error) {
+    /* 后端未提供 K 线接口时回退到本地生成 */
   }
+
+  if (!data.length) {
+    const base = orderbook.value?.bids?.[0]?.price || trades.value?.[0]?.price || 45000
+    data = buildFallbackKline(period, base)
+  }
+
+  klineData.value = data
+  lastCandle.value = data[data.length - 1] || null
+  renderChart()
 }
 
 const placeOrder = async () => {
@@ -650,7 +807,7 @@ onMounted(async () => {
 
 watch(() => orderForm.value.symbol, (newSymbol) => {
   // 取消之前的订阅
-  wsClient.unsubscribe(currentSymbol)
+  wsClient.unsubscribe(currentSymbol, handleWebSocketData)
 
   // 更新当前交易对
   currentSymbol = newSymbol
@@ -658,20 +815,29 @@ watch(() => orderForm.value.symbol, (newSymbol) => {
   // 重新获取数据
   fetchOrderbook()
   fetchTrades()
-  updateKlineChart()
+  loadKlineData()
 
   // 订阅新的交易对
   wsClient.subscribe(currentSymbol, handleWebSocketData)
 })
 
+// 主题切换时重绘图表，保持配色与界面一致
+watch(isDark, async () => {
+  await nextTick()
+  renderChart()
+})
+
 // 组件卸载时销毁图表
 onUnmounted(() => {
+  window.removeEventListener('resize', resizeChart)
+  clearTimeout(renderTimer)
   if (klineChart) {
     klineChart.dispose()
+    klineChart = null
   }
 
   // 取消WebSocket订阅
-  wsClient.unsubscribe(currentSymbol)
+  wsClient.unsubscribe(currentSymbol, handleWebSocketData)
 })
 </script>
 
@@ -749,15 +915,15 @@ onUnmounted(() => {
 }
 
 .switch-item.active.buy-active {
-  background: var(--success);
-  color: #1e293b;
-  box-shadow: 0 4px 12px var(--success-glow);
+  background: var(--up);
+  color: #fff;
+  box-shadow: 0 4px 12px var(--up-glow);
 }
 
 .switch-item.active.sell-active {
-  background: var(--danger);
+  background: var(--down);
   color: #fff;
-  box-shadow: 0 4px 12px var(--danger-glow);
+  box-shadow: 0 4px 12px var(--down-glow);
 }
 
 /* 输入框样式优化 */
@@ -801,25 +967,25 @@ onUnmounted(() => {
 }
 
 .btn-buy {
-  background: linear-gradient(135deg, var(--success) 0%, var(--success-emphasis) 100%) !important;
-  color: #1e293b !important;
-  box-shadow: 0 4px 16px var(--success-glow);
+  background: var(--up-grad) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px var(--up-glow);
 }
 
 .btn-buy:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 20px var(--success-glow);
+  box-shadow: 0 8px 20px var(--up-glow);
 }
 
 .btn-sell {
-  background: linear-gradient(135deg, var(--danger) 0%, var(--danger-emphasis) 100%) !important;
+  background: var(--down-grad) !important;
   color: #fff !important;
-  box-shadow: 0 4px 16px var(--danger-glow);
+  box-shadow: 0 4px 16px var(--down-glow);
 }
 
 .btn-sell:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 20px var(--danger-glow);
+  box-shadow: 0 8px 20px var(--down-glow);
 }
 
 /* 交易额估算 */
@@ -855,10 +1021,10 @@ onUnmounted(() => {
 }
 
 .book-header-sell {
-  border-top: 2px solid var(--danger-glow);
+  border-top: 2px solid var(--down-glow);
 }
 .book-header-buy {
-  border-top: 2px solid var(--success-glow);
+  border-top: 2px solid var(--up-glow);
 }
 
 .order-book-table,
@@ -924,8 +1090,8 @@ onUnmounted(() => {
   font-weight: 500;
 }
 
-.text-success { color: var(--success); }
-.text-danger { color: var(--danger); }
+.text-up { color: var(--up); }
+.text-down { color: var(--down); }
 .text-muted { color: var(--text-muted); }
 
 .time-text {
@@ -951,8 +1117,24 @@ onUnmounted(() => {
 
 #kline {
   width: 100%;
-  height: 300px;
+  height: 340px;
 }
+
+/* K线图卡片 */
+.chart-card :deep(.el-card__body) { padding: 12px 14px 14px !important; }
+
+.ohlc-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  padding: 4px 6px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 6px;
+}
+.ohlc-item { display: inline-flex; align-items: center; gap: 6px; }
+.ohlc-label { font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; }
+.ohlc-value { font-size: 0.8rem; font-weight: 650; color: var(--text-main); }
 
 /* 止损止盈提示 */
 .stop-hint {

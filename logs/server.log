@@ -1,0 +1,936 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /api/login                --> backend-v2/internal/server.NewHTTPServer.func2 (3 handlers)
+[GIN-debug] POST   /api/register             --> backend-v2/internal/server.NewHTTPServer.func3 (3 handlers)
+[GIN-debug] GET    /api/orderbook            --> backend-v2/internal/server.NewHTTPServer.func4 (3 handlers)
+[GIN-debug] GET    /api/trades               --> backend-v2/internal/server.NewHTTPServer.func5 (3 handlers)
+[GIN-debug] GET    /api/ticker               --> backend-v2/internal/server.NewHTTPServer.func6 (3 handlers)
+[GIN-debug] GET    /api/klines               --> backend-v2/internal/server.NewHTTPServer.func7 (3 handlers)
+[GIN-debug] GET    /api/my_orders            --> backend-v2/internal/server.NewHTTPServer.func8 (3 handlers)
+[GIN-debug] GET    /api/my_trades            --> backend-v2/internal/server.NewHTTPServer.func9 (3 handlers)
+[GIN-debug] POST   /api/order                --> backend-v2/internal/server.NewHTTPServer.func10 (3 handlers)
+[GIN-debug] POST   /api/order/cancel/:id     --> backend-v2/internal/server.NewHTTPServer.func11 (3 handlers)
+[GIN-debug] GET    /api/accounts             --> backend-v2/internal/server.NewHTTPServer.func12 (3 handlers)
+[GIN-debug] GET    /api/account_flows        --> backend-v2/internal/server.NewHTTPServer.func13 (3 handlers)
+[GIN-debug] GET    /api/orders               --> backend-v2/internal/server.NewHTTPServer.func14 (3 handlers)
+[GIN-debug] POST   /api/deposit              --> backend-v2/internal/server.NewHTTPServer.func15 (3 handlers)
+[GIN-debug] POST   /api/withdraw             --> backend-v2/internal/server.NewHTTPServer.func16 (3 handlers)
+[GIN-debug] GET    /api/admin/users          --> backend-v2/internal/server.NewHTTPServer.func18 (4 handlers)
+[GIN-debug] GET    /api/admin/orders         --> backend-v2/internal/server.NewHTTPServer.func19 (4 handlers)
+[GIN-debug] GET    /api/admin/accounts       --> backend-v2/internal/server.NewHTTPServer.func20 (4 handlers)
+[GIN-debug] POST   /api/admin/accounts/add-funds --> backend-v2/internal/server.NewHTTPServer.func21 (4 handlers)
+[GIN-debug] POST   /api/admin/accounts/adjust --> backend-v2/internal/server.NewHTTPServer.func22 (4 handlers)
+[GIN-debug] POST   /api/admin/orders/:id/cancel --> backend-v2/internal/server.NewHTTPServer.func23 (4 handlers)
+[GIN-debug] POST   /api/admin/users/:id/block --> backend-v2/internal/server.NewHTTPServer.func24 (4 handlers)
+[GIN-debug] GET    /ws                       --> backend-v2/internal/server.(*wsManager).handleWebSocket-fm (3 handlers)
+[GIN-debug] GET    /ws/status                --> backend-v2/internal/server.(*wsManager).getStatus-fm (3 handlers)
+gRPC server listening on :9000
+HTTP server listening on :8080
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://github.com/gin-gonic/gin/blob/master/docs/doc.md#dont-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8080
+2026/10/09 18:46:31 WebSocket client connected: [::1]:62046, total: 1
+
+2026/10/09 18:46:31 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[227.656ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:31 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[226.811ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[224.430ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1089.380ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1115.843ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[222.339ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[228.768ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:33 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[215.332ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:33 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[226.897ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:33 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[224.246ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+2026/10/09 18:46:33 WebSocket client disconnected: [::1]:62046, total: 0
+[GIN] 2026/10/09 - 18:46:33 | 200 |   2.84384875s |             ::1 | GET      "/ws"
+
+2026/10/09 18:46:34 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[214.891ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:34 [32m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/user.go:90
+[0m[33m[216.407ms] [34;1m[rows:3][0m SELECT * FROM `users` WHERE `users`.`deleted_at` IS NULL
+ccc [{Model:{ID:1 CreatedAt:2025-11-27 17:42:07.279 +0800 CST UpdatedAt:2025-11-27 17:42:07.279 +0800 CST DeletedAt:{Time:0001-01-01 00:00:00 +0000 UTC Valid:false}} Username:hhh Password: Email:444@qq.com Phone:13884125678 Status:1} {Model:{ID:2 CreatedAt:2025-11-29 21:01:43.876 +0800 CST UpdatedAt:2025-11-29 21:01:43.876 +0800 CST DeletedAt:{Time:0001-01-01 00:00:00 +0000 UTC Valid:false}} Username:ggg Password: Email:44@bb.com Phone:1111 Status:1} {Model:{ID:3 CreatedAt:2026-10-09 09:47:57.608 +0800 CST UpdatedAt:2026-10-09 09:47:57.608 +0800 CST DeletedAt:{Time:0001-01-01 00:00:00 +0000 UTC Valid:false}} Username:testuser Password: Email:test@example.com Phone: Status:0}]
+[GIN] 2026/10/09 - 18:46:34 | 200 |    217.2045ms |             ::1 | GET      "/api/admin/users?page=1&limit=20"
+
+2026/10/09 18:46:34 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[228.741ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+2026/10/09 18:46:36 WebSocket client connected: [::1]:62082, total: 1
+2026/10/09 18:46:36 WebSocket client connected: [::1]:62084, total: 2
+
+2026/10/09 18:46:37 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[220.927ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:37 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[220.939ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:37 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[231.083ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1115.524ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1139.262ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[223.204ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1323.562ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1393.854ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[228.250ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:39 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[285.291ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:39 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.641ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:39 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[271.070ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:40 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.464ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:40 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.159ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:40 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[282.003ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:40 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.942ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:41 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.999ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:41 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.487ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:41 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.354ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.131ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.304ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+[GIN] 2026/10/09 - 18:46:42 | 200 |     721.167µs |             ::1 | GET      "/ws/status"
+
+2026/10/09 18:46:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.401ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:43 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.847ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:43 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.209ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:43 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.002ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:44 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.426ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:44 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.071ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:44 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.049ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:45 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[272.511ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:45 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[298.366ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:45 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.826ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:46 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.514ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:46 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.713ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:46 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[261.095ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:47 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.174ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:47 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.968ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:47 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.804ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:48 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.542ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:48 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.320ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:48 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.386ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:49 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.172ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:49 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.700ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:49 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.479ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:50 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.701ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:50 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.658ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:50 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.262ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:51 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[760.513ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:52 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[740.201ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:52 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.228ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:53 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.390ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:53 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.551ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:53 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.335ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:53 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.242ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:54 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.323ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:54 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.909ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:54 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[312.030ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:54 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.785ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:55 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.854ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:55 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.117ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:55 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[320.808ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:56 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.752ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:56 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[322.023ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:56 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[270.159ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:56 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.212ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:57 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.732ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:57 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[279.412ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:57 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[267.409ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:58 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.864ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:58 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.924ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:58 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.789ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:59 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[292.445ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:46:59 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.155ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:00 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[275.398ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:00 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.660ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[765.707ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.976ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.792ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.174ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:02 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[260.895ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:02 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.539ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:02 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[289.741ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:02 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.055ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:03 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[288.700ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:03 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.755ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:03 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.566ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:04 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[308.012ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:04 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[304.736ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:04 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.750ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:05 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.431ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:05 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.485ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:06 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[317.406ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:06 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[270.471ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:06 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[341.911ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:07 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[768.142ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:07 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.860ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:08 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[294.583ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:08 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.851ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:08 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[261.692ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:08 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[312.478ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:09 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.967ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:09 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.938ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:09 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.892ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:09 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.068ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:10 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.690ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:10 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.749ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[296.900ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.530ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.865ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.773ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:12 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.527ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:12 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[332.298ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:12 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.120ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:13 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.349ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:13 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[363.005ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:13 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.545ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:14 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[346.231ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:14 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[286.711ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:15 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[328.480ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:15 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[300.034ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:15 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.042ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:17 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1274.649ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:17 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[304.804ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:17 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[260.775ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:17 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.497ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:18 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.761ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:18 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[333.449ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:18 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.152ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:18 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.826ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:19 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.288ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:19 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[328.402ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:20 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[762.796ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:20 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[269.324ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:20 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.312ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:21 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[267.111ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:21 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[269.329ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:21 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.956ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:21 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[262.776ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:22 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[261.759ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:22 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.837ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:22 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.452ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:22 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[261.903ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:23 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.527ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:23 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[261.884ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:23 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.764ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:24 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.522ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:24 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.904ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:24 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.760ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:25 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[269.176ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:25 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.249ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:25 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.850ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:25 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.295ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:26 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.540ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:26 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.562ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:26 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.176ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:29 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[2061.202ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:30 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1255.221ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:31 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1395.136ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[337.362ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[308.164ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[300.589ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:32 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.121ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:33 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[267.331ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:33 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[281.949ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:33 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.163ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:34 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[263.484ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:34 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.349ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:34 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[325.210ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:34 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.539ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:35 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[349.847ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:35 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[298.483ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:35 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.355ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:36 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[267.875ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:36 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[277.649ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:36 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[267.193ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:37 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[342.783ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:37 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.082ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:37 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[311.933ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:37 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.587ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.662ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:38 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[282.073ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+[GIN] 2026/10/09 - 18:47:38 | 200 |          1m1s |             ::1 | GET      "/ws"
+[GIN] 2026/10/09 - 18:47:38 | 200 |          1m1s |             ::1 | GET      "/ws"
+2026/10/09 18:47:38 WebSocket client disconnected: [::1]:62084, total: 1
+2026/10/09 18:47:38 WebSocket client disconnected: [::1]:62082, total: 0
+2026/10/09 18:47:40 WebSocket client connected: [::1]:62193, total: 1
+
+2026/10/09 18:47:40 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[218.663ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:41 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[761.629ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:41 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1077.232ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[266.950ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[267.365ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[1862.445ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.631ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:42 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[292.368ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:43 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.466ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:43 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.909ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:43 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.363ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:43 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.446ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:44 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[242.238ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:44 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[328.800ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:44 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[283.012ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:44 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.751ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:45 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[237.921ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:45 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[254.417ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:45 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.653ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:46 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[316.749ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:46 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[324.688ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:47 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[275.346ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:47 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[306.921ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:47 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.263ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:47 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[241.353ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:48 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.003ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:48 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.444ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:48 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.307ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:49 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.930ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:49 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.540ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:49 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[245.014ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:50 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[304.335ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:50 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[308.125ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:50 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[243.146ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:51 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.025ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:51 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.447ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:51 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.900ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:52 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[358.709ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:52 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[299.806ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:52 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.295ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:53 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[242.212ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:53 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.068ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:53 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[241.638ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:54 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[237.745ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:54 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.228ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:54 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.311ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:55 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[327.459ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:55 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.239ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:55 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.684ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:56 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.673ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:56 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[283.566ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:57 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[310.298ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:57 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.012ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:57 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.459ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:58 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[333.716ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:58 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.788ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:58 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[237.686ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:59 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[711.282ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:59 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.174ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:47:59 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[237.877ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:00 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[291.147ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:00 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[304.506ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:00 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.636ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[265.812ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.174ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.911ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:01 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[237.162ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:02 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[278.638ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:02 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[242.631ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:02 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[251.610ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:03 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.656ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:03 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[268.807ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:03 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[250.696ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:04 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.048ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:04 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[242.084ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:05 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[287.738ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:05 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.285ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:05 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[278.335ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:05 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.734ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:06 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.489ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:06 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[243.263ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:07 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[343.635ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:07 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[306.734ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:07 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[304.850ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:07 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[264.528ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:08 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[238.355ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:08 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[269.531ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:08 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[243.441ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:09 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[240.031ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:09 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[246.437ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:09 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[239.241ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:10 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[243.029ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:10 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[242.890ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[334.678ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[307.244ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[307.240ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:11 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[257.308ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:12 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[306.130ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:12 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[302.424ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:13 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[282.417ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BNB/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:13 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[242.474ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:13 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[267.581ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'ETH/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
+
+2026/10/09 18:48:13 [31;1m/Users/zhanjun/IdeaProjects/cex-exchange/backend-v2/internal/data/kline.go:83 [35;1mError 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= ?) AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT ?' at line 1
+[0m[33m[237.249ms] [34;1m[rows:0][0m SELECT * FROM `klines` WHERE (symbol = 'BTC/USDT' AND interval = '1m') AND `klines`.`deleted_at` IS NULL ORDER BY open_time ASC LIMIT 1
